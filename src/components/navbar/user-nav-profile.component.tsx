@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useBoolean from "../../hooks/useBoolean";
@@ -63,11 +63,7 @@ const UserNavProfile: React.FC = () => {
               </div>
               <ul className="py-1" aria-labelledby="user-menu-button">
                 <li className="py-2 px-4">
-                  <NavLink
-                    text="Sign out"
-                    url="/api/auth/signout"
-                    isActive={router.pathname === "/api/auth/signout"}
-                  />
+                  <p onClick={() => signOut()} className="text-white text-sm cursor-pointer">Sign out</p>
                 </li>
               </ul>
             </div>
