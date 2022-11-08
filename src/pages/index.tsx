@@ -1,18 +1,19 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import HomeHero from '../components/home/home-hero.component';
+import Navbar from '../components/navbar/navbar.component';
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
         <title>Budgik</title>
-        <meta name="description" content="Budget plannet | Money tracker" />
+        <meta name="description" content="Budget planner | Money tracker" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          Hello World!
-        </h1>
+      <main className="w-screen flex flex-col items-center h-screen">
+        <Navbar />
+        <HomeHero />
       </main>
     </>
   );
