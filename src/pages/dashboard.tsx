@@ -25,7 +25,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const session = await getSession(context);
   if (!session) {
     return {
-      redirect: { destination: "/api/auth/signin" },
+      redirect: { destination: "/auth/signin" },
     };
   }
   return { props: {} };

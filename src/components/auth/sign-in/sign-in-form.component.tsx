@@ -1,6 +1,7 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import Input from "../../input/input.component";
@@ -11,14 +12,27 @@ interface FormInputs {
 }
 
 const SignInForm: React.FC = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<FormInputs> = (data: FormInputs) => {
-    console.log(data);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
+    const status = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
+    console.log(status);
+    if (status?.ok) {
+      router.push("/dashboard");
+    } else {
+      setErrorMessage(status?.error ?? null);
+    }
   };
 
   const handleGoogleAuth = () => {
@@ -73,9 +87,15 @@ const SignInForm: React.FC = () => {
               );
             }}
           />
+          {errorMessage && errorMessage?.length > 0 ? (
+            <h3 className="text-md rounded-md border border-red-500 bg-rose-100 py-1 text-center font-bold text-red-500">
+              {errorMessage}
+            </h3>
+          ) : null}
           <button
+            disabled
             type="submit"
-            className="w-full rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+            className="w-full rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
           >
             Sign in
           </button>
