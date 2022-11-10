@@ -1,9 +1,10 @@
 import type { NextPageContext, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Navbar from "../components/navbar/navbar.component";
+import DashboardLayout from "../../../components/dashboard-layout/dashboard-layout.component";
+import Navbar from "../../../components/navbar/navbar.component";
 
-const Dashboard: NextPage = () => {
+const DashboardIncome: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,9 +14,11 @@ const Dashboard: NextPage = () => {
       </Head>
       <main className="h-min-screen flex w-screen flex-col items-center">
         <Navbar />
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          Hello Dashboard!
-        </h1>
+        <DashboardLayout>
+          <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+            Hello Income!
+          </h1>
+        </DashboardLayout>
       </main>
     </>
   );
@@ -31,4 +34,4 @@ export const getServerSideProps = async (context: NextPageContext) => {
   return { props: {} };
 };
 
-export default Dashboard;
+export default DashboardIncome;
