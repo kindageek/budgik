@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaMoneyBillAlt, FaAngleDoubleRight } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
@@ -27,13 +27,20 @@ const MENU_ITEMS = [
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
-  const { value: isExpanded, toggle } = useBoolean(true);
+
+  const storageToggleValue = localStorage.getItem('sidebar-expanded');
+
+  const { value: isExpanded, toggle } = useBoolean(storageToggleValue === 'true');
   
   const {
     value: isMouseInside,
     setTrue: mouseInside,
     setFalse: mouseOutside,
   } = useBoolean(false);
+
+  useEffect(() => {
+    localStorage.setItem('sidebar-expanded', isExpanded ? 'true' : 'false');
+  }, [isExpanded]);
 
   return (
     <aside
