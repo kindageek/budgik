@@ -1,13 +1,10 @@
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useBoolean from "../../hooks/useBoolean";
-import NavLink from "./nav-link.component";
 import { FaRegUserCircle } from "react-icons/fa";
 import * as Popover from "@radix-ui/react-popover";
 
 const UserNavProfile: React.FC = () => {
-  const router = useRouter();
   const { data: session } = useSession();
   const [imgLoaded, setImgLoaded] = useState(false);
   const { value: navOpen, toggle: toggleNav } = useBoolean(false); // TODO: mobile version
@@ -19,33 +16,30 @@ const UserNavProfile: React.FC = () => {
   return (
     <div className="flex items-center py-2 pr-4 pl-3 md:order-2 md:p-0">
       <Popover.Root open={navOpen}>
-        <Popover.Trigger>
-          <button
-            type="button"
-            onClick={toggleNav}
-            className="mr-3 flex rounded-full bg-gray-800 text-sm md:mr-0"
-          >
-            <span className="sr-only">Open user menu</span>
-            {user?.image && (
-              <img
-                className={`h-8 w-8 rounded-full ${imgLoaded ? "" : "hidden"}`}
-                src={user?.image}
-                alt="user photo"
-                title={user?.name ?? ""}
-                onError={() => setImgLoaded(false)}
-                onLoad={() => setImgLoaded(true)}
+        <Popover.Trigger
+          onClick={toggleNav}
+          className="mr-3 flex rounded-full bg-gray-800 text-sm md:mr-0"
+        >
+          <span className="sr-only">Open user menu</span>
+          {user?.image && (
+            <img
+              className={`h-8 w-8 rounded-full ${imgLoaded ? "" : "hidden"}`}
+              src={user?.image}
+              alt="user photo"
+              title={user?.name ?? ""}
+              onError={() => setImgLoaded(false)}
+              onLoad={() => setImgLoaded(true)}
+            />
+          )}
+          {!user?.image ||
+            (!imgLoaded && (
+              <FaRegUserCircle
+                size={32}
+                color="#fff"
+                title={user?.name || ""}
+                className={`${imgLoaded ? "hidden" : ""}`}
               />
-            )}
-            {!user?.image ||
-              (!imgLoaded && (
-                <FaRegUserCircle
-                  size={32}
-                  color="#fff"
-                  title={user?.name || ""}
-                  className={`${imgLoaded ? "hidden" : ""}`}
-                />
-              ))}
-          </button>
+            ))}
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
@@ -63,7 +57,12 @@ const UserNavProfile: React.FC = () => {
               </div>
               <ul className="py-1" aria-labelledby="user-menu-button">
                 <li className="py-2 px-4">
-                  <p onClick={() => signOut()} className="text-white text-sm cursor-pointer">Sign out</p>
+                  <p
+                    onClick={() => signOut()}
+                    className="cursor-pointer text-sm text-white"
+                  >
+                    Sign out
+                  </p>
                 </li>
               </ul>
             </div>
