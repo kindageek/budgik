@@ -7,6 +7,7 @@ import { getAllCategories } from "../../../services/categories";
 
 import Input from "../../input/input.component";
 import CloseIconButton from "../../buttons/close-icon-button.component";
+import Select from '../../select/select.component';
 
 type Props = {
   onClose: () => void;
@@ -114,9 +115,12 @@ const EditExpenseForm: React.FC<Props> = ({ data, onClose, onComplete }) => {
                   rules={{ required: "Required" }}
                   render={({ field }) => {
                     return (
-                      <select
+                      <Select
+                        required
+                        label="Category"
                         id="categoryId"
-                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        error={!!errors.categoryId}
+                        errorMessage={errors?.categoryId?.message?.toString()}
                         {...field}
                       >
                         <option selected>Choose a category</option>
@@ -125,7 +129,7 @@ const EditExpenseForm: React.FC<Props> = ({ data, onClose, onComplete }) => {
                             {name}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     );
                   }}
                 />

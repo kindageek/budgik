@@ -14,10 +14,11 @@ const Select: React.FC<InputProps> = ({
   required = false,
   name,
   children,
+  className,
   ...props
 }) => {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {label && (
         <label
           htmlFor={name}
@@ -27,11 +28,11 @@ const Select: React.FC<InputProps> = ({
           {required ? <span className="text-red-500">*</span> : ""}
         </label>
       )}
-      <div className="flex">
+      <div className="flex w-full">
         <select
           required={required}
           name={name}
-          className={`form-select block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
+          className={`${className} cursor-pointer form-select block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
             error ? "border-red-500" : "border-gray-300"
           } appearance-none bg-clip-padding bg-no-repeat transition ease-in-out`}
           {...props}

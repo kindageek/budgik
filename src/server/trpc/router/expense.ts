@@ -1,25 +1,45 @@
-import { z } from "zod";
+import { date, z } from "zod";
 import { prisma } from "../../db/client";
 import { router, protectedProcedure } from "../trpc";
 
 export const expenseRouter = router({
-  getUserExpenses: protectedProcedure.query(async ({ ctx }) => {
-    const userId = ctx.session?.user?.id;
-    if (!userId) return null;
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-      include: {
-        expenses: {
-          include: {
-            category: true,
+  getUserExpenses: protectedProcedure
+    .input(
+      z.object({
+        month: z.number(),
+        year: z.number(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const userId = ctx.session?.user?.id;
+      if (!userId) return null;
+      const firstDayOfMonth = new Date(`${input.year}-${input.month}-1`);
+      const firstDayOfNextMonth = new Date(
+        `${input.year}-${input.month + 1}-1`
+      );
+      console.log('input:', input);
+      console.log('firstDayOfMonth:', firstDayOfMonth);
+      console.log('firstDayOfNextMonth:', firstDayOfNextMonth);
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        include: {
+          expenses: {
+            include: {
+              category: true,
+            },
+            where: {
+              date: {
+                gte: firstDayOfMonth,
+                lt: firstDayOfNextMonth,
+              },
+            },
           },
         },
-      },
-    });
-    return user?.expenses;
-  }),
+      });
+      return user?.expenses;
+    }),
   createExpense: protectedProcedure
     .input(
       z.object({
