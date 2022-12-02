@@ -10,7 +10,9 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
       className={`${styles.dashboardLayout} flex h-full w-screen flex-row justify-start`}
     >
       <Sidebar />
-      {children}
+      <div className="w-full h-full py-4 px-6">
+        {children}
+      </div>
     </main>
   );
 };

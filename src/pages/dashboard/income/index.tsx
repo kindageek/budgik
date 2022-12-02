@@ -15,8 +15,8 @@ const DashboardIncome: NextPage = () => {
       <main className="h-min-screen flex w-screen flex-col items-center">
         <Navbar />
         <DashboardLayout>
-          <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-            Hello Income!
+          <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
+            Income
           </h1>
         </DashboardLayout>
       </main>

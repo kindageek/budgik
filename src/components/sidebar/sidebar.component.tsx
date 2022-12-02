@@ -27,10 +27,7 @@ const MENU_ITEMS = [
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
-
-  const storageToggleValue = localStorage.getItem('sidebar-expanded');
-
-  const { value: isExpanded, toggle } = useBoolean(storageToggleValue === 'true');
+  const { value: isExpanded, toggle, setValue: setIsExpanded } = useBoolean(false);
   
   const {
     value: isMouseInside,
@@ -38,9 +35,15 @@ const Sidebar: React.FC = () => {
     setFalse: mouseOutside,
   } = useBoolean(false);
 
+  const toggleSidebar = () => {
+    toggle();
+    localStorage.setItem('sidebar-expanded', isExpanded ? 'false' : 'true');
+  }
+
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', isExpanded ? 'true' : 'false');
-  }, [isExpanded]);
+    const storageToggleValue = localStorage?.getItem('sidebar-expanded') || 'true';
+    setIsExpanded(storageToggleValue === 'true');
+  }, [setIsExpanded]);
 
   return (
     <aside
@@ -56,7 +59,7 @@ const Sidebar: React.FC = () => {
             className={`flex cursor-pointer items-center justify-center p-2 hover:bg-gray-200 rounded-lg ${
               isExpanded && "rotate-180"
             } ${!isExpanded || isMouseInside ? "opacity-100" : "opacity-0"}`}
-            onClick={toggle}
+            onClick={toggleSidebar}
             title="Toggle sidebar"
           >
             <FaAngleDoubleRight size={20} />
