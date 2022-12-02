@@ -6,8 +6,8 @@ import type { IExpense } from "../../../types/types";
 import { getAllCategories } from "../../../services/categories";
 
 import Input from "../../input/input.component";
-import CloseIconButton from "../../buttons/close-icon-button.component";
 import Select from "../../select/select.component";
+import CloseIconButton from "../../buttons/close-icon-button.component";
 
 type Props = {
   onClose: () => void;
@@ -174,10 +174,7 @@ const CreateExpenseForm: React.FC<Props> = ({ onClose, onComplete }) => {
           </div>
         </div>
       </div>
-      <div
-        className="fixed inset-0 z-40 bg-black opacity-25"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 z-40 bg-black opacity-25" />
     </>
   );
 };

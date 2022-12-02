@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Column } from "../../../types/types";
 import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import EditIconButton from "../../buttons/edit-icon-button.component";
+import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
 
 const COLUMNS: Column[] = [
   {
@@ -37,9 +38,18 @@ const ExpensesTable: React.FC<Props> = ({
   onEditItem,
   onDeleteItem,
 }) => {
+  const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
+
   const getTotalDayAmount = (key: string) => {
     return expenses[key]?.reduce((sum, row) => sum + row.value, 0);
   };
+
+  const handleDeleteRow = () => {
+    if (!selectedRowId) return;
+    onDeleteItem(selectedRowId);
+    setSelectedRowid(null);
+  };
+
   return (
     <div className="relative w-full overflow-x-auto">
       <table className="w-full rounded-lg border text-left text-sm text-gray-500 dark:text-gray-400">
@@ -64,25 +74,25 @@ const ExpensesTable: React.FC<Props> = ({
                   {index === 0 && (
                     <td
                       align="left"
-                      className="border py-4 px-6"
+                      className="border py-2 px-6"
                       rowSpan={expenses[key]?.length}
                     >
                       {key}
                     </td>
                   )}
-                  <td align="left" className="border py-4 px-6">
+                  <td align="left" className="border py-2 px-6">
                     {row.name}
                   </td>
-                  <td align="left" className="border py-4 px-6">
+                  <td align="left" className="border py-2 px-6">
                     {row.category.name}
                   </td>
-                  <td align="right" className="border py-4 px-6">
+                  <td align="right" className="border py-2 px-6">
                     {`$${row.value}`}
                   </td>
                   {index === 0 && (
                     <td
                       align="right"
-                      className="border py-4 px-6"
+                      className="text-md border py-2 px-6 font-semibold text-black"
                       rowSpan={expenses[key]?.length}
                     >
                       {`$${getTotalDayAmount(key)}`}
@@ -90,12 +100,12 @@ const ExpensesTable: React.FC<Props> = ({
                   )}
                   <td align="center" className="border">
                     <div className="flex items-center justify-center">
-                      <div className="flex items-center justify-center mr-4">
+                      <div className="mr-4 flex items-center justify-center">
                         <EditIconButton onClick={() => onEditItem(row.id)} />
                       </div>
                       <div className="flex items-center justify-center">
                         <DeleteIconButton
-                          onClick={() => onDeleteItem(row.id)}
+                          onClick={() => setSelectedRowid(row.id)}
                         />
                       </div>
                     </div>
@@ -106,6 +116,12 @@ const ExpensesTable: React.FC<Props> = ({
           ))}
         </tbody>
       </table>
+      <ConfirmationModal
+        open={selectedRowId !== null}
+        onClose={() => setSelectedRowid(null)}
+        onSubmit={handleDeleteRow}
+        title="Are you sure you want to delete this row?"
+      />
     </div>
   );
 };
