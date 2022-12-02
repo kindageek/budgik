@@ -6,6 +6,8 @@ type Props = {
   onClose: () => void;
   onSubmit: () => void;
   title: string;
+  subtitle?: string;
+  type?: "success" | "error";
 };
 
 const ConfirmationModal: React.FC<Props> = ({
@@ -13,6 +15,8 @@ const ConfirmationModal: React.FC<Props> = ({
   onClose,
   onSubmit,
   title,
+  subtitle = null,
+  type = "error",
 }) => {
   if (!open) return null;
 
@@ -24,21 +28,30 @@ const ConfirmationModal: React.FC<Props> = ({
             <div className="flex items-center justify-end rounded-t p-5">
               <CloseIconButton onClick={onClose} />
             </div>
-            <div className="relative flex flex-auto items-center justify-center p-6">
-              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            <div className="relative flex flex-auto flex-col items-center justify-center p-6">
+              <h3 className="mb-5 text-center text-xl font-semibold text-gray-900 dark:text-gray-200">
                 {title}
               </h3>
+              {subtitle ? (
+                <h5 className="text-md mb-5 text-center font-normal text-gray-700 dark:text-gray-400">
+                  {subtitle}
+                </h5>
+              ) : null}
             </div>
             <div className="flex items-center justify-evenly rounded-b p-6">
               <button
-                className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-indigo-400 outline-none transition-all duration-150 ease-linear hover:bg-indigo-50 focus:outline-none"
+                className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-gray-600 outline-none transition-all duration-150 ease-linear hover:bg-gray-100 focus:outline-none"
                 type="button"
                 onClick={onClose}
               >
                 Cancel
               </button>
               <button
-                className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
+                className={`rounded-lg  px-6 py-2.5 text-sm font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-gray-300 disabled:hover:bg-gray-300 ${
+                  type === "error"
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600"
+                }`}
                 type="button"
                 onClick={onSubmit}
               >
