@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { getAllExpenses } from "../../../services/expenses";
+import React from "react";
 import type { Column } from "../../../types/types";
+import DeleteIconButton from "../../buttons/delete-icon-button.component";
+import EditIconButton from "../../buttons/edit-icon-button.component";
 
 const COLUMNS: Column[] = [
   {
@@ -25,35 +26,20 @@ const COLUMNS: Column[] = [
   },
 ];
 
-const ExpensesTable: React.FC = () => {
-  const { data, isLoading, error } = getAllExpenses();
+type Props = {
+  expenses: { [key: string]: any[] };
+  onEditItem: (rowId: string) => void;
+  onDeleteItem: (rowId: string) => void;
+};
 
-  const [expenses, setExpenses] = useState<{ [key: string]: any[] }>({});
-
-  useEffect(() => {
-    if (!data) return;
-    const res: { [key: string]: any[] } = {};
-    data.forEach((row) => {
-      const date = new Date(row.date).toLocaleDateString();
-      if (!res[date]) {
-        res[date] = [row];
-      } else {
-        res[date].push(row);
-      }
-    });
-    setExpenses(res);
-  }, [data]);
-
+const ExpensesTable: React.FC<Props> = ({
+  expenses,
+  onEditItem,
+  onDeleteItem,
+}) => {
   const getTotalDayAmount = (key: string) => {
     return expenses[key]?.reduce((sum, row) => sum + row.value, 0);
   };
-
-  if (error) return <p className="text-red-500">{error.message}</p>;
-
-  if (isLoading) return <p>Loading...</p>;
-
-  if (!data) return null;
-
   return (
     <div className="relative w-full overflow-x-auto">
       <table className="w-full rounded-lg border text-left text-sm text-gray-500 dark:text-gray-400">
@@ -67,6 +53,7 @@ const ExpensesTable: React.FC = () => {
             <th align="right" scope="col" className="py-3 px-6">
               Total Amount (day)
             </th>
+            <th align="center" scope="col" className="py-3 px-6" />
           </tr>
         </thead>
         <tbody>
@@ -101,6 +88,18 @@ const ExpensesTable: React.FC = () => {
                       {`$${getTotalDayAmount(key)}`}
                     </td>
                   )}
+                  <td align="center" className="border">
+                    <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center mr-4">
+                        <EditIconButton onClick={() => onEditItem(row.id)} />
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <DeleteIconButton
+                          onClick={() => onDeleteItem(row.id)}
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </>
