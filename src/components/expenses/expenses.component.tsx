@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
+import { numWithCommas } from "../../utils/shared";
 import type { UpdateExpense } from "../../types/types";
 
 import ExpensesTable from "./expenses-table/expenses-table.component";
@@ -55,6 +56,12 @@ const Expenses: React.FC = () => {
       categoryId: row.category.id,
     });
   };
+  
+  const getTotalExpenses = () => {
+    return numWithCommas(
+      data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) || 0
+    );
+  };
 
   return (
     <div className="flex w-full flex-col">
@@ -66,9 +73,13 @@ const Expenses: React.FC = () => {
       {error ? <p className="text-red-500">{error.message}</p> : null}
       {isLoading ? <p>Loading...</p> : null}
       <div className="mb-4 flex w-full items-center justify-between">
-        <div className="flex items-center gap-4 w-full">
+        <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
           <MonthSelect month={month} onSelect={setMonth} />
+          <div className="flex items-center">
+            <h5 className="mr-2 text-xl font-semibold">Total:</h5>
+            <p className="text-xl font-medium">${getTotalExpenses()}</p>
+          </div>
         </div>
         <CreateExpense onComplete={refetch} />
       </div>
