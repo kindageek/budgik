@@ -24,4 +24,25 @@ export const categoryRouter = router({
         result: result,
       };
     }),
+  editCategory: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, name } = input;
+
+      const result = await ctx.prisma.category.update({
+        data: { name },
+        where: { id },
+      });
+
+      return {
+        status: 201,
+        message: "Category updated successfully",
+        result: result,
+      };
+    }),
 });

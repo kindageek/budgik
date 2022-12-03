@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { trpc } from "../../utils/trpc";
+import type { Category as ICategory } from "../../types/types";
 
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
 import AddCategory from "./add-category/add-category.component";
 import CategoryTable from "./category-table/category-table.component";
+import CategoryForm from "./category-form/category-form.component";
 
 const Category: React.FC = () => {
   const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery();
+
+  const [editCategoryData, setEditCategoryData] = useState<ICategory | null>(
+    null
+  );
+
+  const {
+    mutateAsync: editCategory,
+    isLoading: isEditLoading,
+    error: editError,
+  } = trpc.category.editCategory.useMutation({
+    onSuccess: () => {
+      setEditCategoryData(null);
+      refetch();
+    },
+  });
+
+  const handleEditSubmit = (name: string) => {
+    if (!editCategoryData?.id) return;
+    editCategory({ ...editCategoryData, name });
+  };
 
   const handleDeleteCategory = (categoryId: string) => {
     refetch();
   };
 
   const handleEditCategory = (categoryId: string) => {
-    refetch();
+    const category = data?.find((c) => c.id === categoryId);
+    if (!category) return;
+    setEditCategoryData(category);
   };
 
   return (
@@ -35,6 +59,15 @@ const Category: React.FC = () => {
         onDeleteRow={handleDeleteCategory}
         onEditRow={handleEditCategory}
       />
+      {editCategoryData !== null ? (
+        <CategoryForm
+          data={editCategoryData}
+          onClose={() => setEditCategoryData(null)}
+          onSubmit={handleEditSubmit}
+          errorMessage={editError?.message}
+          isLoading={isEditLoading}
+        />
+      ) : null}
     </div>
   );
 };

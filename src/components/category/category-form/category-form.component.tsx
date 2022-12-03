@@ -9,7 +9,7 @@ import CloseIconButton from "../../buttons/close-icon-button.component";
 type Props = {
   onClose: () => void;
   onSubmit: (name: string) => void;
-  data?: Category;
+  data?: Category | null;
   errorMessage?: string;
   isLoading?: boolean;
 };
