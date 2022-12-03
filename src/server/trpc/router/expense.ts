@@ -1,5 +1,4 @@
-import { date, z } from "zod";
-import { prisma } from "../../db/client";
+import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const expenseRouter = router({
@@ -17,10 +16,7 @@ export const expenseRouter = router({
       const firstDayOfNextMonth = new Date(
         `${input.year}-${input.month + 1}-1`
       );
-      console.log('input:', input);
-      console.log('firstDayOfMonth:', firstDayOfMonth);
-      console.log('firstDayOfNextMonth:', firstDayOfNextMonth);
-      const user = await prisma.user.findUnique({
+      const user = await ctx.prisma.user.findUnique({
         where: {
           id: userId,
         },
