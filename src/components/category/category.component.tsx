@@ -20,7 +20,7 @@ const Category: React.FC = () => {
     mutateAsync: editCategory,
     isLoading: isEditLoading,
     error: editError,
-  } = trpc.category.editCategory.useMutation({
+  } = trpc.category.edit.useMutation({
     onSuccess: () => {
       setEditCategoryData(null);
       refetch();
@@ -28,7 +28,7 @@ const Category: React.FC = () => {
   });
 
   const { mutateAsync: deleteCategory } =
-    trpc.category.deleteCategory.useMutation({ onSuccess: () => refetch() });
+    trpc.category.delete.useMutation({ onSuccess: () => refetch() });
 
   const handleEditSubmit = (name: string) => {
     if (!editCategoryData?.id) return;

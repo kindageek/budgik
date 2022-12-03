@@ -36,7 +36,7 @@ export const expenseRouter = router({
       });
       return user?.expenses;
     }),
-  createExpense: protectedProcedure
+  create: protectedProcedure
     .input(
       z.object({
         date: z.string(),
@@ -59,7 +59,7 @@ export const expenseRouter = router({
         result: result,
       };
     }),
-  editExpense: protectedProcedure
+  edit: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -84,7 +84,7 @@ export const expenseRouter = router({
         result: result,
       };
     }),
-  deleteExpense: protectedProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string(),

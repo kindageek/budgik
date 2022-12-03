@@ -17,7 +17,7 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
     mutateAsync: addCategory,
     isLoading,
     error,
-  } = trpc.category.addCategory.useMutation({
+  } = trpc.category.add.useMutation({
     onSuccess: () => {
       onComplete();
       onClose();

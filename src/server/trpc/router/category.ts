@@ -5,7 +5,7 @@ export const categoryRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.category.findMany();
   }),
-  addCategory: protectedProcedure
+  add: protectedProcedure
     .input(
       z.object({
         name: z.string(),
@@ -24,7 +24,7 @@ export const categoryRouter = router({
         result: result,
       };
     }),
-  editCategory: protectedProcedure
+  edit: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -45,7 +45,7 @@ export const categoryRouter = router({
         result: result,
       };
     }),
-  deleteCategory: protectedProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string(),

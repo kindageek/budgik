@@ -34,7 +34,7 @@ const CreateExpenseForm: React.FC<Props> = ({ onClose, onComplete }) => {
     mutateAsync: create,
     isLoading,
     error,
-  } = trpc.expense.createExpense.useMutation({
+  } = trpc.expense.create.useMutation({
     onSuccess: () => {
       reset();
       onComplete();

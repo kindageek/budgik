@@ -38,7 +38,7 @@ const EditExpenseForm: React.FC<Props> = ({ data, onClose, onComplete }) => {
     mutateAsync: edit,
     isLoading,
     error,
-  } = trpc.expense.editExpense.useMutation({
+  } = trpc.expense.edit.useMutation({
     onSuccess: () => {
       reset();
       onComplete();

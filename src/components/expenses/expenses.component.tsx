@@ -19,7 +19,7 @@ const Expenses: React.FC = () => {
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery({ month, year });
 
-  const { mutateAsync: deleteExpense } = trpc.expense.deleteExpense.useMutation(
+  const { mutateAsync: deleteExpense } = trpc.expense.delete.useMutation(
     { onSuccess: () => refetch() }
   );
 
