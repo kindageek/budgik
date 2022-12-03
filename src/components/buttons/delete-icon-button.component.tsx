@@ -7,7 +7,12 @@ type Props = {
 
 const DeleteIconButton: React.FC<Props> = ({ onClick }) => {
   return (
-    <button type="button" onClick={onClick} className="hover:text-red-500">
+    <button
+      type="button"
+      onClick={onClick}
+      className="hover:text-red-500"
+      title="Delete"
+    >
       <RiDeleteBin5Line size={20} />
     </button>
   );

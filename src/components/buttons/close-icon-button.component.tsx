@@ -11,6 +11,7 @@ const CloseIconButton: React.FC<Props> = ({ onClick }) => {
       type="button"
       onClick={onClick}
       className="rounded-full p-1 hover:bg-gray-100"
+      title="Close"
     >
       <IoMdClose size={20} />
     </button>

@@ -7,7 +7,12 @@ type Props = {
 
 const EditIconButton: React.FC<Props> = ({ onClick }) => {
   return (
-    <button type="button" onClick={onClick} className="hover:text-blue-500">
+    <button
+      type="button"
+      onClick={onClick}
+      className="hover:text-blue-500"
+      title="Edit"
+    >
       <RiEdit2Line size={20} />
     </button>
   );

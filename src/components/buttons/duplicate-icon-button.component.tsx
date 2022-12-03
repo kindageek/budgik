@@ -1,5 +1,5 @@
 import React from "react";
-import { GrDuplicate } from "react-icons/gr";
+import { BiDuplicate } from "react-icons/bi";
 
 type Props = {
   onClick: () => void;
@@ -7,8 +7,13 @@ type Props = {
 
 const DuplicateIconButton: React.FC<Props> = ({ onClick }) => {
   return (
-    <button type="button" onClick={onClick} className="hover:text-emerald-500">
-      <GrDuplicate size={20} />
+    <button
+      type="button"
+      onClick={onClick}
+      className="hover:text-emerald-500"
+      title="Duplicate"
+    >
+      <BiDuplicate size={20} />
     </button>
   );
 };
