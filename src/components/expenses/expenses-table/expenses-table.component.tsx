@@ -18,7 +18,9 @@ const ExpensesTable: React.FC<Props> = ({
   onDeleteItem,
   onDuplicateRow,
 }) => {
-  const dates = Object.keys(expenses);
+  const dates = Object.keys(expenses).sort(
+    (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
+  );
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
 
   const getTotalDayAmount = (key: string) => {
@@ -56,7 +58,7 @@ const ExpensesTable: React.FC<Props> = ({
           ) : (
             <tr className="bg-whiteborder-b">
               <td align="center" className="border py-2 px-6" colSpan={100}>
-                <div className="items-center flex flex-col justify-center py-4">
+                <div className="flex flex-col items-center justify-center py-4">
                   <BiSad size={64} color="grey" />
                   <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
                     No data

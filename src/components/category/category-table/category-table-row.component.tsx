@@ -13,10 +13,10 @@ type Props = {
 const CategoryTableRow: React.FC<Props> = ({ row, onEditRow, onDeleteRow }) => {
   return (
     <tr key={row.id} className="bg-whiteborder-b">
-      <td align="left" className="border py-2 px-6">
+      <td align="left" className="border py-2 px-6" width="30%">
         {row.id}
       </td>
-      <td align="left" className="border py-2 px-6">
+      <td align="left" className="border py-2 px-6" width="60%">
         {row.name}
       </td>
       <td align="center" className="border">

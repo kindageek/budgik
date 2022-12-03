@@ -51,10 +51,10 @@ const Category: React.FC = () => {
         <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
           Categories
         </h1>
-      </div>
-      <div className="mb-4 flex w-full items-center justify-end">
-        {isLoading ? <Loader /> : null}
-        <AddCategory onComplete={refetch} />
+        <div className="flex items-center">
+          {isLoading ? <Loader /> : null}
+          <AddCategory onComplete={refetch} />
+        </div>
       </div>
       {error ? <Alert message={error.message} /> : null}
       <CategoryTable
