@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaMoneyBillAlt, FaAngleDoubleRight } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { BiCategoryAlt } from 'react-icons/bi';
 
 import useBoolean from "../../hooks/useBoolean";
 
@@ -22,6 +23,11 @@ const MENU_ITEMS = [
     title: "Income",
     url: "/dashboard/income",
     icon: <GiTakeMyMoney />,
+  },
+  {
+    title: "Category",
+    url: "/dashboard/category",
+    icon: <BiCategoryAlt />,
   },
 ];
 

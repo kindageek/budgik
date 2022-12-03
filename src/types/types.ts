@@ -8,7 +8,7 @@ export interface IExpense {
   date: string;
   name: string;
   categoryId: string;
-  value: number | null; 
+  value: number | null;
 }
 
 export interface UpdateExpense {
@@ -16,5 +16,10 @@ export interface UpdateExpense {
   date: Date;
   name: string;
   categoryId: string;
-  value: number; 
+  value: number;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }

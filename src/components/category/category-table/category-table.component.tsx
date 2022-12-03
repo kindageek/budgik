@@ -1,55 +1,40 @@
 import React, { useState } from "react";
 import { BiSad } from "react-icons/bi";
 
-import ExpensesTableHead from "./expenses-table-head.component";
+import type { Category } from "../../../types/types";
+import CategoryTableHead from "./category-table-head.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
-import ExpensesTableRow from "./expenses-table-row.component";
+import CategoryTableRow from "./category-table-row.component";
 
 type Props = {
-  expenses: { [key: string]: any[] };
-  onEditItem: (rowId: string) => void;
-  onDeleteItem: (rowId: string) => void;
+  data: Category[] | undefined;
+  onEditRow: (rowId: string) => void;
+  onDeleteRow: (rowId: string) => void;
 };
 
-const ExpensesTable: React.FC<Props> = ({
-  expenses,
-  onEditItem,
-  onDeleteItem,
-}) => {
-  const dates = Object.keys(expenses);
+const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
-
-  const getTotalDayAmount = (key: string) => {
-    return expenses[key]?.reduce((sum, row) => sum + row.value, 0);
-  };
 
   const handleDeleteRow = () => {
     if (!selectedRowId) return;
-    onDeleteItem(selectedRowId);
+    onDeleteRow(selectedRowId);
     setSelectedRowid(null);
   };
 
   return (
     <div className="relative w-full overflow-x-auto">
       <table className="w-full rounded-lg border text-left text-sm text-gray-700 dark:text-gray-400">
-        <ExpensesTableHead />
+        <CategoryTableHead />
         <tbody>
-          {dates?.length > 0 ? (
-            dates.map((date) => {
-              const dateEntries = expenses[date];
-              return dateEntries?.map((row, index) => (
-                <ExpensesTableRow
-                  key={row.id}
-                  row={row}
-                  date={date}
-                  index={index}
-                  sum={getTotalDayAmount(date)}
-                  size={dateEntries?.length}
-                  onEditRow={onEditItem}
-                  onDeleteRow={setSelectedRowid}
-                />
-              ));
-            })
+          {data && data?.length > 0 ? (
+            data.map((row) => (
+              <CategoryTableRow
+                key={row.id}
+                row={row}
+                onEditRow={onEditRow}
+                onDeleteRow={setSelectedRowid}
+              />
+            ))
           ) : (
             <tr className="bg-whiteborder-b">
               <td align="center" className="border py-2 px-6" colSpan={100}>
@@ -74,4 +59,4 @@ const ExpensesTable: React.FC<Props> = ({
   );
 };
 
-export default ExpensesTable;
+export default CategoryTable;
