@@ -45,4 +45,21 @@ export const categoryRouter = router({
         result: result,
       };
     }),
+  deleteCategory: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id } = input;
+
+      const result = await ctx.prisma.category.delete({ where: { id } });
+
+      return {
+        status: 201,
+        message: "Category deleted successfully",
+        result: result,
+      };
+    }),
 });
