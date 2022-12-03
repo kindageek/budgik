@@ -4,6 +4,7 @@ import { trpc } from "../../utils/trpc";
 
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
+import AddCategory from "./add-category/add-category.component";
 import CategoryTable from "./category-table/category-table.component";
 
 const Category: React.FC = () => {
@@ -24,8 +25,9 @@ const Category: React.FC = () => {
           Categories
         </h1>
       </div>
-      <div className="mb-4 flex w-full items-center justify-between">
+      <div className="mb-4 flex w-full items-center justify-end">
         {isLoading ? <Loader /> : null}
+        <AddCategory onComplete={refetch} />
       </div>
       {error ? <Alert message={error.message} /> : null}
       <CategoryTable
