@@ -1,8 +1,10 @@
 import React from "react";
 
+import { numWithCommas } from "../../../utils/shared";
+
 import EditIconButton from "../../buttons/edit-icon-button.component";
 import DeleteIconButton from "../../buttons/delete-icon-button.component";
-import { numWithCommas } from "../../../utils/shared";
+import DuplicateIconButton from "../../buttons/duplicate-icon-button.component";
 
 type Props = {
   row: any;
@@ -12,6 +14,7 @@ type Props = {
   sum: number;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
+  onDuplicateRow: (rowId: string) => void;
 };
 
 const ExpensesTableRow: React.FC<Props> = ({
@@ -22,6 +25,7 @@ const ExpensesTableRow: React.FC<Props> = ({
   sum,
   onEditRow,
   onDeleteRow,
+  onDuplicateRow,
 }) => {
   return (
     <tr key={row.id} className="bg-whiteborder-b">
@@ -53,8 +57,11 @@ const ExpensesTableRow: React.FC<Props> = ({
           <div className="mr-4 flex items-center justify-center">
             <EditIconButton onClick={() => onEditRow(row.id)} />
           </div>
-          <div className="flex items-center justify-center">
+          <div className="mr-4 flex items-center justify-center">
             <DeleteIconButton onClick={() => onDeleteRow(row.id)} />
+          </div>
+          <div className="flex items-center justify-center">
+            <DuplicateIconButton onClick={() => onDuplicateRow(row.id)} />
           </div>
         </div>
       </td>

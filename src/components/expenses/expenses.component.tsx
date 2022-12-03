@@ -23,6 +23,10 @@ const Expenses: React.FC = () => {
     onSuccess: () => refetch(),
   });
 
+  const { mutateAsync: createExpense } = trpc.expense.create.useMutation({
+    onSuccess: () => refetch(),
+  });
+
   const [expenses, setExpenses] = useState<{ [key: string]: any[] }>({});
   const [editExpenseData, setEditExpenseData] = useState<UpdateExpense | null>(
     null
@@ -64,6 +68,17 @@ const Expenses: React.FC = () => {
     });
   };
 
+  const onDuplicateRow = (id: string) => {
+    const row = data?.find((r) => r.id === id);
+    if (!row) return;
+    createExpense({
+      value: row.value,
+      name: row.name,
+      categoryId: row.category.id,
+      date: row.date.toString(),
+    });
+  };
+
   const getTotalExpenses = () => {
     return numWithCommas(
       data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) || 0
@@ -96,6 +111,7 @@ const Expenses: React.FC = () => {
         expenses={expenses}
         onEditItem={onEditItem}
         onDeleteItem={onDeleteItem}
+        onDuplicateRow={onDuplicateRow}
       />
       {editExpenseData !== null ? (
         <EditExpenseForm

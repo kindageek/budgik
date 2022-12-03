@@ -9,12 +9,14 @@ type Props = {
   expenses: { [key: string]: any[] };
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;
+  onDuplicateRow: (rowId: string) => void;
 };
 
 const ExpensesTable: React.FC<Props> = ({
   expenses,
   onEditItem,
   onDeleteItem,
+  onDuplicateRow,
 }) => {
   const dates = Object.keys(expenses);
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
@@ -47,6 +49,7 @@ const ExpensesTable: React.FC<Props> = ({
                   size={dateEntries?.length}
                   onEditRow={onEditItem}
                   onDeleteRow={setSelectedRowid}
+                  onDuplicateRow={onDuplicateRow}
                 />
               ));
             })
