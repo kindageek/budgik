@@ -13,7 +13,9 @@ export const expenseRouter = router({
       const userId = ctx.session?.user?.id;
       if (!userId) return null;
       const firstDayOfMonth = new Date(`${input.year}-${input.month}-1`);
-      const firstDayOfNextMonth = new Date(
+      const firstDayOfNextMonth = input.month === 12 ? new Date(
+        `${input.year + 1}-1-1`
+      ) : new Date(
         `${input.year}-${input.month + 1}-1`
       );
       const user = await ctx.prisma.user.findUnique({

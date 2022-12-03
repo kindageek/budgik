@@ -19,9 +19,9 @@ const Expenses: React.FC = () => {
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery({ month, year });
 
-  const { mutateAsync: deleteExpense } = trpc.expense.delete.useMutation(
-    { onSuccess: () => refetch() }
-  );
+  const { mutateAsync: deleteExpense } = trpc.expense.delete.useMutation({
+    onSuccess: () => refetch(),
+  });
 
   const [expenses, setExpenses] = useState<{ [key: string]: any[] }>({});
   const [editExpenseData, setEditExpenseData] = useState<UpdateExpense | null>(
@@ -45,6 +45,11 @@ const Expenses: React.FC = () => {
 
   const onDeleteItem = async (id: string) => {
     await deleteExpense({ id });
+  };
+
+  const handleEditComplete = () => {
+    setEditExpenseData(null);
+    refetch();
   };
 
   const onEditItem = (id: string) => {
@@ -96,7 +101,7 @@ const Expenses: React.FC = () => {
         <EditExpenseForm
           data={editExpenseData}
           onClose={() => setEditExpenseData(null)}
-          onComplete={refetch}
+          onComplete={handleEditComplete}
         />
       ) : null}
     </div>
