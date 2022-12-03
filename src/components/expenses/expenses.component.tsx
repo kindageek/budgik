@@ -9,6 +9,8 @@ import CreateExpense from "./create-expense/create-expense.component";
 import EditExpenseForm from "./edit-expense/edit-expense-form.component";
 import MonthSelect from "../date-select/month-select.component";
 import YearSelect from "../date-select/year-select.component";
+import Alert from "../alert/alert.component";
+import Loader from "../loader/loader.component";
 
 const Expenses: React.FC = () => {
   const [month, setMonth] = useState(1);
@@ -56,7 +58,7 @@ const Expenses: React.FC = () => {
       categoryId: row.category.id,
     });
   };
-  
+
   const getTotalExpenses = () => {
     return numWithCommas(
       data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) || 0
@@ -70,28 +72,26 @@ const Expenses: React.FC = () => {
           Expenses
         </h1>
       </div>
-      {error ? <p className="text-red-500">{error.message}</p> : null}
-      {isLoading ? <p>Loading...</p> : null}
       <div className="mb-4 flex w-full items-center justify-between">
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
           <MonthSelect month={month} onSelect={setMonth} />
           <div className="flex items-center">
-            <h5 className="mr-2 text-xl font-semibold">Total:</h5>
-            <p className="text-xl font-medium">${getTotalExpenses()}</p>
+            <h5 className="mr-2 text-xl font-semibold text-gray-800">Total:</h5>
+            <p className="text-2xl font-medium text-black">
+              ${getTotalExpenses()}
+            </p>
           </div>
+          {isLoading ? <Loader /> : null}
         </div>
         <CreateExpense onComplete={refetch} />
       </div>
-      {Object.keys(expenses)?.length > 0 ? (
-        <ExpensesTable
-          expenses={expenses}
-          onEditItem={onEditItem}
-          onDeleteItem={onDeleteItem}
-        />
-      ) : (
-        <p>No data found</p>
-      )}
+      {error ? <Alert message={error.message} /> : null}
+      <ExpensesTable
+        expenses={expenses}
+        onEditItem={onEditItem}
+        onDeleteItem={onDeleteItem}
+      />
       {editExpenseData !== null ? (
         <EditExpenseForm
           data={editExpenseData}

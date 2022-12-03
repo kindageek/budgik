@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import { BiSad } from "react-icons/bi";
 
 import ExpensesTableHead from "./expenses-table-head.component";
-import EditIconButton from "../../buttons/edit-icon-button.component";
-import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
 import ExpensesTableRow from "./expenses-table-row.component";
 
@@ -17,6 +16,7 @@ const ExpensesTable: React.FC<Props> = ({
   onEditItem,
   onDeleteItem,
 }) => {
+  const dates = Object.keys(expenses);
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
 
   const getTotalDayAmount = (key: string) => {
@@ -34,20 +34,34 @@ const ExpensesTable: React.FC<Props> = ({
       <table className="w-full rounded-lg border text-left text-sm text-gray-700 dark:text-gray-400">
         <ExpensesTableHead />
         <tbody>
-          {Object.keys(expenses).map((key) => {
-            return expenses[key]?.map((row, index) => (
-              <ExpensesTableRow
-                key={row.id}
-                row={row}
-                date={key}
-                index={index}
-                sum={getTotalDayAmount(key)}
-                size={expenses[key]?.length}
-                onEditRow={onEditItem}
-                onDeleteRow={onDeleteItem}
-              />
-            ));
-          })}
+          {dates?.length > 0 ? (
+            dates.map((date) => {
+              const dateEntries = expenses[date];
+              return dateEntries?.map((row, index) => (
+                <ExpensesTableRow
+                  key={row.id}
+                  row={row}
+                  date={date}
+                  index={index}
+                  sum={getTotalDayAmount(date)}
+                  size={dateEntries?.length}
+                  onEditRow={onEditItem}
+                  onDeleteRow={onDeleteItem}
+                />
+              ));
+            })
+          ) : (
+            <tr className="bg-whiteborder-b">
+              <td align="center" className="border py-2 px-6" colSpan={100}>
+                <div className="align-center flex flex-col justify-center py-4">
+                  <BiSad size={64} color="grey" />
+                  <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
+                    No data
+                  </h3>
+                </div>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       <ConfirmationModal
