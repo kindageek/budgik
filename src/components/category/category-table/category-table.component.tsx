@@ -22,8 +22,8 @@ const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
   };
 
   return (
-    <div className="relative w-full overflow-x-auto">
-      <table className="w-full rounded-lg border text-left text-sm text-gray-700 dark:text-gray-400">
+    <div className="relative h-full w-full overflow-scroll border">
+      <table className="w-full rounded-lg text-left text-sm text-gray-700 dark:text-gray-400">
         <CategoryTableHead />
         <tbody>
           {data && data?.length > 0 ? (
@@ -38,7 +38,7 @@ const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
           ) : (
             <tr className="bg-whiteborder-b">
               <td align="center" className="border py-2 px-6" colSpan={100}>
-                <div className="items-center flex flex-col justify-center py-4">
+                <div className="flex flex-col items-center justify-center py-4">
                   <BiSad size={64} color="grey" />
                   <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
                     No data

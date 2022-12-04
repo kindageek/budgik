@@ -25,7 +25,7 @@ const MENU_ITEMS = [
     icon: <GiTakeMyMoney />,
   },
   {
-    title: "Category",
+    title: "Categories",
     url: "/dashboard/category",
     icon: <BiCategoryAlt />,
   },

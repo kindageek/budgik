@@ -34,8 +34,8 @@ const ExpensesTable: React.FC<Props> = ({
   };
 
   return (
-    <div className="relative w-full overflow-x-auto">
-      <table className="w-full rounded-lg border text-left text-sm text-gray-700 dark:text-gray-400">
+    <div className="relative h-full w-full overflow-scroll border">
+      <table className="w-full rounded-lg text-left text-sm text-gray-700 dark:text-gray-400">
         <ExpensesTableHead />
         <tbody>
           {dates?.length > 0 ? (
