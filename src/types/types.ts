@@ -1,7 +1,18 @@
 export interface Column {
   key: string;
   name: string;
-  align: "left" | "center" | "right";
+  align?: "left" | "center" | "right";
+}
+
+export interface TableCell {
+  value: string | number | React.ReactNode;
+  align?: "left" | "center" | "right";
+  width?: string;
+}
+
+export interface Row {
+  id: string;
+  values: TableCell[];
 }
 
 export interface IExpense {

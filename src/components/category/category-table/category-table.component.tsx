@@ -1,10 +1,24 @@
 import React, { useState } from "react";
-import { BiSad } from "react-icons/bi";
 
-import type { Category } from "../../../types/types";
-import CategoryTableHead from "./category-table-head.component";
+import type { Category, Column, Row } from "../../../types/types";
+
+import Table from "../../table/table.component";
+import EditIconButton from "../../buttons/edit-icon-button.component";
+import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
-import CategoryTableRow from "./category-table-row.component";
+
+const COLUMNS: Column[] = [
+  {
+    key: "name",
+    name: "Name",
+    align: "left",
+  },
+  {
+    key: "",
+    name: "",
+    align: "center",
+  },
+];
 
 type Props = {
   data: Category[] | undefined;
@@ -21,41 +35,42 @@ const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
     setSelectedRowid(null);
   };
 
-  return (
-    <div className="relative h-full w-full overflow-scroll border">
-      <table className="w-full rounded-lg text-left text-sm text-gray-700 dark:text-gray-400">
-        <CategoryTableHead />
-        <tbody>
-          {data && data?.length > 0 ? (
-            data.map((row) => (
-              <CategoryTableRow
-                key={row.id}
-                row={row}
-                onEditRow={onEditRow}
-                onDeleteRow={setSelectedRowid}
-              />
-            ))
-          ) : (
-            <tr className="bg-whiteborder-b">
-              <td align="center" className="border py-2 px-6" colSpan={100}>
-                <div className="flex flex-col items-center justify-center py-4">
-                  <BiSad size={64} color="grey" />
-                  <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
-                    No data
-                  </h3>
+  const rows: Row[] =
+    data && data.length > 0
+      ? data?.map(({ name, id }) => ({
+          id,
+          values: [
+            {
+              value: name,
+              width: "90%",
+            },
+            {
+              value: (
+                <div className="flex items-center justify-center">
+                  <div className="mr-4 flex items-center justify-center">
+                    <EditIconButton onClick={() => onEditRow(id)} />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <DeleteIconButton onClick={() => setSelectedRowid(id)} />
+                  </div>
                 </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              ),
+              align: "center",
+            },
+          ],
+        }))
+      : [];
+
+  return (
+    <>
+      <Table columns={COLUMNS} rows={rows} />
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}
         onSubmit={handleDeleteRow}
         title="Are you sure you want to delete this row?"
       />
-    </div>
+    </>
   );
 };
 
