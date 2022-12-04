@@ -4,14 +4,14 @@ import CreateExpenseForm from "./create-expense-form.component";
 import { AiOutlinePlus } from "react-icons/ai";
 
 type Props = {
-  onComplete: () => void;
+  onComplete: (msg: string) => void;
 };
 
 const CreateExpense: React.FC<Props> = ({ onComplete }) => {
   const { isOpen, onOpen, onClose } = useModalState({ initialOpen: false });
 
-  const handleFormComplete = () => {
-    onComplete();
+  const handleFormComplete = (msg: string) => {
+    onComplete(msg);
     onClose();
   };
 

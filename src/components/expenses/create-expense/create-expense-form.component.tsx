@@ -11,7 +11,7 @@ import CloseIconButton from "../../buttons/close-icon-button.component";
 
 type Props = {
   onClose: () => void;
-  onComplete: () => void;
+  onComplete: (msg: string) => void;
 };
 
 const CreateExpenseForm: React.FC<Props> = ({ onClose, onComplete }) => {
@@ -35,9 +35,9 @@ const CreateExpenseForm: React.FC<Props> = ({ onClose, onComplete }) => {
     isLoading,
     error,
   } = trpc.expense.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       reset();
-      onComplete();
+      onComplete(data.message);
     },
     onError: () => {
       reset();

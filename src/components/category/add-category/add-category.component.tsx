@@ -7,7 +7,7 @@ import useModalState from "../../../hooks/useModalState";
 import CategoryForm from "../category-form/category-form.component";
 
 type Props = {
-  onComplete: () => void;
+  onComplete: (msg: string) => void;
 };
 
 const AddCategory: React.FC<Props> = ({ onComplete }) => {
@@ -18,8 +18,8 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
     isLoading,
     error,
   } = trpc.category.add.useMutation({
-    onSuccess: () => {
-      onComplete();
+    onSuccess: (data) => {
+      onComplete(data.message);
       onClose();
     },
   });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import type { Category as ICategory } from "../../types/types";
@@ -8,8 +8,10 @@ import Loader from "../loader/loader.component";
 import AddCategory from "./add-category/add-category.component";
 import CategoryTable from "./category-table/category-table.component";
 import CategoryForm from "./category-form/category-form.component";
+import SnackbarContext from "../../context/snackbar.context";
 
 const Category: React.FC = () => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery();
 
   const [editCategoryData, setEditCategoryData] = useState<ICategory | null>(
@@ -21,14 +23,24 @@ const Category: React.FC = () => {
     isLoading: isEditLoading,
     error: editError,
   } = trpc.category.edit.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
       setEditCategoryData(null);
       refetch();
     },
   });
 
-  const { mutateAsync: deleteCategory } =
-    trpc.category.delete.useMutation({ onSuccess: () => refetch() });
+  const { mutateAsync: deleteCategory } = trpc.category.delete.useMutation({
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
+      refetch();
+    },
+  });
+
+  const handleAddComplete = (msg: string) => {
+    openSnackbar({ msg, type: "success" });
+    refetch();
+  };
 
   const handleEditSubmit = (name: string) => {
     if (!editCategoryData?.id) return;
@@ -53,7 +65,7 @@ const Category: React.FC = () => {
         </h1>
         <div className="flex items-center">
           {isLoading ? <Loader /> : null}
-          <AddCategory onComplete={refetch} />
+          <AddCategory onComplete={handleAddComplete} />
         </div>
       </div>
       {error ? <Alert message={error.message} /> : null}

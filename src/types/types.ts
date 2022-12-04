@@ -34,3 +34,8 @@ export interface Category {
   id: string;
   name: string;
 }
+
+export interface SnackbarState {
+  msg: string;
+  type: "success" | "error";
+}

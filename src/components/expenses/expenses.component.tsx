@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import { numWithCommas } from "../../utils/shared";
@@ -11,8 +11,11 @@ import MonthSelect from "../date-select/month-select.component";
 import YearSelect from "../date-select/year-select.component";
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
+import SnackbarContext from '../../context/snackbar.context';
 
 const Expenses: React.FC = () => {
+  const { openSnackbar } = useContext(SnackbarContext);
+
   const [month, setMonth] = useState(1);
   const [year, setYear] = useState(2023);
 
@@ -20,11 +23,17 @@ const Expenses: React.FC = () => {
     trpc.expense.getUserExpenses.useQuery({ month, year });
 
   const { mutateAsync: deleteExpense } = trpc.expense.delete.useMutation({
-    onSuccess: () => refetch(),
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
+      refetch();
+    },
   });
 
   const { mutateAsync: createExpense } = trpc.expense.create.useMutation({
-    onSuccess: () => refetch(),
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
+      refetch();
+    },
   });
 
   const [expenses, setExpenses] = useState<{ [key: string]: any[] }>({});
@@ -47,11 +56,18 @@ const Expenses: React.FC = () => {
     setExpenses(res);
   }, [data]);
 
+  const handleAddComplete = (msg: string) => {
+    openSnackbar({ msg, type: "success" });
+    refetch();
+  };
+
+
   const onDeleteItem = async (id: string) => {
     await deleteExpense({ id });
   };
 
-  const handleEditComplete = () => {
+  const handleEditComplete = (msg: string) => {
+    openSnackbar({ msg, type: "success" });
     setEditExpenseData(null);
     refetch();
   };
@@ -104,7 +120,7 @@ const Expenses: React.FC = () => {
           </div>
           {isLoading ? <Loader /> : null}
         </div>
-        <CreateExpense onComplete={refetch} />
+        <CreateExpense onComplete={handleAddComplete} />
       </div>
       {error ? <Alert message={error.message} /> : null}
       <ExpensesTable

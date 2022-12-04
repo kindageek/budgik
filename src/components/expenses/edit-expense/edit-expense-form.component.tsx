@@ -11,7 +11,7 @@ import Select from '../../select/select.component';
 
 type Props = {
   onClose: () => void;
-  onComplete: () => void;
+  onComplete: (msg: string) => void;
   data: UpdateExpense;
 };
 
@@ -39,9 +39,9 @@ const EditExpenseForm: React.FC<Props> = ({ data, onClose, onComplete }) => {
     isLoading,
     error,
   } = trpc.expense.edit.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       reset();
-      onComplete();
+      onComplete(data.message);
     },
     onError: () => {
       reset();
