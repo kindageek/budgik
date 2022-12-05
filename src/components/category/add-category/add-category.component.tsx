@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import { trpc } from "../../../utils/trpc";
+import type { NewCategory } from "../../../types/types";
 import useModalState from "../../../hooks/useModalState";
 
 import CategoryForm from "../category-form/category-form.component";
@@ -17,6 +18,7 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
     mutateAsync: addCategory,
     isLoading,
     error,
+    reset,
   } = trpc.category.add.useMutation({
     onSuccess: (data) => {
       onComplete(data.message);
@@ -24,9 +26,13 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
     },
   });
 
-  const handleFormComplete = (name: string) => {
-    addCategory({ name });
+  const handleFormComplete = (data: NewCategory) => {
+    addCategory(data).catch((e) => {
+      return;
+    });
   };
+
+  useEffect(() => reset(), []);
 
   return (
     <>

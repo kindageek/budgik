@@ -49,9 +49,9 @@ const Category: React.FC = () => {
     refetch();
   };
 
-  const handleEditSubmit = (name: string) => {
+  const handleEditSubmit = (data: { name: string; type: CategoryType }) => {
     if (!editCategoryData?.id) return;
-    editCategory({ ...editCategoryData, name });
+    editCategory({ ...data, id: editCategoryData.id });
   };
 
   const handleDeleteCategory = (categoryId: string) => {

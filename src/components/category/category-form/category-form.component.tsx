@@ -1,22 +1,21 @@
 import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import type { Category, CategoryType } from "@prisma/client";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import type { Category } from '@prisma/client';
+import type { NewCategory } from "../../../types/types";
 
 import Input from "../../input/input.component";
+import Select from "../../select/select.component";
 import CloseIconButton from "../../buttons/close-icon-button.component";
 
 type Props = {
   onClose: () => void;
-  onSubmit: (name: string) => void;
+  onSubmit: (data: NewCategory) => void;
   data?: Category | null;
   errorMessage?: string;
   isLoading?: boolean;
 };
-
-interface ICategory {
-  name: string;
-}
 
 const CategoryForm: React.FC<Props> = ({
   onClose,
@@ -25,17 +24,25 @@ const CategoryForm: React.FC<Props> = ({
   errorMessage = null,
   isLoading = false,
 }) => {
+  const router = useRouter();
+  const { tab } = router.query;
+
   const {
     handleSubmit,
     control,
     formState: { errors, isDirty },
     reset,
-  } = useForm<ICategory>({
-    defaultValues: { name: data?.name || "" },
+  } = useForm<NewCategory>({
+    defaultValues: {
+      name: data?.name || "",
+      type: data?.type || (tab as CategoryType) || "EXPENSE",
+    },
   });
 
-  const submitHandler: SubmitHandler<ICategory> = async (data: ICategory) => {
-    onSubmit(data.name);
+  const submitHandler: SubmitHandler<NewCategory> = async (
+    data: NewCategory
+  ) => {
+    onSubmit(data);
   };
 
   useEffect(() => reset(), []);
@@ -73,6 +80,27 @@ const CategoryForm: React.FC<Props> = ({
                         errorMessage={errors?.name?.message?.toString()}
                         {...field}
                       />
+                    );
+                  }}
+                />
+                <Controller
+                  name="type"
+                  control={control}
+                  rules={{ required: "Required" }}
+                  render={({ field }) => {
+                    return (
+                      <Select
+                        required
+                        label="Type"
+                        id="type"
+                        error={!!errors.type}
+                        errorMessage={errors?.type?.message?.toString()}
+                        {...field}
+                      >
+                        <option selected>Choose a type</option>
+                        <option value="EXPENSE">Expense</option>
+                        <option value="INCOME">Income</option>
+                      </Select>
                     );
                   }}
                 />

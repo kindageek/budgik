@@ -50,3 +50,8 @@ export interface Tab {
   title: string;
   href: string;
 }
+
+export interface NewCategory {
+  name: string;
+  type: "INCOME" | "EXPENSE";
+}

@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -25,13 +26,25 @@ export const categoryRouter = router({
     .input(
       z.object({
         name: z.string(),
+        type: z.enum(["EXPENSE", "INCOME"]),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const { name } = input;
+      const { name, type } = input;
+
+      const existingCount = await ctx.prisma.category.count({
+        where: { name, type },
+      });
+
+      if (existingCount !== 0) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Category already exists!",
+        });
+      }
 
       const result = await ctx.prisma.category.create({
-        data: { name },
+        data: { name, type },
       });
 
       return {
@@ -45,13 +58,14 @@ export const categoryRouter = router({
       z.object({
         id: z.string(),
         name: z.string(),
+        type: z.enum(["EXPENSE", "INCOME"]),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const { id, name } = input;
+      const { id, name, type } = input;
 
       const result = await ctx.prisma.category.update({
-        data: { name },
+        data: { name, type },
         where: { id },
       });
 
