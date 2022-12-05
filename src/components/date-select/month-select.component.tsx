@@ -1,5 +1,5 @@
 import React from "react";
-import Select from "../select/select.component";
+import Dropdown from "../dropdown/dropdown.component";
 
 const MONTHS = [
   "January",
@@ -22,18 +22,18 @@ type Props = {
 };
 
 const MonthSelect: React.FC<Props> = ({ month, onSelect }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(parseInt(e.target.value, 10));
+  const handleMonthChange = (month: string) => {
+    onSelect(MONTHS.indexOf(month) + 1);
   };
+
   return (
-    <div className="flex items-center w-full max-w-[12rem]">
-      <Select value={month} onChange={handleChange} className="w-full">
-        {MONTHS.map((name, index) => (
-          <option key={name} value={index + 1}>
-            {name}
-          </option>
-        ))}
-      </Select>
+    <div className="flex w-full max-w-[12rem] items-center">
+      <Dropdown
+        value={MONTHS[month - 1] || ""}
+        values={MONTHS}
+        onChange={handleMonthChange}
+        fullWidth
+      />
     </div>
   );
 };

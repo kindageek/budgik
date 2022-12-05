@@ -1,4 +1,5 @@
 import React from "react";
+import { BsChevronDown } from "react-icons/bs";
 
 interface InputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
@@ -28,17 +29,21 @@ const Select: React.FC<InputProps> = ({
           {required ? <span className="text-red-500">*</span> : ""}
         </label>
       )}
-      <div className="flex w-full">
+      <div className="relative flex w-full">
         <select
           required={required}
           name={name}
-          className={`${className} cursor-pointer form-select block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
+          className={`${className} form-select block w-full cursor-pointer rounded-lg border bg-gray-50 p-2.5 pr-6.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
             error ? "border-red-500" : "border-gray-300"
           } appearance-none bg-clip-padding bg-no-repeat transition ease-in-out`}
           {...props}
         >
           {children}
         </select>
+        <BsChevronDown
+          size={12}
+          className="absolute right-2.5 top-0 h-full cursor-pointer"
+        />
       </div>
       {errorMessage && errorMessage?.length > 0 ? (
         <span className="absolute left-0 -bottom-4 text-xs text-red-500">

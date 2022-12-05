@@ -1,5 +1,5 @@
 import React from "react";
-import Select from "../select/select.component";
+import Dropdown from "../dropdown/dropdown.component";
 
 const YEARS = [2022, 2023, 2024];
 
@@ -9,18 +9,18 @@ type Props = {
 };
 
 const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(parseInt(e.target.value, 10));
+  const handleChange = (year: string) => {
+    onSelect(parseInt(year));
   };
+
   return (
-    <div className="flex items-center w-full max-w-[10rem]">
-      <Select value={year} onChange={handleChange} className="w-full">
-        {YEARS.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </Select>
+    <div className="flex w-full max-w-[10rem] items-center">
+      <Dropdown
+        value={year.toString()}
+        values={YEARS.map((y) => y.toString())}
+        onChange={handleChange}
+        fullWidth
+      />
     </div>
   );
 };
