@@ -1,12 +1,15 @@
 import React from "react";
 import useModalState from "../../hooks/useModalState";
 import DropdownButton from "./dropdown-button.component";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 type Props = {
   value: string;
   onChange: (value: string) => void;
   values: string[];
   fullWidth?: boolean;
+  error?: boolean;
+  errorMessage?: string;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -14,11 +17,21 @@ const Dropdown: React.FC<Props> = ({
   values,
   onChange,
   fullWidth = false,
+  error = false,
+  errorMessage,
 }) => {
-  const { isOpen, onToggle } = useModalState({ initialOpen: false });
+  const { isOpen, onToggle, onClose } = useModalState({ initialOpen: false });
+
+  const ref = useDetectClickOutside({ onTriggered: onClose });
+
   return (
-    <div className={`relative ${fullWidth ? "w-full" : ""}`}>
-      <DropdownButton text={value} onClick={onToggle} />
+    <div className={`relative ${fullWidth ? "w-full" : ""}`} ref={ref}>
+      <DropdownButton
+        text={value}
+        onClick={onToggle}
+        error={error}
+        errorMessage={errorMessage}
+      />
       {isOpen ? (
         <div className="absolute left-0 bottom-0 z-10 w-full translate-y-full divide-y divide-gray-200 rounded bg-white shadow-md dark:bg-gray-700">
           <ul
