@@ -4,12 +4,14 @@ import { BiSad } from "react-icons/bi";
 import ExpensesTableHead from "./expenses-table-head.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
 import ExpensesTableRow from "./expenses-table-row.component";
+import Loader from "../../loader/loader.component";
 
 type Props = {
   expenses: { [key: string]: any[] };
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;
   onDuplicateRow: (rowId: string) => void;
+  loading?: boolean;
 };
 
 const ExpensesTable: React.FC<Props> = ({
@@ -17,6 +19,7 @@ const ExpensesTable: React.FC<Props> = ({
   onEditItem,
   onDeleteItem,
   onDuplicateRow,
+  loading = false,
 }) => {
   const dates = Object.keys(expenses).sort(
     (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
@@ -59,10 +62,16 @@ const ExpensesTable: React.FC<Props> = ({
             <tr className="bg-whiteborder-b">
               <td align="center" className="py-2 px-6" colSpan={100}>
                 <div className="flex flex-col items-center justify-center py-4">
-                  <BiSad size={64} color="grey" />
-                  <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
-                    No data
-                  </h3>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <BiSad size={64} color="grey" />
+                      <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
+                        No data
+                      </h3>
+                    </>
+                  )}
                 </div>
               </td>
             </tr>

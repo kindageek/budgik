@@ -124,6 +124,7 @@ const Expenses: React.FC = () => {
       </div>
       {error ? <Alert message={error.message} /> : null}
       <ExpensesTable
+        loading={isLoading}
         expenses={expenses}
         onEditItem={onEditItem}
         onDeleteItem={onDeleteItem}

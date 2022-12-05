@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 import type { Column, Row } from "../../../types/types";
-import type { Category } from '@prisma/client';
+import type { Category } from "@prisma/client";
 
 import Table from "../../table/table.component";
 import EditIconButton from "../../buttons/edit-icon-button.component";
 import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
-import { toTitleCase } from '../../../utils/shared';
+import { toTitleCase } from "../../../utils/shared";
 
 const COLUMNS: Column[] = [
   {
@@ -31,9 +31,15 @@ type Props = {
   data: Category[] | undefined;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
+  loading?: boolean;
 };
 
-const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
+const CategoryTable: React.FC<Props> = ({
+  data,
+  onEditRow,
+  onDeleteRow,
+  loading = false,
+}) => {
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
 
   const handleDeleteRow = () => {
@@ -74,7 +80,7 @@ const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
 
   return (
     <>
-      <Table columns={COLUMNS} rows={rows} />
+      <Table columns={COLUMNS} rows={rows} loading={loading} />
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}
