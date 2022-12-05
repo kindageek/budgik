@@ -21,7 +21,7 @@ const Table: React.FC<Props> = ({ columns, rows }) => {
             rows.map((row) => <TableRow key={row.id} row={row} />)
           ) : (
             <tr className="bg-whiteborder-b">
-              <td align="center" className="border py-2 px-6" colSpan={100}>
+              <td align="center" className="py-2 px-6" colSpan={100}>
                 <div className="flex flex-col items-center justify-center py-4">
                   <BiSad size={64} color="grey" />
                   <h3 className="mt-4 text-center text-xl font-medium text-gray-500">

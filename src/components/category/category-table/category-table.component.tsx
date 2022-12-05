@@ -6,11 +6,17 @@ import Table from "../../table/table.component";
 import EditIconButton from "../../buttons/edit-icon-button.component";
 import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
+import { toTitleCase } from '../../../utils/shared';
 
 const COLUMNS: Column[] = [
   {
     key: "name",
     name: "Name",
+    align: "left",
+  },
+  {
+    key: "type",
+    name: "Type",
     align: "left",
   },
   {
@@ -37,12 +43,16 @@ const CategoryTable: React.FC<Props> = ({ data, onEditRow, onDeleteRow }) => {
 
   const rows: Row[] =
     data && data.length > 0
-      ? data?.map(({ name, id }) => ({
+      ? data?.map(({ name, type, id }) => ({
           id,
           values: [
             {
               value: name,
-              width: "90%",
+              width: "50%",
+            },
+            {
+              value: toTitleCase(type.toString()),
+              width: "40%",
             },
             {
               value: (
