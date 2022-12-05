@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
+import { useRouter } from "next/router";
+import type { Category as ICategory, CategoryType } from "@prisma/client";
 
 import { trpc } from "../../utils/trpc";
-import type { Category as ICategory } from "../../types/types";
 
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
@@ -9,10 +10,16 @@ import AddCategory from "./add-category/add-category.component";
 import CategoryTable from "./category-table/category-table.component";
 import CategoryForm from "./category-form/category-form.component";
 import SnackbarContext from "../../context/snackbar.context";
+import CategoryTabs from "./category-tabs/category-tabs.component";
 
 const Category: React.FC = () => {
+  const router = useRouter();
+  const { tab } = router.query;
+
   const { openSnackbar } = useContext(SnackbarContext);
-  const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery();
+  const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery({
+    type: (tab as CategoryType) || "EXPENSE",
+  });
 
   const [editCategoryData, setEditCategoryData] = useState<ICategory | null>(
     null
@@ -68,6 +75,7 @@ const Category: React.FC = () => {
           <AddCategory onComplete={handleAddComplete} />
         </div>
       </div>
+      <CategoryTabs />
       {error ? <Alert message={error.message} /> : null}
       <CategoryTable
         data={data}

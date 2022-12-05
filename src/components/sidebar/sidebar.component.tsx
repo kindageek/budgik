@@ -26,7 +26,7 @@ const MENU_ITEMS = [
   },
   {
     title: "Categories",
-    url: "/dashboard/category",
+    url: "/dashboard/category?tab=EXPENSE",
     icon: <BiCategoryAlt />,
   },
 ];
@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
               <Link
                 href={url}
                 className={`flex items-center rounded-lg py-3 px-2 text-lg font-normal text-gray-900 hover:bg-gray-200 ${
-                  router.pathname === url ? "bg-gray-200" : "bg-transparent"
+                  router.asPath === url ? "bg-gray-200" : "bg-transparent"
                 } ${!isExpanded && "justify-center"}`}
               >
                 <span className="flex items-center justify-center p-2">

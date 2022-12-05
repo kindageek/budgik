@@ -45,3 +45,8 @@ export interface SnackbarState {
   msg: string;
   type: "success" | "error";
 }
+
+export interface Tab {
+  title: string;
+  href: string;
+}

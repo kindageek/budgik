@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import type { Category, Column, Row } from "../../../types/types";
+import type { Column, Row } from "../../../types/types";
+import type { Category } from '@prisma/client';
 
 import Table from "../../table/table.component";
 import EditIconButton from "../../buttons/edit-icon-button.component";

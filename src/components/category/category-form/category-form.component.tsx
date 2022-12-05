@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import type { Category } from "../../../types/types";
+import type { Category } from '@prisma/client';
 
 import Input from "../../input/input.component";
 import CloseIconButton from "../../buttons/close-icon-button.component";

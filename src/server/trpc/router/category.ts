@@ -2,9 +2,19 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const categoryRouter = router({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.category.findMany();
-  }),
+  getAll: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["EXPENSE", "INCOME"]),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      return await ctx.prisma.category.findMany({
+        where: {
+          type: input.type,
+        },
+      });
+    }),
   getExpenseCategories: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.category.findMany({ where: { type: "EXPENSE" } });
   }),
