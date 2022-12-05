@@ -44,14 +44,13 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
         <AiOutlinePlus color="white" size={16} className="mr-2" />
         Add
       </button>
-      {isOpen ? (
-        <CategoryForm
-          onClose={onClose}
-          onSubmit={handleFormComplete}
-          errorMessage={error?.message}
-          isLoading={isLoading}
-        />
-      ) : null}
+      <CategoryForm
+        open={isOpen}
+        onClose={onClose}
+        onSubmit={handleFormComplete}
+        errorMessage={error?.message}
+        isLoading={isLoading}
+      />
     </>
   );
 };

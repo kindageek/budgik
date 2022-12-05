@@ -11,8 +11,8 @@ import MonthSelect from "../date-select/month-select.component";
 import YearSelect from "../date-select/year-select.component";
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
-import SnackbarContext from '../../context/snackbar.context';
-import Dropdown from '../dropdown/dropdown.component';
+import SnackbarContext from "../../context/snackbar.context";
+import Dropdown from "../dropdown/dropdown.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -61,7 +61,6 @@ const Expenses: React.FC = () => {
     openSnackbar({ msg, type: "success" });
     refetch();
   };
-
 
   const onDeleteItem = async (id: string) => {
     await deleteExpense({ id });
@@ -130,13 +129,12 @@ const Expenses: React.FC = () => {
         onDeleteItem={onDeleteItem}
         onDuplicateRow={onDuplicateRow}
       />
-      {editExpenseData !== null ? (
-        <EditExpenseForm
-          data={editExpenseData}
-          onClose={() => setEditExpenseData(null)}
-          onComplete={handleEditComplete}
-        />
-      ) : null}
+      <EditExpenseForm
+        open={editExpenseData !== null}
+        data={editExpenseData}
+        onClose={() => setEditExpenseData(null)}
+        onComplete={handleEditComplete}
+      />
     </div>
   );
 };

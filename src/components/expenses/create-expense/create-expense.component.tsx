@@ -25,9 +25,11 @@ const CreateExpense: React.FC<Props> = ({ onComplete }) => {
         <AiOutlinePlus color="white" size={16} className="mr-2" />
         Add
       </button>
-      {isOpen ? (
-        <CreateExpenseForm onClose={onClose} onComplete={handleFormComplete} />
-      ) : null}
+      <CreateExpenseForm
+        open={isOpen}
+        onClose={onClose}
+        onComplete={handleFormComplete}
+      />
     </>
   );
 };

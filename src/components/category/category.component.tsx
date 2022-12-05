@@ -82,15 +82,14 @@ const Category: React.FC = () => {
         onDeleteRow={handleDeleteCategory}
         onEditRow={handleEditCategory}
       />
-      {editCategoryData !== null ? (
-        <CategoryForm
-          data={editCategoryData}
-          onClose={() => setEditCategoryData(null)}
-          onSubmit={handleEditSubmit}
-          errorMessage={editError?.message}
-          isLoading={isEditLoading}
-        />
-      ) : null}
+      <CategoryForm
+        open={editCategoryData !== null}
+        data={editCategoryData}
+        onClose={() => setEditCategoryData(null)}
+        onSubmit={handleEditSubmit}
+        errorMessage={editError?.message}
+        isLoading={isEditLoading}
+      />
     </div>
   );
 };
