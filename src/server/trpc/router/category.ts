@@ -5,6 +5,12 @@ export const categoryRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.category.findMany();
   }),
+  getExpenseCategories: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.category.findMany({ where: { type: "EXPENSE" } });
+  }),
+  getIncomeCategories: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.category.findMany({ where: { type: "INCOME" } });
+  }),
   add: protectedProcedure
     .input(
       z.object({

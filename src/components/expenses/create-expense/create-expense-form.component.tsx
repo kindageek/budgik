@@ -3,7 +3,6 @@ import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 import { trpc } from "../../../utils/trpc";
 import type { IExpense } from "../../../types/types";
-import { getAllCategories } from "../../../services/categories";
 
 import Input from "../../input/input.component";
 import Select from "../../select/select.component";
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const CreateExpenseForm: React.FC<Props> = ({ onClose, onComplete }) => {
-  const { data: categories } = getAllCategories();
+  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
   const {
     handleSubmit,
     control,

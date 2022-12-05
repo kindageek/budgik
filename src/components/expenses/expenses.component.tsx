@@ -16,8 +16,8 @@ import SnackbarContext from '../../context/snackbar.context';
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
 
-  const [month, setMonth] = useState(1);
-  const [year, setYear] = useState(2023);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery({ month, year });

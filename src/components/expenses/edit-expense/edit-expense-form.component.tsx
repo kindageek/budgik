@@ -3,7 +3,6 @@ import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 import { trpc } from "../../../utils/trpc";
 import type { UpdateExpense } from "../../../types/types";
-import { getAllCategories } from "../../../services/categories";
 
 import Input from "../../input/input.component";
 import CloseIconButton from "../../buttons/close-icon-button.component";
@@ -24,7 +23,7 @@ interface IUpdateExpense {
 }
 
 const EditExpenseForm: React.FC<Props> = ({ data, onClose, onComplete }) => {
-  const { data: categories } = getAllCategories();
+  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
   const {
     handleSubmit,
     control,
