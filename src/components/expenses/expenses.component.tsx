@@ -12,7 +12,6 @@ import YearSelect from "../date-select/year-select.component";
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
 import SnackbarContext from "../../context/snackbar.context";
-import Dropdown from "../dropdown/dropdown.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -46,9 +45,9 @@ const Expenses: React.FC = () => {
     if (!data) return;
     const res: { [key: string]: any[] } = {};
     data.forEach((row) => {
-      const date = new Date(row.date).toISOString().split("T")[0];
-      if (!date) return;
-      if (!res[date]) {
+      const date = new Date(row.date).toISOString().split("T")[0] || null;
+      if (!date || date === undefined) return;
+      if (!res[date] || res[date]?.length === 0) {
         res[date] = [row];
       } else {
         res[date].push(row);

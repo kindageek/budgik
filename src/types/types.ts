@@ -19,7 +19,7 @@ export interface IExpense {
   date: string;
   name: string;
   categoryId: string;
-  value: number | null;
+  value: number;
 }
 
 export interface UpdateExpense {
@@ -54,4 +54,11 @@ export interface Tab {
 export interface NewCategory {
   name: string;
   type: "INCOME" | "EXPENSE";
+}
+
+export interface NewIncome {
+  date: string;
+  name: string;
+  categoryId: string;
+  value: number;
 }

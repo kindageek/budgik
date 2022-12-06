@@ -5,3 +5,7 @@ export function numWithCommas(num: number): string {
 export function toTitleCase(text: string): string {
   return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
 }
+
+export function formatDate(date: Date): string {
+  return date.toISOString().split("T")[0] ?? date.toLocaleDateString();
+}

@@ -1,65 +1,80 @@
 import React, { useEffect } from "react";
+import type { Income } from "@prisma/client";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import { trpc } from "../../../utils/trpc";
-import type { IExpense } from "../../../types/types";
+import { trpc } from "../../utils/trpc";
+import { formatDate } from "../../utils/shared";
+import type { NewIncome } from "../../types/types";
 
-import Input from "../../input/input.component";
-import Select from "../../select/select.component";
-import Dialog, { DialogActions, DialogBody, DialogTitle } from "../../dialog";
+import Input from "../input/input.component";
+import Select from "../select/select.component";
+import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onComplete: (msg: string) => void;
+  onSubmit: (data: NewIncome) => void;
+  data?: Income | null;
+  errorMessage?: string;
+  isLoading?: boolean;
 };
 
-const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
-  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
+const IncomeForm: React.FC<Props> = ({
+  open,
+  onClose,
+  onSubmit,
+  data = null,
+  errorMessage = null,
+  isLoading = false,
+}) => {
+  const { data: categories } = trpc.category.getIncomeCategories.useQuery();
+
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
-  } = useForm<IExpense>({
-    defaultValues: {
-      name: "",
-      date: new Date().toISOString().split("T")[0],
-      categoryId: "",
-      value: undefined,
-    },
+    setValue,
+  } = useForm<NewIncome>({
+    defaultValues: data
+      ? {
+          name: data.name,
+          categoryId: data.categoryId,
+          value: data.value,
+          date: formatDate(data.date),
+        }
+      : {
+          name: "",
+          date: new Date().toISOString().split("T")[0],
+          categoryId: "",
+          value: undefined,
+        },
   });
 
-  const {
-    mutateAsync: create,
-    isLoading,
-    error,
-  } = trpc.expense.create.useMutation({
-    onSuccess: (data) => {
-      reset();
-      onComplete(data.message);
-    },
-    onError: () => {
-      reset();
-    },
-  });
-
-  const onSubmit: SubmitHandler<IExpense> = async (data: IExpense) => {
-    create({ ...data, value: Number(data.value) });
+  const submitHandler: SubmitHandler<NewIncome> = async (data: NewIncome) => {
+    onSubmit({ ...data, value: Number(data.value) });
   };
 
-  useEffect(() => reset(), []);
+  useEffect(() => reset(), [open]);
 
-  if (!open) return null;
+  useEffect(() => {
+    setValue("name", data?.name || "");
+    setValue("date", data?.date.toISOString().split("T")[0] || "");
+    setValue("categoryId", data?.categoryId || "");
+    setValue("value", data?.value || 0);
+  }, [data]);
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle title="Add New Expense" onClose={onClose} />
+      <DialogTitle
+        title={`${data === null ? "Add" : "Edit"} Income`}
+        onClose={onClose}
+      />
       <DialogBody>
         <form
-          id="create-expense-form"
+          id="income-form"
           className="space-y-4 md:space-y-6"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(submitHandler)}
         >
           <Controller
             name="date"
@@ -143,9 +158,9 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
             }}
           />
         </form>
-        {error && error?.message?.length > 0 ? (
+        {errorMessage && errorMessage?.length > 0 ? (
           <h3 className="text-md mt-4 rounded-md border border-red-500 bg-rose-100 py-1 text-center font-bold text-red-500">
-            {error?.message}
+            {errorMessage}
           </h3>
         ) : null}
       </DialogBody>
@@ -161,8 +176,8 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
         <button
           className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
           type="submit"
-          form="create-expense-form"
-          disabled={isLoading}
+          form="income-form"
+          disabled={isLoading || !isDirty}
         >
           Save
         </button>
@@ -171,4 +186,4 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
   );
 };
 
-export default CreateExpenseForm;
+export default IncomeForm;

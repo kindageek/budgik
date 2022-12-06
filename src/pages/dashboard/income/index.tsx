@@ -1,13 +1,12 @@
 import type { NextPageContext, NextPage } from "next";
 import { getSession } from "next-auth/react";
+import Income from "../../../components/income/income.component";
 import Layout from "../../../components/layout/layout.component";
 
 const DashboardIncome: NextPage = () => {
   return (
     <Layout>
-      <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
-        Income
-      </h1>
+      <Income />
     </Layout>
   );
 };

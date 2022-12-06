@@ -23,7 +23,7 @@ const CategoryForm: React.FC<Props> = ({
   open,
   onClose,
   onSubmit,
-  data,
+  data = null,
   errorMessage = null,
   isLoading = false,
 }) => {
