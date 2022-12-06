@@ -49,7 +49,7 @@ const SignInForm: React.FC = () => {
           className="space-y-4 md:space-y-6"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Controller
+          {/* <Controller
             name="email"
             control={control}
             rules={{ required: "Required" }}
@@ -101,7 +101,7 @@ const SignInForm: React.FC = () => {
           </button>
           <p className="my-1 text-center text-sm font-light text-gray-500">
             or
-          </p>
+          </p> */}
           <button
             type="button"
             onClick={handleGoogleAuth}
@@ -110,7 +110,7 @@ const SignInForm: React.FC = () => {
             <FcGoogle size={20} className="mr-4" />
             Sign in with Google
           </button>
-          <p className="text-sm font-light text-gray-500">
+          {/* <p className="text-sm font-light text-gray-500">
             Don’t have an account yet?{" "}
             <Link
               href="/auth/signup"
@@ -118,7 +118,7 @@ const SignInForm: React.FC = () => {
             >
               Sign up
             </Link>
-          </p>
+          </p> */}
         </form>
       </div>
     </div>

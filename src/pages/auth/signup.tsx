@@ -18,4 +18,11 @@ const SignUp: NextPage = () => {
   );
 };
 
+export async function getStaticProps() {
+  return {
+    notFound: true,
+  };
+}
+
+
 export default SignUp;
