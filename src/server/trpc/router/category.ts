@@ -10,9 +10,12 @@ export const categoryRouter = router({
       })
     )
     .query(async ({ input, ctx }) => {
+      const userId = ctx.session?.user?.id;
+      if (!userId) return null;
       return await ctx.prisma.category.findMany({
         where: {
           type: input.type,
+          userId,
         },
       });
     }),
@@ -31,7 +34,7 @@ export const categoryRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const { name, type } = input;
-
+      const userId = ctx.session.user.id;
       const existingCount = await ctx.prisma.category.count({
         where: { name, type },
       });
@@ -44,7 +47,7 @@ export const categoryRouter = router({
       }
 
       const result = await ctx.prisma.category.create({
-        data: { name, type },
+        data: { name, type, userId },
       });
 
       return {

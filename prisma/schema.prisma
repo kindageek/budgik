@@ -48,9 +48,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   password      String?
@@ -58,6 +58,7 @@ model User {
   sessions      Session[]
   expenses      Expense[]
   incomes       Income[]
+  categories    Category[]
 }
 
 model VerificationToken {
@@ -96,6 +97,8 @@ model Category {
   incomes  Income[]
   expenses Expense[]
   type     CategoryType @default(EXPENSE)
+  userId   String
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum CategoryType {
