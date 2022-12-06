@@ -15,12 +15,14 @@ type Props = {
 };
 
 const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
-  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
+  const { data: categories, isLoading: isCategoriesLoading } =
+    trpc.category.getExpenseCategories.useQuery();
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
+    setError,
   } = useForm<IExpense>({
     defaultValues: {
       name: "",
@@ -49,6 +51,14 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
   };
 
   useEffect(() => reset(), []);
+
+  useEffect(() => {
+    if (isCategoriesLoading || (categories && categories?.length > 0)) return;
+    setError("categoryId", {
+      message:
+        "You do not have any categories yet. Please add a category first!",
+    });
+  }, [categories, isCategoriesLoading]);
 
   if (!open) return null;
 
@@ -162,7 +172,11 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
           className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
           type="submit"
           form="create-expense-form"
-          disabled={isLoading}
+          disabled={
+            isLoading ||
+            !isDirty ||
+            (!isCategoriesLoading && (!categories || categories.length === 0))
+          }
         >
           Save
         </button>

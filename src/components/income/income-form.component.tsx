@@ -27,7 +27,8 @@ const IncomeForm: React.FC<Props> = ({
   errorMessage = null,
   isLoading = false,
 }) => {
-  const { data: categories } = trpc.category.getIncomeCategories.useQuery();
+  const { data: categories, isLoading: isCategoriesLoading } =
+    trpc.category.getIncomeCategories.useQuery();
 
   const {
     handleSubmit,
@@ -35,6 +36,7 @@ const IncomeForm: React.FC<Props> = ({
     formState: { errors, isDirty },
     reset,
     setValue,
+    setError,
   } = useForm<NewIncome>({
     defaultValues: data
       ? {
@@ -63,6 +65,15 @@ const IncomeForm: React.FC<Props> = ({
     setValue("categoryId", data?.categoryId || "");
     setValue("value", data?.value || 0);
   }, [data]);
+
+  useEffect(() => {
+    console.log(categories);
+    if (isCategoriesLoading || (categories && categories?.length > 0)) return;
+    setError("categoryId", {
+      message:
+        "You do not have any categories yet. Please add a category first!",
+    });
+  }, [categories, isCategoriesLoading, open]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -177,7 +188,11 @@ const IncomeForm: React.FC<Props> = ({
           className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
           type="submit"
           form="income-form"
-          disabled={isLoading || !isDirty}
+          disabled={
+            isLoading ||
+            !isDirty ||
+            (!isCategoriesLoading && (!categories || categories.length === 0))
+          }
         >
           Save
         </button>
