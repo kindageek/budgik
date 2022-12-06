@@ -35,6 +35,7 @@ const EditExpenseForm: React.FC<Props> = ({
     control,
     formState: { errors, isDirty },
     reset,
+    setValue,
   } = useForm<IUpdateExpense>({
     defaultValues: { ...data, date: data?.date.toISOString().split("T")[0] },
   });
@@ -59,7 +60,15 @@ const EditExpenseForm: React.FC<Props> = ({
     edit({ ...data, date: new Date(data.date), value: Number(data.value) });
   };
 
-  useEffect(() => reset(), []);
+  useEffect(() => reset(), [open]);
+
+  useEffect(() => {
+    setValue("id", data?.id || "");
+    setValue("name", data?.name || "");
+    setValue("date", data?.date.toISOString().split("T")[0] || "");
+    setValue("categoryId", data?.categoryId || "");
+    setValue("value", data?.value || 0);
+  }, [data]);
 
   return (
     <Dialog open={open} onClose={onClose}>

@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
     const storageToggleValue = localStorage?.getItem('sidebar-expanded') || 'true';
     setIsExpanded(storageToggleValue === 'true');
   }, [setIsExpanded]);
-
+  console.log(router);
   return (
     <aside
       className={`h-full ${isExpanded ? "w-64" : "w-20"}`}
@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
               <Link
                 href={url}
                 className={`flex items-center rounded-lg py-3 px-2 text-lg font-normal text-gray-900 hover:bg-gray-200 ${
-                  router.asPath === url ? "bg-gray-200" : "bg-transparent"
+                  router.pathname === url.split('?')[0] ? "bg-gray-200" : "bg-transparent"
                 } ${!isExpanded && "justify-center"}`}
               >
                 <span className="flex items-center justify-center p-2">

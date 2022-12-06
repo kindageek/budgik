@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import type { CategoryType } from '@prisma/client';
 
 import { trpc } from "../../../utils/trpc";
 import type { NewCategory } from "../../../types/types";
@@ -8,10 +9,11 @@ import useModalState from "../../../hooks/useModalState";
 import CategoryForm from "../category-form/category-form.component";
 
 type Props = {
+  tab: CategoryType;
   onComplete: (msg: string) => void;
 };
 
-const AddCategory: React.FC<Props> = ({ onComplete }) => {
+const AddCategory: React.FC<Props> = ({ tab, onComplete }) => {
   const { isOpen, onOpen, onClose } = useModalState({ initialOpen: false });
 
   const {
@@ -33,7 +35,7 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
   };
 
   useEffect(() => reset(), []);
-
+  
   return (
     <>
       <button
@@ -45,6 +47,7 @@ const AddCategory: React.FC<Props> = ({ onComplete }) => {
         Add
       </button>
       <CategoryForm
+        tab={tab}
         open={isOpen}
         onClose={onClose}
         onSubmit={handleFormComplete}

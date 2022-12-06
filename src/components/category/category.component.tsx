@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { Category as ICategory, CategoryType } from "@prisma/client";
 
@@ -14,8 +14,8 @@ import CategoryTabs from "./category-tabs/category-tabs.component";
 
 const Category: React.FC = () => {
   const router = useRouter();
-  const { tab } = router.query;
 
+  const [tab, setTab] = useState<CategoryType>("EXPENSE");
   const { openSnackbar } = useContext(SnackbarContext);
   const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery({
     type: (tab as CategoryType) || "EXPENSE",
@@ -64,6 +64,10 @@ const Category: React.FC = () => {
     setEditCategoryData(category);
   };
 
+  useEffect(() => {
+    setTab(router.query.tab as CategoryType);
+  }, [router]);
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full items-center justify-between">
@@ -72,7 +76,10 @@ const Category: React.FC = () => {
         </h1>
         <div className="flex items-center">
           {isLoading ? <Loader /> : null}
-          <AddCategory onComplete={handleAddComplete} />
+          <AddCategory
+            tab={tab as CategoryType}
+            onComplete={handleAddComplete}
+          />
         </div>
       </div>
       <CategoryTabs />
@@ -84,6 +91,7 @@ const Category: React.FC = () => {
         onEditRow={handleEditCategory}
       />
       <CategoryForm
+        tab={tab as CategoryType}
         open={editCategoryData !== null}
         data={editCategoryData}
         onClose={() => setEditCategoryData(null)}

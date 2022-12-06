@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 import type { Category, CategoryType } from "@prisma/client";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
@@ -10,6 +9,7 @@ import Select from "../../select/select.component";
 import Dialog, { DialogActions, DialogBody, DialogTitle } from "../../dialog";
 
 type Props = {
+  tab: CategoryType;
   open: boolean;
   onClose: () => void;
   onSubmit: (data: NewCategory) => void;
@@ -19,6 +19,7 @@ type Props = {
 };
 
 const CategoryForm: React.FC<Props> = ({
+  tab,
   open,
   onClose,
   onSubmit,
@@ -26,9 +27,6 @@ const CategoryForm: React.FC<Props> = ({
   errorMessage = null,
   isLoading = false,
 }) => {
-  const router = useRouter();
-  const { tab } = router.query;
-
   const {
     handleSubmit,
     control,
@@ -38,7 +36,7 @@ const CategoryForm: React.FC<Props> = ({
   } = useForm<NewCategory>({
     defaultValues: {
       name: data?.name || "",
-      type: data?.type || (tab as CategoryType) || "EXPENSE",
+      type: data?.type || tab,
     },
   });
 
@@ -48,12 +46,12 @@ const CategoryForm: React.FC<Props> = ({
     onSubmit(data);
   };
 
-  useEffect(() => reset(), [open, router]);
+  useEffect(() => reset(), [open]);
 
   useEffect(() => {
     setValue("name", data?.name || "");
-    setValue("type", data?.type || (tab as CategoryType) || "EXPENSE");
-  }, [data, router, tab]);
+    setValue("type", data?.type || tab);
+  }, [data, tab]);
 
   return (
     <Dialog open={open} onClose={onClose}>
