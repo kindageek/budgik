@@ -1,47 +1,30 @@
 import React from "react";
-import { BiSad } from "react-icons/bi";
 
 import type { Column, Row } from "../../types/types";
-import Loader from "../loader/loader.component";
 
 import TableHead from "./table-head.component";
 import TableRow from "./table-row.component";
+import EmptyTableRow from "./empty-table-row.component";
+import TableContainer from "./table-container.component";
 
 type Props = {
   columns: Column[];
-  rows: Row[] | undefined;
+  rows: Row[];
   loading?: boolean;
 };
 
 const Table: React.FC<Props> = ({ columns, rows, loading = false }) => {
   return (
-    <div className="relative h-full w-full overflow-scroll border">
-      <table className="w-full rounded-lg text-left text-sm text-gray-700 dark:text-gray-400">
-        <TableHead columns={columns} />
-        <tbody>
-          {rows && rows?.length > 0 ? (
-            rows.map((row) => <TableRow key={row.id} row={row} />)
-          ) : (
-            <tr className="bg-whiteborder-b">
-              <td align="center" className="py-2 px-6" colSpan={100}>
-                <div className="flex flex-col items-center justify-center py-4">
-                  {loading ? (
-                    <Loader />
-                  ) : (
-                    <>
-                      <BiSad size={64} color="grey" />
-                      <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
-                        No data
-                      </h3>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <TableContainer>
+      <TableHead columns={columns} />
+      <tbody>
+        {rows && rows?.length > 0 ? (
+          rows.map((row) => <TableRow key={row.id} row={row} />)
+        ) : (
+          <EmptyTableRow loading={loading} />
+        )}
+      </tbody>
+    </TableContainer>
   );
 };
 

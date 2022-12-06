@@ -1,13 +1,58 @@
-import React, { useState } from "react";
-import { BiSad } from "react-icons/bi";
+import React, { useMemo, useState } from "react";
+import type { Category, Expense } from "@prisma/client";
 
-import ExpensesTableHead from "./expenses-table-head.component";
-import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
+import { formatDate, removeDuplicates } from "../../../utils/shared";
+import type { Column } from "../../../types/types";
+
+import TableHead from "../../table/table-head.component";
 import ExpensesTableRow from "./expenses-table-row.component";
-import Loader from "../../loader/loader.component";
+import EmptyTableRow from "../../table/empty-table-row.component";
+import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
+import TableContainer from "../../table/table-container.component";
+
+const COLUMNS: Column[] = [
+  {
+    key: "date",
+    name: "Date",
+    align: "left",
+  },
+  {
+    key: "name",
+    name: "Name",
+    align: "left",
+  },
+  {
+    key: "category",
+    name: "Category",
+    align: "left",
+  },
+  {
+    key: "value",
+    name: "Amount",
+    align: "right",
+  },
+  {
+    key: "",
+    name: "Total Amount (day)",
+    align: "right",
+  },
+  {
+    key: "",
+    name: "",
+    align: "center",
+  },
+];
+
+type ExpenseType = Expense & {
+  category: Category;
+};
+
+interface GroupedExpenses {
+  [key: string]: ExpenseType[];
+}
 
 type Props = {
-  expenses: { [key: string]: any[] };
+  data: ExpenseType[] | null | undefined;
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;
   onDuplicateRow: (rowId: string) => void;
@@ -15,20 +60,28 @@ type Props = {
 };
 
 const ExpensesTable: React.FC<Props> = ({
-  expenses,
+  data,
   onEditItem,
   onDeleteItem,
   onDuplicateRow,
   loading = false,
 }) => {
-  const dates = Object.keys(expenses).sort(
-    (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
-  );
-  const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
+  const rows: GroupedExpenses = useMemo(() => {
+    if (!data || data.length === 0) return {};
+    const res: GroupedExpenses = {};
+    const dates: string[] = removeDuplicates(
+      data.map((expense) => formatDate(expense.date))
+    );
+    for (const date of dates) {
+      const expenses: ExpenseType[] = data.filter(
+        (expense) => formatDate(expense.date) === date
+      );
+      res[date] = expenses;
+    }
+    return res;
+  }, [data]);
 
-  const getTotalDayAmount = (key: string) => {
-    return expenses[key]?.reduce((sum, row) => sum + row.value, 0);
-  };
+  const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
 
   const handleDeleteRow = () => {
     if (!selectedRowId) return;
@@ -36,22 +89,30 @@ const ExpensesTable: React.FC<Props> = ({
     setSelectedRowid(null);
   };
 
+  const dates = Object.keys(rows).sort(
+    (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
+  );
+
+  const getTotalDayAmount = (expenses: ExpenseType[]) => {
+    return expenses?.reduce((sum, row) => sum + row.value, 0);
+  };
+
   return (
-    <div className="relative h-full w-full overflow-scroll border">
-      <table className="w-full rounded-lg text-left text-sm text-gray-700 dark:text-gray-400">
-        <ExpensesTableHead />
+    <>
+      <TableContainer>
+        <TableHead columns={COLUMNS} />
         <tbody>
           {dates?.length > 0 ? (
             dates.map((date) => {
-              const dateEntries = expenses[date];
-              return dateEntries?.map((row, index) => (
+              const expenses = rows[date];
+              return expenses?.map((expense, index) => (
                 <ExpensesTableRow
-                  key={row.id}
-                  row={row}
+                  key={expense.id}
+                  row={expense}
                   date={date}
-                  index={index}
-                  sum={getTotalDayAmount(date)}
-                  size={dateEntries?.length}
+                  isFirstRow={index === 0}
+                  sum={getTotalDayAmount(expenses)}
+                  size={expenses?.length}
                   onEditRow={onEditItem}
                   onDeleteRow={setSelectedRowid}
                   onDuplicateRow={onDuplicateRow}
@@ -59,32 +120,17 @@ const ExpensesTable: React.FC<Props> = ({
               ));
             })
           ) : (
-            <tr className="bg-whiteborder-b">
-              <td align="center" className="py-2 px-6" colSpan={100}>
-                <div className="flex flex-col items-center justify-center py-4">
-                  {loading ? (
-                    <Loader />
-                  ) : (
-                    <>
-                      <BiSad size={64} color="grey" />
-                      <h3 className="mt-4 text-center text-xl font-medium text-gray-500">
-                        No data
-                      </h3>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
+            <EmptyTableRow loading={loading} />
           )}
         </tbody>
-      </table>
+      </TableContainer>
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}
         onSubmit={handleDeleteRow}
         title="Are you sure you want to delete this row?"
       />
-    </div>
+    </>
   );
 };
 

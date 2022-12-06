@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from "react";
 import type { Category, Income } from "@prisma/client";
-import type { Column, Row } from "../../types/types";
-import { formatDate, numWithCommas } from "../../utils/shared";
-import Table from "../table/table.component";
-import EditIconButton from "../buttons/edit-icon-button.component";
-import DeleteIconButton from "../buttons/delete-icon-button.component";
+import type { Column } from "../../types/types";
+
 import ConfirmationModal from "../confirmation-modal/confirmation-modal.component";
+import TableContainer from "../table/table-container.component";
+import TableHead from "../table/table-head.component";
+import IncomeTableRow from "./income-table-row.component";
+import EmptyTableRow from "../table/empty-table-row.component";
+import { formatDate, removeDuplicates } from "../../utils/shared";
 
 const COLUMNS: Column[] = [
   {
@@ -35,16 +37,20 @@ const COLUMNS: Column[] = [
   },
 ];
 
+type IncomeType = Income & {
+  category: Category;
+};
+
+interface GroupedIncomes {
+  [key: string]: IncomeType[];
+}
+
 type Props = {
   loading: boolean;
-  data:
-    | (Income & {
-        category: Category;
-      })[]
-    | null
-    | undefined;
+  data: IncomeType[] | null | undefined;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
+  onDuplicateRow: (rowId: string) => void;
 };
 
 const IncomeTable: React.FC<Props> = ({
@@ -52,7 +58,27 @@ const IncomeTable: React.FC<Props> = ({
   data,
   onEditRow,
   onDeleteRow,
+  onDuplicateRow,
 }) => {
+  const rows: GroupedIncomes = useMemo(() => {
+    if (!data || data.length === 0) return {};
+    const res: GroupedIncomes = {};
+    const dates: string[] = removeDuplicates(
+      data.map((income) => formatDate(income.date))
+    );
+    for (const date of dates) {
+      const incomes: IncomeType[] = data.filter(
+        (income) => formatDate(income.date) === date
+      );
+      res[date] = incomes;
+    }
+    return res;
+  }, [data]);
+
+  const dates = Object.keys(rows).sort(
+    (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
+  );
+
   const [selectedRowId, setSelectedRowid] = useState<string | null>(null);
 
   const handleDeleteRow = () => {
@@ -61,49 +87,32 @@ const IncomeTable: React.FC<Props> = ({
     setSelectedRowid(null);
   };
 
-  const rows: Row[] = useMemo(() => {
-    if (!data || data.length === 0) return [];
-    return data.map(
-      ({ id, name, date, value, category: { name: categoryName } }) => ({
-        id,
-        values: [
-          {
-            value: formatDate(date),
-            align: "left",
-          },
-          {
-            value: name,
-            align: "left",
-          },
-          {
-            value: categoryName,
-            align: "left",
-          },
-          {
-            value: numWithCommas(value),
-            align: "right",
-          },
-          {
-            value: (
-              <div className="flex items-center justify-center">
-                <div className="mr-4 flex items-center justify-center">
-                  <EditIconButton onClick={() => onEditRow(id)} />
-                </div>
-                <div className="flex items-center justify-center">
-                  <DeleteIconButton onClick={() => setSelectedRowid(id)} />
-                </div>
-              </div>
-            ),
-            align: "center",
-          },
-        ],
-      })
-    );
-  }, [data]);
-
   return (
     <>
-      <Table columns={COLUMNS} rows={rows} loading={loading} />
+      <TableContainer>
+        <TableHead columns={COLUMNS} />
+        <tbody>
+          {dates?.length > 0 ? (
+            dates.map((date) => {
+              const incomes = rows[date];
+              return incomes?.map((income, index) => (
+                <IncomeTableRow
+                  key={income.id}
+                  row={income}
+                  date={date}
+                  isFirstRow={index === 0}
+                  size={incomes?.length}
+                  onEditRow={onEditRow}
+                  onDeleteRow={setSelectedRowid}
+                  onDuplicateRow={onDuplicateRow}
+                />
+              ));
+            })
+          ) : (
+            <EmptyTableRow loading={loading} />
+          )}
+        </tbody>
+      </TableContainer>
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}

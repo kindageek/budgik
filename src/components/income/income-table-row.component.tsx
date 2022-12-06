@@ -1,31 +1,29 @@
 import React from "react";
-import type { Category, Expense } from "@prisma/client";
+import type { Category, Income } from "@prisma/client";
 
-import { numWithCommas } from "../../../utils/shared";
+import { numWithCommas } from "../../utils/shared";
 
-import EditIconButton from "../../buttons/edit-icon-button.component";
-import DeleteIconButton from "../../buttons/delete-icon-button.component";
-import DuplicateIconButton from "../../buttons/duplicate-icon-button.component";
+import EditIconButton from "../buttons/edit-icon-button.component";
+import DeleteIconButton from "../buttons/delete-icon-button.component";
+import DuplicateIconButton from "../buttons/duplicate-icon-button.component";
 
 type Props = {
-  row: Expense & {
+  row: Income & {
     category: Category;
   };
   date: string;
   isFirstRow: boolean;
   size: number | undefined;
-  sum: number;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
   onDuplicateRow: (rowId: string) => void;
 };
 
-const ExpensesTableRow: React.FC<Props> = ({
+const IncomeTableRow: React.FC<Props> = ({
   row,
   date,
   isFirstRow,
   size,
-  sum,
   onEditRow,
   onDeleteRow,
   onDuplicateRow,
@@ -46,15 +44,6 @@ const ExpensesTableRow: React.FC<Props> = ({
       <td align="right" className="border py-2 px-6 font-semibold text-md text-black">
         {`$${numWithCommas(row.value)}`}
       </td>
-      {isFirstRow && (
-        <td
-          align="right"
-          className="text-md border py-2 px-6 font-bold text-lg text-black"
-          rowSpan={size}
-        >
-          ${numWithCommas(sum)}
-        </td>
-      )}
       <td align="center" className="border border-r-0">
         <div className="flex items-center justify-center">
           <div className="mr-4 flex items-center justify-center">
@@ -63,7 +52,7 @@ const ExpensesTableRow: React.FC<Props> = ({
           <div className="mr-4 flex items-center justify-center">
             <DeleteIconButton onClick={() => onDeleteRow(row.id)} />
           </div>
-          <div className="flex items-center justify-center">
+          <div className="mr-4 flex items-center justify-center">
             <DuplicateIconButton onClick={() => onDuplicateRow(row.id)} />
           </div>
         </div>
@@ -72,4 +61,4 @@ const ExpensesTableRow: React.FC<Props> = ({
   );
 };
 
-export default ExpensesTableRow;
+export default IncomeTableRow;

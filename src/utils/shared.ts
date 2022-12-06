@@ -9,3 +9,11 @@ export function toTitleCase(text: string): string {
 export function formatDate(date: Date): string {
   return date.toISOString().split("T")[0] ?? date.toLocaleDateString();
 }
+
+export function removeDuplicates<Type>(arr: Type[]): Type[] {
+  const res: Type[] = [];
+  for (const item of arr) {
+    if (!res.includes(item)) res.push(item);
+  }
+  return res;
+}

@@ -39,6 +39,12 @@ const Income: React.FC = () => {
       refetch();
     },
   });
+  const { mutateAsync: createIncome } = trpc.income.create.useMutation({
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
+      refetch();
+    },
+  });
 
   const getTotal = () => {
     return numWithCommas(
@@ -66,6 +72,17 @@ const Income: React.FC = () => {
     setEditData(income);
   };
 
+  const handleDuplicateRow = (id: string) => {
+    const row = data?.find((r) => r.id === id);
+    if (!row) return;
+    createIncome({
+      value: row.value,
+      name: row.name,
+      categoryId: row.category.id,
+      date: row.date.toString(),
+    });
+  };
+
   return (
     <div className="flex h-full w-full flex-col">
       <div className="flex w-full items-center justify-between">
@@ -90,6 +107,7 @@ const Income: React.FC = () => {
         loading={isLoading}
         onEditRow={handleEdit}
         onDeleteRow={handleDelete}
+        onDuplicateRow={handleDuplicateRow}
       />
       <IncomeForm
         open={editData !== null}

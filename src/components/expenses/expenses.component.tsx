@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import { numWithCommas } from "../../utils/shared";
@@ -22,39 +22,25 @@ const Expenses: React.FC = () => {
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery({ month, year });
 
-  const { mutateAsync: deleteExpense } = trpc.expense.delete.useMutation({
-    onSuccess: (data) => {
-      openSnackbar({ msg: data.message, type: "success" });
-      refetch();
-    },
-  });
+  const { mutateAsync: deleteExpense, isLoading: isDeleteLoading } =
+    trpc.expense.delete.useMutation({
+      onSuccess: (data) => {
+        openSnackbar({ msg: data.message, type: "success" });
+        refetch();
+      },
+    });
 
-  const { mutateAsync: createExpense } = trpc.expense.create.useMutation({
-    onSuccess: (data) => {
-      openSnackbar({ msg: data.message, type: "success" });
-      refetch();
-    },
-  });
+  const { mutateAsync: createExpense, isLoading: isCreateLoading } =
+    trpc.expense.create.useMutation({
+      onSuccess: (data) => {
+        openSnackbar({ msg: data.message, type: "success" });
+        refetch();
+      },
+    });
 
-  const [expenses, setExpenses] = useState<{ [key: string]: any[] }>({});
   const [editExpenseData, setEditExpenseData] = useState<UpdateExpense | null>(
     null
   );
-
-  useEffect(() => {
-    if (!data) return;
-    const res: { [key: string]: any[] } = {};
-    data.forEach((row) => {
-      const date = new Date(row.date).toISOString().split("T")[0] || null;
-      if (!date || date === undefined) return;
-      if (!res[date] || res[date]?.length === 0) {
-        res[date] = [row];
-      } else {
-        res[date].push(row);
-      }
-    });
-    setExpenses(res);
-  }, [data]);
 
   const handleAddComplete = (msg: string) => {
     openSnackbar({ msg, type: "success" });
@@ -117,14 +103,14 @@ const Expenses: React.FC = () => {
               ${getTotalExpenses()}
             </p>
           </div>
-          {isLoading ? <Loader /> : null}
+          {isLoading || isCreateLoading || isDeleteLoading ? <Loader /> : null}
         </div>
         <CreateExpense onComplete={handleAddComplete} />
       </div>
       {error ? <Alert message={error.message} /> : null}
       <ExpensesTable
+        data={data}
         loading={isLoading}
-        expenses={expenses}
         onEditItem={onEditItem}
         onDeleteItem={onDeleteItem}
         onDuplicateRow={onDuplicateRow}
