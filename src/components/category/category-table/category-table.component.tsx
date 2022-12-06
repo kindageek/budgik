@@ -29,7 +29,7 @@ const COLUMNS: Column[] = [
 
 type Props = {
   tab: CategoryType;
-  data: Category[] | undefined;
+  data: Category[] | null | undefined;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
   loading?: boolean;

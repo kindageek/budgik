@@ -13,6 +13,8 @@ import IncomeForm from "./income-form.component";
 import IncomeTable from "./income-table.component";
 import YearSelect from "../table-filters/year-select.component";
 import CategorySelect from "../table-filters/category-select.component";
+import PageContainer from '../page-container/page-container.component';
+import PageHeader from '../page-header/page-header.component';
 
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -93,12 +95,8 @@ const Income: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
-          Income
-        </h1>
-      </div>
+    <PageContainer>
+      <PageHeader title="Income" />
       <div className="mb-4 flex w-full items-center justify-between">
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
@@ -136,7 +134,7 @@ const Income: React.FC = () => {
         errorMessage={editError?.message}
         isLoading={isEditLoading}
       />
-    </div>
+    </PageContainer>
   );
 };
 

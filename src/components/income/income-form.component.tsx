@@ -67,7 +67,6 @@ const IncomeForm: React.FC<Props> = ({
   }, [data]);
 
   useEffect(() => {
-    console.log(categories);
     if (isCategoriesLoading || (categories && categories?.length > 0)) return;
     setError("categoryId", {
       message:

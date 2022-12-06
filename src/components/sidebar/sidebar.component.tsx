@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
     const storageToggleValue = localStorage?.getItem('sidebar-expanded') || 'true';
     setIsExpanded(storageToggleValue === 'true');
   }, [setIsExpanded]);
-  console.log(router);
+
   return (
     <aside
       className={`h-full ${isExpanded ? "w-64" : "w-20"}`}

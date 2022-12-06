@@ -27,7 +27,6 @@ const SignInForm: React.FC = () => {
       email: data.email,
       password: data.password,
     });
-    console.log(status);
     if (status?.ok) {
       router.push("/dashboard");
     } else {

@@ -11,6 +11,8 @@ import CategoryTable from "./category-table/category-table.component";
 import CategoryForm from "./category-form/category-form.component";
 import SnackbarContext from "../../context/snackbar.context";
 import CategoryTabs from "./category-tabs/category-tabs.component";
+import PageContainer from "../page-container/page-container.component";
+import PageHeader from "../page-header/page-header.component";
 
 const Category: React.FC = () => {
   const router = useRouter();
@@ -69,11 +71,9 @@ const Category: React.FC = () => {
   }, [router]);
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <PageContainer>
       <div className="flex w-full items-center justify-between">
-        <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
-          Categories
-        </h1>
+        <PageHeader title="Categories" />
         <div className="flex items-center">
           {isLoading ? <Loader /> : null}
           <AddCategory
@@ -99,7 +99,7 @@ const Category: React.FC = () => {
         errorMessage={editError?.message}
         isLoading={isEditLoading}
       />
-    </div>
+    </PageContainer>
   );
 };
 

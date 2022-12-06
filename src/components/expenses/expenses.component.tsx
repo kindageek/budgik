@@ -13,6 +13,8 @@ import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
 import SnackbarContext from "../../context/snackbar.context";
 import CategorySelect from "../table-filters/category-select.component";
+import PageContainer from "../page-container/page-container.component";
+import PageHeader from "../page-header/page-header.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -96,19 +98,16 @@ const Expenses: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="mb-6 text-5xl font-extrabold leading-normal text-gray-700">
-          Expenses
-        </h1>
-      </div>
+    <PageContainer>
+      <PageHeader title="Expenses" />
       <div className="mb-4 flex w-full items-center justify-between">
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
           <MonthSelect month={month} onSelect={setMonth} />
           <CategorySelect
             category={
-              categories?.find((c) => c.id === categoryId)?.name || "All categories"
+              categories?.find((c) => c.id === categoryId)?.name ||
+              "All categories"
             }
             categories={[
               "All categories",
@@ -140,7 +139,7 @@ const Expenses: React.FC = () => {
         onClose={() => setEditExpenseData(null)}
         onComplete={handleEditComplete}
       />
-    </div>
+    </PageContainer>
   );
 };
 
