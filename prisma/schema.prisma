@@ -76,7 +76,7 @@ model Expense {
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
 model Income {
@@ -85,7 +85,7 @@ model Income {
   name       String
   value      Float
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

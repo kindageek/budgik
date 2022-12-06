@@ -78,6 +78,7 @@ const Category: React.FC = () => {
       <CategoryTabs />
       {error ? <Alert message={error.message} /> : null}
       <CategoryTable
+        tab={tab as CategoryType}
         data={data}
         onDeleteRow={handleDeleteCategory}
         onEditRow={handleEditCategory}

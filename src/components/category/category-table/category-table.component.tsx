@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import type { Column, Row } from "../../../types/types";
-import type { Category } from "@prisma/client";
+import type { Category, CategoryType } from "@prisma/client";
 
 import Table from "../../table/table.component";
 import EditIconButton from "../../buttons/edit-icon-button.component";
@@ -28,6 +28,7 @@ const COLUMNS: Column[] = [
 ];
 
 type Props = {
+  tab: CategoryType;
   data: Category[] | undefined;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
@@ -35,6 +36,7 @@ type Props = {
 };
 
 const CategoryTable: React.FC<Props> = ({
+  tab,
   data,
   onEditRow,
   onDeleteRow,
@@ -86,6 +88,7 @@ const CategoryTable: React.FC<Props> = ({
         onClose={() => setSelectedRowid(null)}
         onSubmit={handleDeleteRow}
         title="Are you sure you want to delete this row?"
+        subtitle={`All your ${tab.toLowerCase()}s with this category will be lost.`}
       />
     </>
   );
