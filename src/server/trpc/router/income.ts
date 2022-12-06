@@ -5,16 +5,36 @@ export const incomeRouter = router({
   getUserIncome: protectedProcedure
     .input(
       z.object({
-        year: z.number(),
-        categoryId: z.string(),
+        month: z.number().nullish(),
+        year: z.number().nullish(),
+        categoryId: z.string().nullish(),
       })
     )
     .query(async ({ input, ctx }) => {
       const userId = ctx.session?.user?.id;
       if (!userId) return null;
-      const { year, categoryId } = input;
-      const firstDayOfYear = new Date(`${year}-1-1`);
-      const firstDayOfNextYear = new Date(`${year + 1}-1-1`);
+      const { year, month, categoryId } = input;
+      const dateFilter =
+        year && month
+          ? {
+              gte: new Date(`${year}-${month}-1`),
+              lt:
+                month === 12
+                  ? new Date(`${year + 1}-1-1`)
+                  : new Date(`${year}-${month + 1}-1`),
+            }
+          : year
+          ? {
+              gte: new Date(`${year}-1-1`),
+              lt: new Date(`${year + 1}-1-1`),
+            }
+          : {};
+      const categoryFilter =
+        !categoryId || categoryId === "All categories"
+          ? {}
+          : {
+              equals: categoryId,
+            };
       const user = await ctx.prisma.user.findUnique({
         where: {
           id: userId,
@@ -25,16 +45,8 @@ export const incomeRouter = router({
               category: true,
             },
             where: {
-              date: {
-                gte: firstDayOfYear,
-                lt: firstDayOfNextYear,
-              },
-              categoryId:
-                categoryId === "All categories"
-                  ? {}
-                  : {
-                      equals: categoryId,
-                    },
+              date: dateFilter,
+              categoryId: categoryFilter,
             },
           },
         },
