@@ -7,20 +7,23 @@ import type { UpdateExpense } from "../../types/types";
 import ExpensesTable from "./expenses-table/expenses-table.component";
 import CreateExpense from "./create-expense/create-expense.component";
 import EditExpenseForm from "./edit-expense/edit-expense-form.component";
-import MonthSelect from "../date-select/month-select.component";
-import YearSelect from "../date-select/year-select.component";
+import MonthSelect from "../table-filters/month-select.component";
+import YearSelect from "../table-filters/year-select.component";
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
 import SnackbarContext from "../../context/snackbar.context";
+import CategorySelect from "../table-filters/category-select.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
 
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [categoryId, setCategoryId] = useState("All categories");
 
+  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
   const { data, isLoading, error, refetch } =
-    trpc.expense.getUserExpenses.useQuery({ month, year });
+    trpc.expense.getUserExpenses.useQuery({ month, year, categoryId });
 
   const { mutateAsync: deleteExpense, isLoading: isDeleteLoading } =
     trpc.expense.delete.useMutation({
@@ -86,6 +89,12 @@ const Expenses: React.FC = () => {
     );
   };
 
+  const handleCategorySelect = (categoryName: string) => {
+    setCategoryId(
+      categories?.find((c) => c.name === categoryName)?.id || "All categories"
+    );
+  };
+
   return (
     <div className="flex h-full w-full flex-col">
       <div className="flex w-full items-center justify-between">
@@ -97,6 +106,16 @@ const Expenses: React.FC = () => {
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
           <MonthSelect month={month} onSelect={setMonth} />
+          <CategorySelect
+            category={
+              categories?.find((c) => c.id === categoryId)?.name || "All categories"
+            }
+            categories={[
+              "All categories",
+              ...(categories ? categories?.map((c) => c.name) : []),
+            ]}
+            onSelect={handleCategorySelect}
+          />
           <div className="flex items-center">
             <h5 className="mr-2 text-xl font-semibold text-gray-800">Total:</h5>
             <p className="text-2xl font-medium text-black">

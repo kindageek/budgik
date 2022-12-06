@@ -10,6 +10,7 @@ type Props = {
   fullWidth?: boolean;
   error?: boolean;
   errorMessage?: string;
+  active?: boolean;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const Dropdown: React.FC<Props> = ({
   values,
   onChange,
   fullWidth = false,
+  active = false,
   error = false,
   errorMessage,
 }) => {
@@ -27,6 +29,7 @@ const Dropdown: React.FC<Props> = ({
   return (
     <div className={`relative ${fullWidth ? "w-full" : ""}`} ref={ref}>
       <DropdownButton
+        active={active}
         text={value}
         onClick={onToggle}
         error={error}

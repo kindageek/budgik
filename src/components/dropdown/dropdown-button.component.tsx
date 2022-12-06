@@ -4,6 +4,7 @@ import { FiChevronDown } from "react-icons/fi";
 type Props = {
   text: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  active?: boolean;
   error?: boolean;
   errorMessage?: string;
 };
@@ -11,12 +12,15 @@ type Props = {
 const DropdownButton: React.FC<Props> = ({
   text,
   onClick,
+  active = false,
   error = false,
   errorMessage = null,
 }) => {
   return (
     <button
-      className="inline-flex w-full items-center justify-between rounded-lg border bg-gray-50 px-4 py-2.5 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-transparent"
+      className={`inline-flex w-full items-center justify-between rounded-lg border bg-gray-50 px-4 py-2.5 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-transparent ${
+        active ? "border-blue-500" : ""
+      }`}
       type="button"
       onClick={onClick}
     >

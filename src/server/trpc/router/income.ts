@@ -6,13 +6,15 @@ export const incomeRouter = router({
     .input(
       z.object({
         year: z.number(),
+        categoryId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       const userId = ctx.session?.user?.id;
       if (!userId) return null;
-      const firstDayOfYear = new Date(`${input.year}-1-1`);
-      const firstDayOfNextYear = new Date(`${input.year + 1}-1-1`);
+      const { year, categoryId } = input;
+      const firstDayOfYear = new Date(`${year}-1-1`);
+      const firstDayOfNextYear = new Date(`${year + 1}-1-1`);
       const user = await ctx.prisma.user.findUnique({
         where: {
           id: userId,
@@ -27,6 +29,12 @@ export const incomeRouter = router({
                 gte: firstDayOfYear,
                 lt: firstDayOfNextYear,
               },
+              categoryId:
+                categoryId === "All categories"
+                  ? {}
+                  : {
+                      equals: categoryId,
+                    },
             },
           },
         },

@@ -11,15 +11,18 @@ import AddIncome from "./add-income.component";
 import Loader from "../loader/loader.component";
 import IncomeForm from "./income-form.component";
 import IncomeTable from "./income-table.component";
-import YearSelect from "../date-select/year-select.component";
+import YearSelect from "../table-filters/year-select.component";
+import CategorySelect from "../table-filters/category-select.component";
 
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const [year, setYear] = useState(new Date().getFullYear());
   const [editData, setEditData] = useState<Income | null>(null);
+  const [categoryId, setCategoryId] = useState("All categories");
 
+  const { data: categories } = trpc.category.getIncomeCategories.useQuery();
   const { data, isLoading, error, refetch } =
-    trpc.income.getUserIncome.useQuery({ year });
+    trpc.income.getUserIncome.useQuery({ year, categoryId });
 
   const {
     mutateAsync: editIncome,
@@ -83,6 +86,12 @@ const Income: React.FC = () => {
     });
   };
 
+  const handleCategorySelect = (categoryName: string) => {
+    setCategoryId(
+      categories?.find((c) => c.name === categoryName)?.id || "All categories"
+    );
+  };
+
   return (
     <div className="flex h-full w-full flex-col">
       <div className="flex w-full items-center justify-between">
@@ -93,6 +102,16 @@ const Income: React.FC = () => {
       <div className="mb-4 flex w-full items-center justify-between">
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
+          <CategorySelect
+            category={
+              categories?.find((c) => c.id === categoryId)?.name || "All categories"
+            }
+            categories={[
+              "All categories",
+              ...(categories ? categories?.map((c) => c.name) : []),
+            ]}
+            onSelect={handleCategorySelect}
+          />
           <div className="flex items-center">
             <h5 className="mr-2 text-xl font-semibold text-gray-800">Total:</h5>
             <p className="text-2xl font-medium text-black">${getTotal()}</p>
