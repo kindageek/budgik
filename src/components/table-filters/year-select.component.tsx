@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { trpc } from "../../utils/trpc";
 import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {
@@ -7,21 +8,66 @@ type Props = {
 };
 
 const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
+  const {
+    data: years,
+    refetch,
+    isFetched,
+    isLoading,
+  } = trpc.user.getYears.useQuery();
+  const { mutate: addYears } = trpc.user.addYears.useMutation({
+    onSuccess: () => {
+      setErrorMsg("");
+      refetch();
+    },
+    onError: (error) => {
+      setErrorMsg(error.message);
+    },
+  });
+  const [errorMsg, setErrorMsg] = useState("");
+
   const currentYear = new Date().getFullYear();
-  const YEARS = new Array(3).fill(0).map((_, i) => currentYear + i);
-  
+
   const handleChange = (year: string) => {
     onSelect(parseInt(year));
   };
-  
+
+  const handleAddYear = (value: string) => {
+    const year = parseInt(value);
+    if (!Number.isInteger(year)) {
+      setErrorMsg("Invalid input");
+      return;
+    }
+    addYears({ years: [year] });
+  };
+
+  const handleRemoveYear = (value: string) => {
+    const year = parseInt(value);
+  };
+
+
+  useEffect(() => {
+    if (!isFetched) return;
+    if (years && years.length > 0) return;
+    const nextThreeYears = new Array(3).fill(0).map((_, i) => currentYear + i);
+    addYears({ years: nextThreeYears });
+  }, [years]);
+
   return (
     <div className="flex w-full max-w-[10rem] items-center">
-      <Dropdown
-        value={year.toString()}
-        values={YEARS.map((y) => y.toString())}
-        onChange={handleChange}
-        fullWidth
-      />
+      {isLoading ? (
+        <p>...</p>
+      ) : (
+        <Dropdown
+          value={year.toString()}
+          values={years ? years?.map((y) => y.toString()) : []}
+          onChange={handleChange}
+          fullWidth
+          onAdd={handleAddYear}
+          // onRemove={handleRemoveYear}
+          error={errorMsg?.length > 0}
+          errorMessage={errorMsg}
+        />
+      )}
     </div>
   );
 };

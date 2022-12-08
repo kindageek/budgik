@@ -59,6 +59,7 @@ model User {
   expenses      Expense[]
   incomes       Income[]
   categories    Category[]
+  years         Int[]
 }
 
 model VerificationToken {
