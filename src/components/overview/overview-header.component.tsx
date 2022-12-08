@@ -7,7 +7,7 @@ const OverviewHeader: React.FC = () => {
 
   return (
     <div className="flex w-full items-center justify-between">
-      <PageHeader title="Overview" />
+      <PageHeader title="Overview" noMargin />
       <h3 className="whitespace-nowrap text-2xl font-medium text-gray-600">{`${month}, ${year}`}</h3>
     </div>
   );

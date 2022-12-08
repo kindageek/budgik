@@ -19,11 +19,28 @@ export const categoryRouter = router({
         },
       });
     }),
-  getExpenseCategories: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.category.findMany({ where: { type: "EXPENSE" } });
-  }),
+  getExpenseCategories: publicProcedure
+    .input(
+      z.object({
+        includeExpenseData: z.boolean().default(false),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const userId = ctx.session?.user?.id;
+      if (!userId) return null;
+      return await ctx.prisma.category.findMany({
+        where: { type: "EXPENSE", userId },
+        include: {
+          expenses: input.includeExpenseData,
+        },
+      });
+    }),
   getIncomeCategories: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.category.findMany({ where: { type: "INCOME" } });
+    const userId = ctx.session?.user?.id;
+    if (!userId) return null;
+    return await ctx.prisma.category.findMany({
+      where: { type: "INCOME", userId },
+    });
   }),
   add: protectedProcedure
     .input(

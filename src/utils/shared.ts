@@ -17,3 +17,11 @@ export function removeDuplicates<Type>(arr: Type[]): Type[] {
   }
   return res;
 }
+
+export function sum(arr?: number[]) {
+  return arr ? arr.reduce((sum, value) => sum + value, 0) : 0;
+}
+
+export function randomIntFromInterval(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

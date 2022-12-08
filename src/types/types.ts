@@ -62,3 +62,8 @@ export interface NewIncome {
   categoryId: string;
   value: number;
 }
+
+export interface PieChartData {
+  name: string;
+  value: number;
+}

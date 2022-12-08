@@ -10,7 +10,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
       className={`${styles.dashboardLayout} flex w-screen flex-row justify-start`}
     >
       <Sidebar />
-      <div className={`${styles.dashboardLayout} h-full w-full py-4 px-6`}>
+      <div className={`${styles.dashboardLayout} h-full w-full`}>
         {children}
       </div>
     </main>
