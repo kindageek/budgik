@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
   const { value: navOpen, toggle: toggleNav } = useBoolean(false); // TODO: mobile version
 
   return (
-    <nav className="w-full border-gray-200 bg-indigo-700 px-2 py-2.5 sm:px-4">
+    <nav className="w-full border-gray-200 bg-indigo-700 px-2 py-2.5 sm:px-4 sticky left-0 top-0 z-50">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link href="/" className="flex items-center">
           <img

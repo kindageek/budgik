@@ -6,14 +6,14 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <main
-      className={`${styles.dashboardLayout} flex w-screen flex-row justify-start`}
+    <div
+      className={`${styles.dashboardLayout} flex w-screen`}
     >
       <Sidebar />
-      <div className={`${styles.dashboardLayout} h-full w-full`}>
+      <div className={`${styles.content} h-full w-full`}>
         {children}
       </div>
-    </main>
+    </div>
   );
 };
 

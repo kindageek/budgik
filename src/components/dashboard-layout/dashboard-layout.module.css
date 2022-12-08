@@ -1,4 +1,9 @@
 .dashboardLayout {
-  height: calc(100vh - 56px);
-  overflow: hidden;
+  min-height: 100vh;
+  height: 100%;
+}
+.content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }

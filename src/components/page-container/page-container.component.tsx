@@ -7,13 +7,7 @@ type Props = {
 
 const PageContainer: React.FC<Props> = ({ children, overflow = false }) => {
   return (
-    <div
-      className={`flex h-full w-full flex-col py-4 px-6 ${
-        overflow ? "overflow-auto" : "overflow-hidden"
-      }`}
-    >
-      {children}
-    </div>
+    <div className={`flex h-full w-full flex-col py-4 px-6 overflow-hidden`}>{children}</div>
   );
 };
 
