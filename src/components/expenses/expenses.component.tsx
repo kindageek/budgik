@@ -23,7 +23,7 @@ const Expenses: React.FC = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [categoryId, setCategoryId] = useState("All categories");
 
-  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
+  const { data: categories, refetch: refetchCategories } = trpc.category.getExpenseCategories.useQuery();
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery({ month, year, categoryId });
 
@@ -105,6 +105,7 @@ const Expenses: React.FC = () => {
           <YearSelect year={year} onSelect={setYear} />
           <MonthSelect month={month} onSelect={setMonth} />
           <CategorySelect
+            type="EXPENSE"
             category={
               categories?.find((c) => c.id === categoryId)?.name ||
               "All categories"
@@ -113,6 +114,7 @@ const Expenses: React.FC = () => {
               "All categories",
               ...(categories ? categories?.map((c) => c.name) : []),
             ]}
+            onAddComplete={refetchCategories}
             onSelect={handleCategorySelect}
           />
           <div className="flex items-center">

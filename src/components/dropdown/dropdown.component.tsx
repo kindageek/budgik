@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import useModalState from "../../hooks/useModalState";
-import DropdownButton from "./dropdown-button.component";
 import { useDetectClickOutside } from "react-detect-click-outside";
-import { AiOutlinePlus } from "react-icons/ai";
-import { IoMdClose } from "react-icons/io";
+
+import useModalState from "../../hooks/useModalState";
+
+import DropdownButton from "./dropdown-button.component";
+import DropdownAddBtn from "./dropdown-add-btn.component";
+import DropdownAddForm from "./dropdown-add-form.component";
+import DropdownRemoveBtn from "./dropdown-remove-btn.component";
 
 type Props = {
   value: string;
@@ -43,6 +46,12 @@ const Dropdown: React.FC<Props> = ({
     onClose();
   };
 
+  const handleToggle = () => {
+    setInputValue("");
+    closeForm();
+    onToggle();
+  };
+
   const ref = useDetectClickOutside({ onTriggered: handleClose });
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +60,6 @@ const Dropdown: React.FC<Props> = ({
     closeForm();
     setInputValue("");
     onAdd(inputValue);
-    onClose();
   };
 
   const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -71,7 +79,7 @@ const Dropdown: React.FC<Props> = ({
       <DropdownButton
         active={active}
         text={value}
-        onClick={onToggle}
+        onClick={handleToggle}
         error={error}
         errorMessage={errorMessage}
       />
@@ -86,7 +94,7 @@ const Dropdown: React.FC<Props> = ({
                 key={index}
                 onClick={() => {
                   onChange(text);
-                  onToggle();
+                  handleToggle();
                 }}
                 className={`block cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${
                   text === value ? "bg-gray-100 font-bold" : ""
@@ -95,40 +103,20 @@ const Dropdown: React.FC<Props> = ({
                 <div className="flex w-full items-center justify-between">
                   {text}
                   {onRemove !== null ? (
-                    <span className="cursor pointer rounded-full p-1 hover:bg-gray-200" onClick={() => handleRemove(text)}>
-                      <IoMdClose size={12} color="black" />
-                    </span>
+                    <DropdownRemoveBtn value={text} onClick={handleRemove} />
                   ) : null}
                 </div>
               </li>
             ))}
             {onAdd !== null ? (
               isFormOpen ? (
-                <li
-                  className={`block cursor-pointer border-t py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white`}
-                >
-                  <form onSubmit={handleFormSubmit} className="w-full">
-                    <input
-                      autoFocus
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      className="input w-full rounded border py-1 px-1.5"
-                    />
-                  </form>
-                </li>
+                <DropdownAddForm
+                  value={inputValue}
+                  onChange={setInputValue}
+                  onSubmit={handleFormSubmit}
+                />
               ) : (
-                <li
-                  className={`block cursor-pointer border-t py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white`}
-                >
-                  <button
-                    className="button flex items-center"
-                    onClick={handleAddClick}
-                  >
-                    <AiOutlinePlus color="black" size={12} className="mr-1" />
-                    Add
-                  </button>
-                </li>
+                <DropdownAddBtn onClick={handleAddClick} />
               )
             ) : null}
           </ul>

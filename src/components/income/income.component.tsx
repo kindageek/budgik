@@ -13,8 +13,8 @@ import IncomeForm from "./income-form.component";
 import IncomeTable from "./income-table.component";
 import YearSelect from "../table-filters/year-select.component";
 import CategorySelect from "../table-filters/category-select.component";
-import PageContainer from '../page-container/page-container.component';
-import PageHeader from '../page-header/page-header.component';
+import PageContainer from "../page-container/page-container.component";
+import PageHeader from "../page-header/page-header.component";
 
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -22,7 +22,8 @@ const Income: React.FC = () => {
   const [editData, setEditData] = useState<Income | null>(null);
   const [categoryId, setCategoryId] = useState("All categories");
 
-  const { data: categories } = trpc.category.getIncomeCategories.useQuery();
+  const { data: categories, refetch: refetchCategories } =
+    trpc.category.getIncomeCategories.useQuery();
   const { data, isLoading, error, refetch } =
     trpc.income.getUserIncome.useQuery({ year, categoryId });
 
@@ -101,13 +102,16 @@ const Income: React.FC = () => {
         <div className="flex w-full items-center gap-4">
           <YearSelect year={year} onSelect={setYear} />
           <CategorySelect
+            type="INCOME"
             category={
-              categories?.find((c) => c.id === categoryId)?.name || "All categories"
+              categories?.find((c) => c.id === categoryId)?.name ||
+              "All categories"
             }
             categories={[
               "All categories",
               ...(categories ? categories?.map((c) => c.name) : []),
             ]}
+            onAddComplete={refetchCategories}
             onSelect={handleCategorySelect}
           />
           <div className="flex items-center">
