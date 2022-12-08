@@ -1,20 +1,6 @@
 import React from "react";
+import { MONTHS } from '../../utils/constants';
 import Dropdown from "../dropdown/dropdown.component";
-
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 type Props = {
   month: number;
