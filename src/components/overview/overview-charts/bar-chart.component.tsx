@@ -8,6 +8,7 @@ import {
   XAxis,
 } from "recharts";
 import type { PieChartData } from "../../../types/types";
+import { numWithCommas } from '../../../utils/shared';
 
 type Props = {
   data: PieChartData[];
@@ -47,7 +48,7 @@ const BarChart: React.FC<Props> = ({ data }) => {
     <ResponsiveContainer width="100%" height="100%">
       <RechartsBarChart data={data}>
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis tickFormatter={(value: number) => `$${numWithCommas(value)}`} />
         <Bar dataKey="value" fill="#8884d8">
           {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />

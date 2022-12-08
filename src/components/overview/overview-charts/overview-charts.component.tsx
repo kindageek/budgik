@@ -1,5 +1,5 @@
 import React from "react";
-import ExpenseBarChart from "./income-bar-chart.component";
+import ExpenseBarChart from "./expense-bar-chart.component";
 import ExpensePieChart from "./expense-pie-chart.component";
 import IncomePieChart from "./income-pie-chart.component";
 import IncomeBarChart from "./income-bar-chart.component";
