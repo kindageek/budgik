@@ -19,11 +19,11 @@ export const categoryRouter = router({
         },
       });
     }),
-  getExpenseCategories: publicProcedure
+  getExpenseCategories: protectedProcedure
     .input(
       z.object({
-        includeExpenseData: z.boolean().default(false),
-      })
+        includeExpenseData: z.boolean().nullish().default(false),
+      }).nullish(),
     )
     .query(async ({ input, ctx }) => {
       const userId = ctx.session?.user?.id;
@@ -31,17 +31,26 @@ export const categoryRouter = router({
       return await ctx.prisma.category.findMany({
         where: { type: "EXPENSE", userId },
         include: {
-          expenses: input.includeExpenseData,
+          expenses: input?.includeExpenseData || false,
         },
       });
     }),
-  getIncomeCategories: publicProcedure.query(async ({ ctx }) => {
-    const userId = ctx.session?.user?.id;
-    if (!userId) return null;
-    return await ctx.prisma.category.findMany({
-      where: { type: "INCOME", userId },
-    });
-  }),
+  getIncomeCategories: protectedProcedure
+    .input(
+      z.object({
+        includeIncomeData: z.boolean().nullish().default(false),
+      }).nullish(),
+    )
+    .query(async ({ input, ctx }) => {
+      const userId = ctx.session?.user?.id;
+      if (!userId) return null;
+      return await ctx.prisma.category.findMany({
+        where: { type: "INCOME", userId },
+        include: {
+          incomes: input?.includeIncomeData || false,
+        },
+      });
+    }),
   add: protectedProcedure
     .input(
       z.object({
