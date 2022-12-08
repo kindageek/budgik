@@ -2,10 +2,11 @@ import React from "react";
 
 import { MONTHS } from "../../../utils/constants";
 import type { PieChartData } from "../../../types/types";
-import { getAllIncomes } from '../../../services/income';
+import { getAllIncomes } from "../../../services/income";
 
 import Card from "../../card/card.component";
-import BarChart from './bar-chart.component';
+import BarChart from "./bar-chart.component";
+import Loader from "../../loader/loader.component";
 
 const IncomeBarChart: React.FC = () => {
   const year = new Date().getFullYear();
@@ -13,12 +14,15 @@ const IncomeBarChart: React.FC = () => {
   const prevMonth = currMonth === 1 ? 12 : currMonth - 1;
   const prevPrevMonth = prevMonth === 1 ? 12 : prevMonth - 1;
 
-  const { data: expenses1 } = getAllIncomes(currMonth, year);
-  const { data: expenses2 } = getAllIncomes(
+  const { data: expenses1, isLoading: loading1 } = getAllIncomes(
+    currMonth,
+    year
+  );
+  const { data: expenses2, isLoading: loading2 } = getAllIncomes(
     prevMonth,
     prevMonth <= 12 ? year - 1 : year
   );
-  const { data: expenses3 } = getAllIncomes(
+  const { data: expenses3, isLoading: loading3 } = getAllIncomes(
     prevPrevMonth,
     prevPrevMonth <= 12 ? year - 1 : year
   );
@@ -44,7 +48,11 @@ const IncomeBarChart: React.FC = () => {
         <h3 className="mb-4 text-xl font-medium text-gray-700">
           Income in the last 3 months
         </h3>
-      <BarChart data={data} />
+        {loading1 || loading2 || loading3 ? (
+          <Loader />
+        ) : (
+          <BarChart data={data} />
+        )}
       </div>
     </Card>
   );

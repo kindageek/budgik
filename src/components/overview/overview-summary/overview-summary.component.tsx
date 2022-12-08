@@ -13,13 +13,17 @@ const OverviewSummary: React.FC = () => {
   const monthName = new Date().toLocaleString("default", { month: "long" });
   const year = new Date().getFullYear();
 
-  const { data: allncome } = getAllIncomes();
-  const { data: allExpenses } = getAllExpenses();
+  const { data: allIncome, isLoading: incomeLoading } = getAllIncomes();
+  const { data: allExpenses, isLoading: expenseLoading } = getAllExpenses();
 
-  const { data: monthIncomes } = getAllIncomes(month, year);
-  const { data: monthExpenses } = getAllExpenses(month, year);
+  const { data: monthIncomes, isLoading: monthIncomeLoading } = getAllIncomes(
+    month,
+    year
+  );
+  const { data: monthExpenses, isLoading: monthExpenseLoading } =
+    getAllExpenses(month, year);
 
-  const totalIncome = sum(allncome?.map((i) => i.value));
+  const totalIncome = sum(allIncome?.map((i) => i.value));
   const totalExpenses = sum(allExpenses?.map((e) => e.value));
 
   const totalMonthExpenses = sum(monthExpenses?.map((e) => e.value));
@@ -28,18 +32,22 @@ const OverviewSummary: React.FC = () => {
   return (
     <div className="grid w-full grid-cols-4 gap-10 max-lg:grid-cols-2">
       <OverviewSummaryItem
+        loading={monthExpenseLoading}
         title={`Total Spent (${monthName})`}
         value={`$${numWithCommas(totalMonthExpenses)}`}
       />
       <OverviewSummaryItem
+        loading={expenseLoading}
         title={`Total Spent (${year})`}
         value={`$${numWithCommas(totalExpenses)}`}
       />
       <OverviewSummaryItem
+        loading={monthIncomeLoading}
         title={`Total Income (${monthName})`}
         value={`$${numWithCommas(totalMonthIncome)}`}
       />
       <OverviewSummaryItem
+        loading={incomeLoading}
         title={`Total Income (${year})`}
         value={`$${numWithCommas(totalIncome)}`}
       />

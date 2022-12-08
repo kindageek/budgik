@@ -4,6 +4,7 @@ import type { PieChartData } from "../../../types/types";
 
 import Card from "../../card/card.component";
 import PieChart from "./pie-chart.component";
+import Loader from "../../loader/loader.component";
 
 const getMonthAndYear = (date: Date) => {
   const month = date.getMonth() + 1;
@@ -18,9 +19,10 @@ const isCurrentMonth = (date: Date) => {
 const IncomePieChart: React.FC = () => {
   const monthName = new Date().toLocaleString("default", { month: "long" });
 
-  const { data: categories } = trpc.category.getIncomeCategories.useQuery({
-    includeIncomeData: true,
-  });
+  const { data: categories, isLoading } =
+    trpc.category.getIncomeCategories.useQuery({
+      includeIncomeData: true,
+    });
 
   const data: PieChartData[] =
     categories && categories?.length > 0
@@ -40,7 +42,7 @@ const IncomePieChart: React.FC = () => {
         <h3 className="mb-4 text-xl font-medium text-gray-700">
           Income by categories ({monthName})
         </h3>
-        <PieChart data={data} />
+        {isLoading ? <Loader /> : <PieChart data={data} />}
       </div>
     </Card>
   );
