@@ -3,11 +3,11 @@ import React from "react";
 
 const HomeHero: React.FC = () => {
   return (
-    <div className="flex h-full w-full flex-1 flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-5xl font-extrabold leading-normal text-gray-700">
+    <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
+      <h1 className="text-5xl font-extrabold leading-normal text-center text-gray-700 mb-4">
         Welcome to <span className="text-secondary">Budgik!</span>
       </h1>
-      <h3 className="text-xl leading-normal text-gray-700 font-normal">
+      <h3 className="text-xl leading-normal text-gray-700 font-normal text-center mb-4">
         Track your expenses, incomes and plan your budget easily.
       </h3>
       <Link

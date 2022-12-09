@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import Footer from '../footer/footer.component';
 import Sidebar from "../sidebar/sidebar.component";
 import styles from "./dashboard-layout.module.css";
 
@@ -20,9 +21,10 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
       <div
         className={`${styles.content} ${
           isDashboardOverview ? "" : styles.overflowHidden
-        } h-full w-full`}
+        } h-full w-full flex flex-col justify-between`}
       >
         {children}
+        <Footer />
       </div>
     </div>
   );
