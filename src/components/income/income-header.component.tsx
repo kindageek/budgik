@@ -65,8 +65,10 @@ const IncomeHeader: React.FC<Props> = ({
             {totalIncome}
           </p>
         </div>
-        {loading ? <Loader /> : null}
-        <AddIncome onComplete={onAddComplete} />
+        <div className="flex items-center">
+          {loading ? <Loader /> : null}
+          <AddIncome onComplete={onAddComplete} />
+        </div>
       </div>
     </div>
   );

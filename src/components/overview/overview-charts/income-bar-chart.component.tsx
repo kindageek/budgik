@@ -45,13 +45,15 @@ const IncomeBarChart: React.FC = () => {
 
   return (
     <Card>
-      <div className="flex h-full w-full cursor-pointer flex-col">
-        <OverviewChartTitle title="Expenses in the last 3 months" />
-        {loading1 || loading2 || loading3 ? (
-          <Loader />
-        ) : (
-          <BarChart data={data} />
-        )}
+      <div className="flex h-full w-full flex-col">
+        <OverviewChartTitle title="Income in the last 3 months" />
+        <div className="h-full w-full">
+          {loading1 || loading2 || loading3 ? (
+            <Loader />
+          ) : (
+            <BarChart data={data} />
+          )}
+        </div>
       </div>
     </Card>
   );

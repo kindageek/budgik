@@ -1,24 +1,30 @@
-import { signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
-import useBoolean from "../../hooks/useBoolean";
+import { signOut, useSession } from "next-auth/react";
 import { FaRegUserCircle } from "react-icons/fa";
 import * as Popover from "@radix-ui/react-popover";
+
+import useModalState from "../../hooks/useModalState";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 const UserNavProfile: React.FC = () => {
   const { data: session } = useSession();
   const [imgLoaded, setImgLoaded] = useState(false);
-  const { value: navOpen, toggle: toggleNav } = useBoolean(false); // TODO: mobile version
+  const { isOpen, onToggle, onClose } = useModalState({
+    initialOpen: false,
+  });
+
+  const isLargeScreen = useMediaQuery("(min-width: 768px)");
 
   if (!session || !session?.user) return null;
 
   const { user } = session;
 
   return (
-    <div className="hidden items-center py-2 pr-4 pl-3 md:order-2 md:flex md:p-0">
-      <Popover.Root open={navOpen}>
+    <div className="hidden items-center md:order-2 md:flex md:p-0">
+      <Popover.Root open={isLargeScreen && isOpen} modal>
         <Popover.Trigger
-          onClick={toggleNav}
-          className="mr-3 flex rounded-full bg-gray-800 text-sm md:mr-0"
+          onClick={onToggle}
+          className="flex rounded-full bg-gray-800 text-sm"
         >
           <span className="sr-only">Open user menu</span>
           {user?.image && (
@@ -44,14 +50,16 @@ const UserNavProfile: React.FC = () => {
         <Popover.Portal>
           <Popover.Content
             asChild
-            onEscapeKeyDown={toggleNav}
-            onPointerDownOutside={toggleNav}
-            onInteractOutside={toggleNav}
+            hideWhenDetached
+            align='end'
+            onEscapeKeyDown={onClose}
+            onPointerDownOutside={onClose}
+            onInteractOutside={onClose}
           >
-            <div className="my-4 list-none divide-y divide-gray-600 bg-gray-700 text-base shadow">
+            <div className="mt-4 list-none divide-y divide-gray-400 rounded-lg border bg-white text-base shadow-md">
               <div className="py-3 px-4">
-                <span className="block text-sm text-white">{user?.name}</span>
-                <span className="block truncate text-sm font-medium text-gray-400">
+                <span className="block text-md text-black font-medium">{user?.name}</span>
+                <span className="block truncate text-sm text-gray-500">
                   {user?.email}
                 </span>
               </div>
@@ -59,7 +67,7 @@ const UserNavProfile: React.FC = () => {
                 <li className="py-2 px-4">
                   <p
                     onClick={() => signOut()}
-                    className="cursor-pointer text-sm text-white"
+                    className="cursor-pointer text-sm text-gray-800"
                   >
                     Sign out
                   </p>

@@ -39,7 +39,7 @@ const ExpensePieChart: React.FC = () => {
 
   return (
     <Card>
-      <div className="flex h-full w-full cursor-pointer flex-col">
+      <div className="flex h-full w-full flex-col">
         <OverviewChartTitle title={`Expenses by categories (${monthName})`} />
         {isLoading ? <Loader /> : <PieChart data={data} />}
       </div>

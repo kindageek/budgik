@@ -23,22 +23,22 @@ const ConfirmationModal: React.FC<Props> = ({
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-        <div className="relative my-6 mx-auto w-full max-w-xl">
+        <div className="relative my-6 mx-auto w-full max-w-xl px-4">
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
-            <div className="flex items-center justify-end rounded-t p-5">
+            <div className="flex items-center justify-end rounded-t px-5 py-2.5 sm:p-5">
               <CloseIconButton onClick={onClose} />
             </div>
-            <div className="relative flex flex-auto flex-col items-center justify-center p-6">
-              <h3 className="mb-5 text-center text-xl font-semibold text-gray-900 dark:text-gray-200">
+            <div className="relative flex flex-auto flex-col items-center justify-center px-5 py-2.5 sm:p-5">
+              <h3 className="mb-3 text-center text-lg font-semibold text-gray-900 dark:text-gray-200 sm:mb-5 sm:text-xl">
                 {title}
               </h3>
               {subtitle ? (
-                <h5 className="text-md mb-5 text-center font-normal text-gray-700 dark:text-gray-400">
+                <h5 className="sm:text-md mb-3 text-center text-base font-normal text-gray-700 dark:text-gray-400 sm:mb-5">
                   {subtitle}
                 </h5>
               ) : null}
             </div>
-            <div className="flex items-center justify-evenly rounded-b p-6">
+            <div className="flex items-center justify-evenly rounded-b px-5 py-2.5 sm:p-5">
               <button
                 className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-gray-600 outline-none transition-all duration-150 ease-linear hover:bg-gray-100 focus:outline-none"
                 type="button"
@@ -47,7 +47,7 @@ const ConfirmationModal: React.FC<Props> = ({
                 Cancel
               </button>
               <button
-                className={`rounded-lg  px-6 py-2.5 text-sm font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-gray-300 disabled:hover:bg-gray-300 ${
+                className={`rounded-lg px-6 py-2.5 text-sm font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-gray-300 disabled:hover:bg-gray-300 ${
                   type === "error"
                     ? "bg-red-500 hover:bg-red-600"
                     : "bg-green-500 hover:bg-green-600"

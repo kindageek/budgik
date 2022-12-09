@@ -64,7 +64,7 @@ const PieChart: React.FC<Props> = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RechartsPieChart>
+      <RechartsPieChart height={400}>
         <Pie
           data={data}
           dataKey="value"

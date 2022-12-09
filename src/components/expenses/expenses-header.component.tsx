@@ -44,10 +44,13 @@ const ExpensesHeader: React.FC<Props> = ({
   };
 
   return (
-    <div className="mb-4 flex w-full flex-col-reverse md:flex-row md:items-center md:justify-between gap-4">
-      <div className="flex items-center gap-4 justify-between">
+    <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center justify-between gap-4">
         <YearSelect year={filters.year} onSelect={handleYearSelect} />
-        <MonthSelect month={filters.month || new Date().getMonth() + 1} onSelect={handleMonthSelect} />
+        <MonthSelect
+          month={filters.month || new Date().getMonth() + 1}
+          onSelect={handleMonthSelect}
+        />
         <CategorySelect
           type="EXPENSE"
           category={
@@ -64,11 +67,17 @@ const ExpensesHeader: React.FC<Props> = ({
       </div>
       <div className="flex w-full items-center justify-between gap-4">
         <div className="flex items-center">
-          <h5 className="mr-2 text-lg sm:text-xl font-semibold text-gray-800">Total:</h5>
-          <p className="text-xl sm:text-2xl font-medium text-black">{totalExpenses}</p>
+          <h5 className="mr-2 text-lg font-semibold text-gray-800 sm:text-xl">
+            Total:
+          </h5>
+          <p className="text-xl font-medium text-black sm:text-2xl">
+            {totalExpenses}
+          </p>
         </div>
-        {loading ? <Loader /> : null}
-        <CreateExpense onComplete={onAddComplete} />
+        <div className="flex items-center">
+          {loading ? <Loader /> : null}
+          <CreateExpense onComplete={onAddComplete} />
+        </div>
       </div>
     </div>
   );

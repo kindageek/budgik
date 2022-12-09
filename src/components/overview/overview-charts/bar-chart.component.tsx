@@ -8,7 +8,7 @@ import {
   XAxis,
 } from "recharts";
 import type { ChartData } from "../../../types/types";
-import { numWithCommas } from '../../../utils/shared';
+import { numWithCommas } from "../../../utils/shared";
 
 type Props = {
   data: ChartData[];
@@ -46,7 +46,7 @@ const BarChart: React.FC<Props> = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RechartsBarChart data={data}>
+      <RechartsBarChart data={data} height={400}>
         <XAxis dataKey="name" />
         <YAxis tickFormatter={(value: number) => `$${numWithCommas(value)}`} />
         <Bar dataKey="value" fill="#8884d8">

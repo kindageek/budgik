@@ -9,8 +9,8 @@ type Props = {
 
 const DialogTitle: React.FC<Props> = ({ title, onClose }) => {
   return (
-    <div className="flex items-center justify-between rounded-t border-b border-solid border-slate-200 p-5">
-      <h3 className="text-3xl font-semibold">{title}</h3>
+    <div className="flex items-center justify-between rounded-t border-b border-solid border-slate-200 px-5 py-2.5 sm:p-5">
+      <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">{title}</h3>
       <CloseIconButton onClick={onClose} />
     </div>
   );

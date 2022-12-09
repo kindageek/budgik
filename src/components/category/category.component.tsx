@@ -72,9 +72,10 @@ const Category: React.FC = () => {
 
   return (
     <PageContainer>
+      <PageHeader title="Categories" />
       <div className="flex w-full items-center justify-between">
-        <PageHeader title="Categories" />
-        <div className="flex items-center">
+        <CategoryTabs />
+        <div className="flex items-center ml-10">
           {isLoading ? <Loader /> : null}
           <AddCategory
             tab={tab as CategoryType}
@@ -82,7 +83,6 @@ const Category: React.FC = () => {
           />
         </div>
       </div>
-      <CategoryTabs />
       {error ? <Alert message={error.message} /> : null}
       <CategoryTable
         tab={tab as CategoryType}
