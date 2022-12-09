@@ -1,7 +1,7 @@
 import React from "react";
 
 import { MONTHS } from "../../../utils/constants";
-import type { PieChartData } from "../../../types/types";
+import type { ChartData } from "../../../types/types";
 import { getAllExpenses } from "../../../services/expenses";
 
 import Card from "../../card/card.component";
@@ -28,7 +28,7 @@ const ExpenseBarChart: React.FC = () => {
     prevPrevMonth <= 12 ? year - 1 : year
   );
 
-  const data: PieChartData[] = [
+  const data: ChartData[] = [
     {
       name: MONTHS[currMonth - 1] || currMonth.toString(),
       value: expenses1 ? expenses1?.reduce((sum, e) => sum + e.value, 0) : 0,

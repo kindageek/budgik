@@ -1,15 +1,16 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
   Cell,
   Pie,
   PieChart as RechartsPieChart,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
-import type { PieChartData } from "../../../types/types";
-import { numWithCommas, randomIntFromInterval } from "../../../utils/shared";
+import type { ChartData } from "../../../types/types";
+import { numWithCommas } from "../../../utils/shared";
 
 type Props = {
-  data: PieChartData[];
+  data: ChartData[];
 };
 
 const COLORS: string[][] = [
@@ -39,16 +40,26 @@ const COLORS: string[][] = [
   ],
 ];
 
+const TooltipContent = (data: any) => {
+  const { active, payload } = data;
+  if (active && payload && payload.length) {
+    return (
+      <div className="flex rounded-lg border bg-white p-2.5 text-xs shadow-md">
+        <p className="mr-1">{payload[0].name}:</p>
+        <p className="">${numWithCommas(payload[0].value)}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const PieChart: React.FC<Props> = ({ data }) => {
   const renderLabel = (values: any) => {
     const { name, value } = values;
     return `${name} ($${numWithCommas(value)})`;
   };
 
-  const setIdx: number = useMemo(() => {
-    return randomIntFromInterval(0, COLORS.length - 1);
-  }, [data]);
-  
   const colors = COLORS[0] || [];
 
   return (
@@ -69,6 +80,7 @@ const PieChart: React.FC<Props> = ({ data }) => {
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
+        <Tooltip content={<TooltipContent />} />
       </RechartsPieChart>
     </ResponsiveContainer>
   );

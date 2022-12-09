@@ -7,11 +7,11 @@ import {
   YAxis,
   XAxis,
 } from "recharts";
-import type { PieChartData } from "../../../types/types";
+import type { ChartData } from "../../../types/types";
 import { numWithCommas } from '../../../utils/shared';
 
 type Props = {
-  data: PieChartData[];
+  data: ChartData[];
 };
 
 const COLORS: string[][] = [

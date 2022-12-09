@@ -1,6 +1,6 @@
 import React from "react";
 import { trpc } from "../../../utils/trpc";
-import type { PieChartData } from "../../../types/types";
+import type { ChartData } from "../../../types/types";
 
 import Card from "../../card/card.component";
 import PieChart from "./pie-chart.component";
@@ -25,7 +25,7 @@ const IncomePieChart: React.FC = () => {
       includeIncomeData: true,
     });
 
-  const data: PieChartData[] =
+  const data: ChartData[] =
     categories && categories?.length > 0
       ? categories
           .map((c) => ({

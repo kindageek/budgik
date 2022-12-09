@@ -63,7 +63,7 @@ export interface NewIncome {
   value: number;
 }
 
-export interface PieChartData {
+export interface ChartData {
   name: string;
   value: number;
 }
