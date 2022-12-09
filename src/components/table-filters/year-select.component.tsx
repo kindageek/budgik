@@ -44,7 +44,6 @@ const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
     const year = parseInt(value);
   };
 
-
   useEffect(() => {
     if (!isFetched) return;
     if (years && years.length > 0) return;
@@ -53,7 +52,7 @@ const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
   }, [years]);
 
   return (
-    <div className="flex w-full max-w-[10rem] items-center">
+    <div className="flex max-w-[10rem] items-center w-full">
       {isLoading ? (
         <p>...</p>
       ) : (

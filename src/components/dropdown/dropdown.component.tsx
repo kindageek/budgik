@@ -11,6 +11,7 @@ import DropdownRemoveBtn from "./dropdown-remove-btn.component";
 type Props = {
   value: string;
   onChange: (value: string) => void;
+  formatter?: (value: string) => string;
   values: string[];
   fullWidth?: boolean;
   error?: boolean;
@@ -30,6 +31,7 @@ const Dropdown: React.FC<Props> = ({
   errorMessage,
   onAdd = null,
   onRemove = null,
+  formatter = null,
 }) => {
   const { isOpen, onToggle, onClose } = useModalState({ initialOpen: false });
   const {
@@ -78,7 +80,7 @@ const Dropdown: React.FC<Props> = ({
     <div className={`relative ${fullWidth ? "w-full" : ""}`} ref={ref}>
       <DropdownButton
         active={active}
-        text={value}
+        text={formatter ? formatter(value) : value}
         onClick={handleToggle}
         error={error}
         errorMessage={errorMessage}
@@ -101,7 +103,7 @@ const Dropdown: React.FC<Props> = ({
                 }`}
               >
                 <div className="flex w-full items-center justify-between">
-                  {text}
+                  {formatter ? formatter(text) : text}
                   {onRemove !== null ? (
                     <DropdownRemoveBtn value={text} onClick={handleRemove} />
                   ) : null}

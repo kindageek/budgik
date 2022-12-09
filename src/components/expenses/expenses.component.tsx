@@ -2,30 +2,27 @@ import React, { useContext, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import { numWithCommas } from "../../utils/shared";
-import type { UpdateExpense } from "../../types/types";
-
-import ExpensesTable from "./expenses-table/expenses-table.component";
-import CreateExpense from "./create-expense/create-expense.component";
-import EditExpenseForm from "./edit-expense/edit-expense-form.component";
-import MonthSelect from "../table-filters/month-select.component";
-import YearSelect from "../table-filters/year-select.component";
-import Alert from "../alert/alert.component";
-import Loader from "../loader/loader.component";
+import type { TableFilters, UpdateExpense } from "../../types/types";
 import SnackbarContext from "../../context/snackbar.context";
-import CategorySelect from "../table-filters/category-select.component";
-import PageContainer from "../page-container/page-container.component";
+
+import Alert from "../alert/alert.component";
+import ExpensesHeader from "./expenses-header.component";
 import PageHeader from "../page-header/page-header.component";
+import ExpensesTable from "./expenses-table/expenses-table.component";
+import PageContainer from "../page-container/page-container.component";
+import EditExpenseForm from "./edit-expense/edit-expense-form.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
 
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [categoryId, setCategoryId] = useState("All categories");
+  const [filters, setFilters] = useState<TableFilters>({
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+    categoryId: "All categories",
+  });
 
-  const { data: categories, refetch: refetchCategories } = trpc.category.getExpenseCategories.useQuery();
   const { data, isLoading, error, refetch } =
-    trpc.expense.getUserExpenses.useQuery({ month, year, categoryId });
+    trpc.expense.getUserExpenses.useQuery(filters);
 
   const { mutateAsync: deleteExpense, isLoading: isDeleteLoading } =
     trpc.expense.delete.useMutation({
@@ -86,47 +83,25 @@ const Expenses: React.FC = () => {
   };
 
   const getTotalExpenses = () => {
-    return numWithCommas(
-      data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) || 0
-    );
-  };
-
-  const handleCategorySelect = (categoryName: string) => {
-    setCategoryId(
-      categories?.find((c) => c.name === categoryName)?.id || "All categories"
+    return (
+      "$" +
+      numWithCommas(
+        data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) ||
+          0
+      )
     );
   };
 
   return (
     <PageContainer>
       <PageHeader title="Expenses" />
-      <div className="mb-4 flex w-full items-center justify-between">
-        <div className="flex w-full items-center gap-4">
-          <YearSelect year={year} onSelect={setYear} />
-          <MonthSelect month={month} onSelect={setMonth} />
-          <CategorySelect
-            type="EXPENSE"
-            category={
-              categories?.find((c) => c.id === categoryId)?.name ||
-              "All categories"
-            }
-            categories={[
-              "All categories",
-              ...(categories ? categories?.map((c) => c.name) : []),
-            ]}
-            onAddComplete={refetchCategories}
-            onSelect={handleCategorySelect}
-          />
-          <div className="flex items-center">
-            <h5 className="mr-2 text-xl font-semibold text-gray-800">Total:</h5>
-            <p className="text-2xl font-medium text-black">
-              ${getTotalExpenses()}
-            </p>
-          </div>
-          {isLoading || isCreateLoading || isDeleteLoading ? <Loader /> : null}
-        </div>
-        <CreateExpense onComplete={handleAddComplete} />
-      </div>
+      <ExpensesHeader
+        filters={filters}
+        setFilters={setFilters}
+        totalExpenses={getTotalExpenses()}
+        onAddComplete={handleAddComplete}
+        loading={isLoading || isCreateLoading || isDeleteLoading}
+      />
       {error ? <Alert message={error.message} /> : null}
       <ExpensesTable
         data={data}

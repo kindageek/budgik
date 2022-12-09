@@ -7,11 +7,11 @@ const NavbarLogo: React.FC = () => {
     <Link href="/" className="flex items-center">
       <Image
         src="/assets/images/budgik-logo.png"
-        className="mr-3"
+        className="mr-3 aspect-square"
         alt="Logo"
         width={36}
         height={36}
-        />
+      />
       <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
         Budgik
       </span>

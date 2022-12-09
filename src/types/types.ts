@@ -30,6 +30,12 @@ export interface UpdateExpense {
   value: number;
 }
 
+export interface TableFilters {
+  month: number;
+  year: number;
+  categoryId: string;
+}
+
 enum CategoryType {
   INCOME,
   EXPENSE,

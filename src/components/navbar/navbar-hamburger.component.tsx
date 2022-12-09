@@ -11,13 +11,13 @@ const NavbarHamburger: React.FC<Props> = ({ open, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center rounded-lg p-2 text-sm focus:outline-none focus:ring-0 md:hidden"
+      className="inline-flex items-center focus:outline-none focus:ring-0 md:hidden"
     >
       <span className="sr-only">Open main menu</span>
       {open ? (
-        <IoMdClose color="white" size={20} />
+        <IoMdClose color="white" size={16} />
       ) : (
-        <GiHamburgerMenu color="white" size={20} />
+        <GiHamburgerMenu color="white" size={16} />
       )}
     </button>
   );

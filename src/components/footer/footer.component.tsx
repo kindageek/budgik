@@ -4,7 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="container mx-auto flex w-full items-center justify-between gap-2 px-2 py-1 sm:px-4 sm:py-2.5">
+    <footer className="container mx-auto flex w-full items-center justify-between gap-2 px-4 py-2 sm:px-4 sm:py-3">
       <ul className="flex items-center gap-4">
         <li className="flex items-center justify-center">
           <a href="mailto:nsanzhar.99@gmail.com" title="Email">

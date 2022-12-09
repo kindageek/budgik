@@ -1,13 +1,16 @@
 import React from "react";
 
 type Props = {
-  overflow?: boolean;
   children: React.ReactNode;
 };
 
-const PageContainer: React.FC<Props> = ({ children, overflow = false }) => {
+const PageContainer: React.FC<Props> = ({ children }) => {
   return (
-    <div className={`flex h-full w-full flex-col py-4 px-6 overflow-hidden`}>{children}</div>
+    <div
+      className={`flex h-full w-full flex-col overflow-hidden py-4 pb-2 px-4 sm:px-6 sm:py-8 sm:pb-4`}
+    >
+      {children}
+    </div>
   );
 };
 
