@@ -8,7 +8,7 @@ import OverviewCharts from "./overview-charts/overview-charts.component";
 const Overview: React.FC = () => {
   return (
     <PageContainer overflow>
-      <div className="grid h-full w-full grid-cols-1 gap-10">
+      <div className="grid h-full w-full grid-cols-1 gap-5 sm:gap-10">
         <OverviewHeader />
         <OverviewSummary />
         <OverviewCharts />

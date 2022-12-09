@@ -7,6 +7,7 @@ import { getAllExpenses } from "../../../services/expenses";
 import Card from "../../card/card.component";
 import BarChart from "./bar-chart.component";
 import Loader from "../../loader/loader.component";
+import OverviewChartTitle from './overview-chart-title.component';
 
 const ExpenseBarChart: React.FC = () => {
   const year = new Date().getFullYear();
@@ -45,9 +46,7 @@ const ExpenseBarChart: React.FC = () => {
   return (
     <Card>
       <div className="flex h-full w-full cursor-pointer flex-col">
-        <h3 className="mb-4 text-xl font-medium text-gray-700">
-          Expenses in the last 3 months
-        </h3>
+        <OverviewChartTitle title="Expenses in the last 3 months" />
         {loading1 || loading2 || loading3 ? (
           <Loader />
         ) : (

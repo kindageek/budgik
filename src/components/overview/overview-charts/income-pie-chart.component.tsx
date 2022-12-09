@@ -5,6 +5,7 @@ import type { PieChartData } from "../../../types/types";
 import Card from "../../card/card.component";
 import PieChart from "./pie-chart.component";
 import Loader from "../../loader/loader.component";
+import OverviewChartTitle from "./overview-chart-title.component";
 
 const getMonthAndYear = (date: Date) => {
   const month = date.getMonth() + 1;
@@ -39,9 +40,7 @@ const IncomePieChart: React.FC = () => {
   return (
     <Card>
       <div className="flex h-full w-full cursor-pointer flex-col">
-        <h3 className="mb-4 text-xl font-medium text-gray-700">
-          Income by categories ({monthName})
-        </h3>
+        <OverviewChartTitle title={`Income by categories (${monthName})`} />
         {isLoading ? <Loader /> : <PieChart data={data} />}
       </div>
     </Card>

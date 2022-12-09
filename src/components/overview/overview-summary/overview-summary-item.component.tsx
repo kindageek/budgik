@@ -11,12 +11,14 @@ type Props = {
 const OverviewSummaryItem: React.FC<Props> = ({ loading, title, value }) => {
   return (
     <Card>
-      <div className="flex flex-col">
-        <h3 className="mb-4 text-xl font-medium text-gray-700">{title}</h3>
+      <div className="h-full w-full flex flex-col justify-between">
+        <h3 className="mb-2 text-lg font-medium text-gray-700 sm:mb-4 sm:text-xl">
+          {title}
+        </h3>
         {loading ? (
           <Loader />
         ) : (
-          <h3 className="text-3xl font-bold text-black">{value}</h3>
+          <h3 className="text-2xl font-bold text-black sm:text-3xl">{value}</h3>
         )}
       </div>
     </Card>

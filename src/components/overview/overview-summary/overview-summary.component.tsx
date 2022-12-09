@@ -30,7 +30,7 @@ const OverviewSummary: React.FC = () => {
   const totalMonthIncome = sum(monthIncomes?.map((i) => i.value));
 
   return (
-    <div className="grid w-full grid-cols-4 gap-10 max-lg:grid-cols-2">
+    <div className="grid w-full grid-cols-4 gap-5 sm:gap-10 max-lg:grid-cols-2">
       <OverviewSummaryItem
         loading={monthExpenseLoading}
         title={`Total Spent (${monthName})`}
