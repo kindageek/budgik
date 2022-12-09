@@ -67,3 +67,9 @@ export interface PieChartData {
   name: string;
   value: number;
 }
+
+export interface NestedLink {
+  title: string;
+  url: string;
+  icon?: React.ReactNode;
+}

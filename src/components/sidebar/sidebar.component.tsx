@@ -7,8 +7,9 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { BiCategoryAlt } from "react-icons/bi";
 
 import useBoolean from "../../hooks/useBoolean";
+import type { NestedLink } from '../../types/types';
 
-const MENU_ITEMS = [
+export const DASHBOARD_NAV_LINKS: NestedLink[] = [
   {
     title: "Overview",
     url: "/dashboard",
@@ -58,7 +59,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside
-      className={`sticky left-0 top-[56px] flex h-[calc(100vh_-_56px)] self-start`}
+      className={`sticky left-0 top-[56px] flex h-[calc(100vh_-_56px)] self-start max-sm:hidden`}
       aria-label="sidebar"
       onMouseEnter={mouseInside}
       onMouseLeave={mouseOutside}
@@ -86,7 +87,7 @@ const Sidebar: React.FC = () => {
           </div>
         </div>
         <ul className="h-full space-y-2">
-          {MENU_ITEMS.map(({ title, url, icon }, index) => (
+          {DASHBOARD_NAV_LINKS.map(({ title, url, icon }, index) => (
             <li key={index} title={title}>
               <Link
                 href={url}

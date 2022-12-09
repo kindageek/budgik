@@ -14,7 +14,7 @@ const UserNavProfile: React.FC = () => {
   const { user } = session;
 
   return (
-    <div className="flex items-center py-2 pr-4 pl-3 md:order-2 md:p-0">
+    <div className="hidden items-center py-2 pr-4 pl-3 md:order-2 md:flex md:p-0">
       <Popover.Root open={navOpen}>
         <Popover.Trigger
           onClick={toggleNav}
@@ -25,7 +25,7 @@ const UserNavProfile: React.FC = () => {
             <img
               className={`h-8 w-8 rounded-full ${imgLoaded ? "" : "hidden"}`}
               src={user?.image}
-              alt="user photo"
+              alt="user"
               title={user?.name ?? ""}
               onError={() => setImgLoaded(false)}
               onLoad={() => setImgLoaded(true)}
