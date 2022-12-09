@@ -3,15 +3,14 @@ import React from "react";
 import { trpc } from "../../utils/trpc";
 import type { TableFilters } from "../../types/types";
 
+import AddIncome from "./add-income.component";
 import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
-import MonthSelect from "../table-filters/month-select.component";
-import CreateExpense from "./create-expense/create-expense.component";
 import CategorySelect from "../table-filters/category-select.component";
 
 type Props = {
   loading: boolean;
-  totalExpenses: string;
+  totalIncome: string;
   filters: TableFilters;
   onAddComplete: (v: string) => void;
   setFilters: (filters: TableFilters) => void;
@@ -19,22 +18,18 @@ type Props = {
 
 const ALL_CATEGORIES = "All categories";
 
-const ExpensesHeader: React.FC<Props> = ({
+const IncomeHeader: React.FC<Props> = ({
   filters,
   setFilters,
-  totalExpenses,
+  totalIncome,
   loading,
   onAddComplete,
 }) => {
   const { data: categories, refetch: refetchCategories } =
-    trpc.category.getExpenseCategories.useQuery();
+    trpc.category.getIncomeCategories.useQuery();
 
   const handleYearSelect = (year: number) => {
     setFilters({ ...filters, year });
-  };
-
-  const handleMonthSelect = (month: number) => {
-    setFilters({ ...filters, month });
   };
 
   const handleCategorySelect = (categoryName: string) => {
@@ -44,12 +39,11 @@ const ExpensesHeader: React.FC<Props> = ({
   };
 
   return (
-    <div className="mb-4 flex w-full flex-col-reverse md:flex-row md:items-center md:justify-between gap-4">
-      <div className="flex items-center gap-4 justify-between">
+    <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center gap-4">
         <YearSelect year={filters.year} onSelect={handleYearSelect} />
-        <MonthSelect month={filters.month || new Date().getMonth() + 1} onSelect={handleMonthSelect} />
         <CategorySelect
-          type="EXPENSE"
+          type="INCOME"
           category={
             categories?.find((c) => c.id === filters.categoryId)?.name ||
             ALL_CATEGORIES
@@ -64,14 +58,18 @@ const ExpensesHeader: React.FC<Props> = ({
       </div>
       <div className="flex w-full items-center justify-between gap-4">
         <div className="flex items-center">
-          <h5 className="mr-2 text-lg sm:text-xl font-semibold text-gray-800">Total:</h5>
-          <p className="text-xl sm:text-2xl font-medium text-black">{totalExpenses}</p>
+          <h5 className="mr-2 text-lg font-semibold text-gray-800 sm:text-xl">
+            Total:
+          </h5>
+          <p className="text-xl font-medium text-black sm:text-2xl">
+            {totalIncome}
+          </p>
         </div>
         {loading ? <Loader /> : null}
-        <CreateExpense onComplete={onAddComplete} />
+        <AddIncome onComplete={onAddComplete} />
       </div>
     </div>
   );
 };
 
-export default ExpensesHeader;
+export default IncomeHeader;

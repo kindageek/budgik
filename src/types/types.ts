@@ -31,7 +31,7 @@ export interface UpdateExpense {
 }
 
 export interface TableFilters {
-  month: number;
+  month: number | null;
   year: number;
   categoryId: string;
 }
