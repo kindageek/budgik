@@ -11,7 +11,7 @@ const SignUp: NextPage = () => {
         <meta name="description" content="Budget planner | Money tracker" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen flex flex-col items-center justify-center bg-indigo-900 px-4">
+      <main className="w-screen h-screen flex flex-col items-center justify-center bg-primary-dark px-4">
         <SignUpForm />
       </main>
     </>

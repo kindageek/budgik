@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
         <input
           required={required}
           name={name}
-          className={`block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
+          className={`block w-full rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-primary-default focus:border-primary-dark focus:outline-none focus:ring-primary-dark sm:text-sm ${
             error ? "border-red-500" : "border-gray-300"
           }`}
           {...props}

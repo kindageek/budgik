@@ -51,14 +51,16 @@ const UserNavProfile: React.FC = () => {
           <Popover.Content
             asChild
             hideWhenDetached
-            align='end'
+            align="end"
             onEscapeKeyDown={onClose}
             onPointerDownOutside={onClose}
             onInteractOutside={onClose}
           >
-            <div className="mt-4 list-none divide-y divide-gray-400 rounded-lg border bg-white text-base shadow-md">
+            <div className="mt-4 list-none divide-y divide-gray-400 rounded-lg border bg-white text-base shadow-md focus:outline-none focus:ring-0">
               <div className="py-3 px-4">
-                <span className="block text-md text-black font-medium">{user?.name}</span>
+                <span className="text-md block font-medium text-black">
+                  {user?.name}
+                </span>
                 <span className="block truncate text-sm text-gray-500">
                   {user?.email}
                 </span>

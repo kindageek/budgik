@@ -33,7 +33,7 @@ const Select: React.FC<InputProps> = ({
         <select
           required={required}
           name={name}
-          className={`${className} form-select block w-full cursor-pointer rounded-lg border bg-gray-50 p-2.5 pr-6.5 text-gray-900 hover:border-indigo-300 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600 sm:text-sm ${
+          className={`${className} form-select pr-6.5 block w-full cursor-pointer rounded-lg border bg-gray-50 p-2.5 text-gray-900 hover:border-primary-default focus:border-primary-dark focus:outline-none focus:ring-primary-dark sm:text-sm ${
             error ? "border-red-500" : "border-gray-300"
           } appearance-none bg-clip-padding bg-no-repeat transition ease-in-out`}
           {...props}

@@ -139,7 +139,7 @@ const SignUpForm: React.FC = () => {
           <button
             disabled
             type="submit"
-            className="w-full rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
+            className="w-full rounded-lg bg-secondary-default px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light disabled:bg-gray-300 disabled:hover:bg-gray-300"
           >
             Sign up
           </button>
@@ -147,7 +147,7 @@ const SignUpForm: React.FC = () => {
             Have an account?{" "}
             <Link
               href="/auth/signin"
-              className="font-medium text-indigo-600 hover:underline"
+              className="font-medium text-secondary-default hover:underline"
             >
               Sign in
             </Link>

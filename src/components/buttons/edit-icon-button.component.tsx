@@ -10,7 +10,7 @@ const EditIconButton: React.FC<Props> = ({ onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className="hover:text-blue-500"
+      className="hover:text-primary-default"
       title="Edit"
     >
       <RiEdit2Line size={20} />

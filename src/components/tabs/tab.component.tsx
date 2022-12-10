@@ -14,7 +14,7 @@ const Tab: React.FC<Props> = ({ tab: { title, href }, active }) => {
         href={href}
         className={`inline-block rounded-t-lg border-b-2 p-4 ${
           active
-            ? "active border-blue-600 text-blue-600"
+            ? "active border-primary-default text-primary-default"
             : "border-transparent hover:border-gray-300 hover:text-gray-600"
         }`}
       >

@@ -47,7 +47,7 @@ const ConfirmationModal: React.FC<Props> = ({
                 Cancel
               </button>
               <button
-                className={`rounded-lg px-6 py-2.5 text-sm font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-gray-300 disabled:hover:bg-gray-300 ${
+                className={`rounded-lg px-6 py-2.5 text-sm font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-secondary-light disabled:bg-gray-300 disabled:hover:bg-gray-300 ${
                   type === "error"
                     ? "bg-red-500 hover:bg-red-600"
                     : "bg-green-500 hover:bg-green-600"

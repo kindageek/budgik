@@ -39,7 +39,7 @@ const AddIncome: React.FC<Props> = ({ onComplete }) => {
       <button
         type="button"
         onClick={onOpen}
-        className="flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        className="flex items-center rounded-lg bg-secondary-default px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light"
       >
         <AiOutlinePlus color="white" size={16} className="mr-2" />
         Add

@@ -161,7 +161,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
       </DialogBody>
       <DialogActions>
         <button
-          className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-indigo-400 outline-none transition-all duration-150 ease-linear hover:bg-indigo-50 focus:outline-none"
+          className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-secondary-dark outline-none transition-all duration-150 ease-linear hover:bg-secondary-100 focus:outline-none"
           type="button"
           onClick={onClose}
           disabled={isLoading}
@@ -169,7 +169,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
           Cancel
         </button>
         <button
-          className="rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-300 disabled:hover:bg-gray-300"
+          className="rounded-lg bg-secondary-default px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light disabled:bg-gray-300 disabled:hover:bg-gray-300"
           type="submit"
           form="create-expense-form"
           disabled={
