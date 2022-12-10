@@ -16,9 +16,9 @@ export const MONTHS = [
 export const COLORS: string[][] = [
   [
     "#00876c",
-    "#489972",
+    "#8bc34a",
     "#71ab7a",
-    "#96bc85",
+    "#009688",
     "#bace94",
     "#dddfa6",
     "#fff1bb",
