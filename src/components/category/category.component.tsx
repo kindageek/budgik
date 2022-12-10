@@ -20,7 +20,7 @@ const Category: React.FC = () => {
   const [tab, setTab] = useState<CategoryType>("EXPENSE");
   const { openSnackbar } = useContext(SnackbarContext);
   const { data, isLoading, error, refetch } = trpc.category.getAll.useQuery({
-    type: (tab as CategoryType) || "EXPENSE",
+    type: tab,
   });
 
   const [editCategoryData, setEditCategoryData] = useState<ICategory | null>(
@@ -67,6 +67,7 @@ const Category: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!router?.query?.tab) return;
     setTab(router.query.tab as CategoryType);
   }, [router]);
 
@@ -74,8 +75,8 @@ const Category: React.FC = () => {
     <PageContainer>
       <PageHeader title="Categories" />
       <div className="flex w-full items-center justify-between">
-        <CategoryTabs />
-        <div className="flex items-center ml-10">
+        <CategoryTabs tab={tab} />
+        <div className="ml-10 flex items-center">
           {isLoading ? <Loader /> : null}
           <AddCategory
             tab={tab as CategoryType}

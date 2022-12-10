@@ -13,10 +13,14 @@ const tabs: Tab[] = [
   },
 ];
 
-const CategoryTabs: React.FC = () => {
+type Props = {
+  tab: 'EXPENSE' | 'INCOME';
+}
+
+const CategoryTabs: React.FC<Props> = ({ tab }) => {
   return (
     <div className="mb-4 w-full">
-      <Tabs tabs={tabs} />
+      <Tabs tabs={tabs} activeTab={tab} />
     </div>
   );
 };
