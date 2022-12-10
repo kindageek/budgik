@@ -50,7 +50,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
     create({ ...data, value: Number(data.value) });
   };
 
-  useEffect(() => reset(), []);
+  useEffect(() => reset(), [open]);
 
   useEffect(() => {
     if (isCategoriesLoading || (categories && categories?.length > 0)) return;
@@ -143,6 +143,8 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
                   label="Amount"
                   type="number"
                   id="value"
+                  min={0}
+                  step={0.01}
                   placeholder="Amount"
                   required
                   error={!!errors.value}

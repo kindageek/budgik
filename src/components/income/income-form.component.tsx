@@ -158,6 +158,8 @@ const IncomeForm: React.FC<Props> = ({
                   label="Amount"
                   type="number"
                   id="value"
+                  min={0}
+                  step={0.01}
                   placeholder="Amount"
                   required
                   error={!!errors.value}
