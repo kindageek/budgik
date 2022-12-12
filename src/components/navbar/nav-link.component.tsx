@@ -11,6 +11,7 @@ type Props = {
   url: string;
   isActive?: boolean;
   nestedLinks?: NestedLink[];
+  onClick?: () => void;
 };
 
 const NavLink: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const NavLink: React.FC<Props> = ({
   url,
   isActive = false,
   nestedLinks,
+  onClick = () => {},
 }) => {
   const router = useRouter();
 
@@ -83,6 +85,7 @@ const NavLink: React.FC<Props> = ({
       className={`block rounded py-2 pr-4 pl-3 max-md:text-lg ${
         isActive ? "text-white" : "text-gray-300 hover:text-white"
       } md:p-0`}
+      onClick={onClick}
     >
       {text}
     </Link>
