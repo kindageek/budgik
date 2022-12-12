@@ -19,7 +19,7 @@ const NavLink: React.FC<Props> = ({
   url,
   isActive = false,
   nestedLinks,
-  onClick = () => {},
+  onClick = () => { return; },
 }) => {
   const router = useRouter();
 
