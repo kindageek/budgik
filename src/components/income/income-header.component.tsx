@@ -7,8 +7,12 @@ import AddIncome from "./add-income.component";
 import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
 import CategorySelect from "../table-filters/category-select.component";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
+import DownloadIconButton from '../buttons/download-icon-button.component';
+import { MONTHS } from '../../utils/constants';
 
 type Props = {
+  tableRef: React.MutableRefObject<null>;
   loading: boolean;
   totalIncome: string;
   filters: TableFilters;
@@ -19,6 +23,7 @@ type Props = {
 const ALL_CATEGORIES = "All categories";
 
 const IncomeHeader: React.FC<Props> = ({
+  tableRef,
   filters,
   setFilters,
   totalIncome,
@@ -65,8 +70,17 @@ const IncomeHeader: React.FC<Props> = ({
             {totalIncome}
           </p>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           {loading ? <Loader /> : null}
+          {tableRef ? (
+            <DownloadTableExcel
+              filename="Income"
+              sheet={`${MONTHS[(filters.month || 1) - 1]}, ${filters.year}`}
+              currentTableRef={tableRef?.current}
+            >
+              <DownloadIconButton />
+            </DownloadTableExcel>
+          ) : null}
           <AddIncome onComplete={onAddComplete} />
         </div>
       </div>

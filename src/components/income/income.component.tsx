@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Income } from "@prisma/client";
 
 import { trpc } from "../../utils/trpc";
@@ -16,6 +16,7 @@ import IncomeHeader from "./income-header.component";
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const [editData, setEditData] = useState<Income | null>(null);
+  const tableRef = useRef(null);
 
   const [filters, setFilters] = useState<TableFilters>({
     month: null,
@@ -99,6 +100,7 @@ const Income: React.FC = () => {
     <PageContainer>
       <PageHeader title="Income" />
       <IncomeHeader
+        tableRef={tableRef}
         filters={filters}
         setFilters={setFilters}
         totalIncome={getTotal()}
@@ -107,6 +109,7 @@ const Income: React.FC = () => {
       />
       {error ? <Alert message={error.message} /> : null}
       <IncomeTable
+        tableRef={tableRef}
         data={data}
         loading={isLoading}
         onEditRow={handleEdit}

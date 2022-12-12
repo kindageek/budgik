@@ -46,6 +46,7 @@ interface GroupedIncomes {
 }
 
 type Props = {
+  tableRef: React.MutableRefObject<null>;
   loading: boolean;
   data: IncomeType[] | null | undefined;
   onEditRow: (rowId: string) => void;
@@ -54,6 +55,7 @@ type Props = {
 };
 
 const IncomeTable: React.FC<Props> = ({
+  tableRef,
   loading,
   data,
   onEditRow,
@@ -89,7 +91,7 @@ const IncomeTable: React.FC<Props> = ({
 
   return (
     <>
-      <TableContainer>
+      <TableContainer tableRef={tableRef}>
         <TableHead columns={COLUMNS} />
         <tbody>
           {dates?.length > 0 ? (

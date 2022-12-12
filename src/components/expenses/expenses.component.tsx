@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import { numWithCommas } from "../../utils/shared";
@@ -14,7 +14,7 @@ import EditExpenseForm from "./edit-expense/edit-expense-form.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
-
+  const tableRef = useRef(null);
   const [filters, setFilters] = useState<TableFilters>({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
@@ -96,6 +96,7 @@ const Expenses: React.FC = () => {
     <PageContainer>
       <PageHeader title="Expenses" />
       <ExpensesHeader
+        tableRef={tableRef}
         filters={filters}
         setFilters={setFilters}
         totalExpenses={getTotalExpenses()}
@@ -104,6 +105,7 @@ const Expenses: React.FC = () => {
       />
       {error ? <Alert message={error.message} /> : null}
       <ExpensesTable
+        tableRef={tableRef}
         data={data}
         loading={isLoading}
         onEditItem={onEditItem}

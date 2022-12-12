@@ -52,6 +52,7 @@ interface GroupedExpenses {
 }
 
 type Props = {
+  tableRef: React.MutableRefObject<null>;
   data: ExpenseType[] | null | undefined;
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;
@@ -60,6 +61,7 @@ type Props = {
 };
 
 const ExpensesTable: React.FC<Props> = ({
+  tableRef,
   data,
   onEditItem,
   onDeleteItem,
@@ -99,7 +101,7 @@ const ExpensesTable: React.FC<Props> = ({
 
   return (
     <>
-      <TableContainer>
+      <TableContainer tableRef={tableRef}>
         <TableHead columns={COLUMNS} />
         <tbody>
           {dates?.length > 0 ? (

@@ -8,8 +8,12 @@ import YearSelect from "../table-filters/year-select.component";
 import MonthSelect from "../table-filters/month-select.component";
 import CreateExpense from "./create-expense/create-expense.component";
 import CategorySelect from "../table-filters/category-select.component";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import DownloadIconButton from "../buttons/download-icon-button.component";
+import { MONTHS } from "../../utils/constants";
 
 type Props = {
+  tableRef: React.MutableRefObject<null>;
   loading: boolean;
   totalExpenses: string;
   filters: TableFilters;
@@ -20,6 +24,7 @@ type Props = {
 const ALL_CATEGORIES = "All categories";
 
 const ExpensesHeader: React.FC<Props> = ({
+  tableRef,
   filters,
   setFilters,
   totalExpenses,
@@ -74,8 +79,17 @@ const ExpensesHeader: React.FC<Props> = ({
             {totalExpenses}
           </p>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           {loading ? <Loader /> : null}
+          {tableRef ? (
+            <DownloadTableExcel
+              filename="Expenses"
+              sheet={`${MONTHS[(filters.month || 1) - 1]}, ${filters.year}`}
+              currentTableRef={tableRef?.current}
+            >
+              <DownloadIconButton />
+            </DownloadTableExcel>
+          ) : null}
           <CreateExpense onComplete={onAddComplete} />
         </div>
       </div>
