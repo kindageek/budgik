@@ -17,7 +17,11 @@ const NavLinks: React.FC = () => {
     router.pathname.split("/")[1] === "dashboard";
 
   return (
-    <ul className="flex flex-col bg-primary-default px-4 py-4 shadow-md sm:bg-transparent md:mt-0 md:flex-row md:items-center md:space-x-8 md:border-0 md:py-0 md:text-sm md:font-medium md:shadow-none">
+    <ul
+      className={`flex flex-col px-4 py-4 shadow-xl sm:bg-transparent md:mt-0 md:flex-row md:items-center md:space-x-8 md:border-0 md:py-0 md:text-sm md:font-medium md:shadow-none ${
+        isHomePage ? "bg-transparent" : "bg-primary-default"
+      }`}
+    >
       {isAuth ? (
         <>
           <li>

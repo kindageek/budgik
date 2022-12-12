@@ -19,7 +19,9 @@ const NavLink: React.FC<Props> = ({
   url,
   isActive = false,
   nestedLinks,
-  onClick = () => { return; },
+  onClick = () => {
+    return;
+  },
 }) => {
   const router = useRouter();
 
@@ -28,7 +30,7 @@ const NavLink: React.FC<Props> = ({
     .includes(router.pathname);
 
   const { isOpen, onToggle } = useModalState({
-    initialOpen: isNestedActive,
+    initialOpen: true,
   });
 
   if (nestedLinks && nestedLinks.length > 0) {
@@ -37,7 +39,9 @@ const NavLink: React.FC<Props> = ({
         <div className="flex flex-col md:hidden">
           <div
             className={`flex items-center py-2 pr-4 pl-2 text-lg md:p-0 ${
-              isNestedActive ? "text-white" : "text-gray-300 hover:text-white"
+              isNestedActive
+                ? "text-white"
+                : "text-white hover:text-white md:text-gray-300"
             }`}
             onClick={onToggle}
           >
@@ -58,7 +62,7 @@ const NavLink: React.FC<Props> = ({
                   className={`py-2 text-lg ${
                     router.pathname === url.split("?")[0]
                       ? "text-white underline underline-offset-4"
-                      : "text-gray-300"
+                      : "text-white md:text-gray-300"
                   }`}
                 >
                   {title}
@@ -70,7 +74,9 @@ const NavLink: React.FC<Props> = ({
         <Link
           href={url}
           className={`block rounded py-2 pr-4 pl-3 max-md:text-lg ${
-            isActive ? "text-white" : "text-gray-300 hover:text-white"
+            isActive
+              ? "text-white"
+              : "text-white hover:text-white md:text-gray-300"
           } max-md:hidden md:p-0`}
         >
           {text}
@@ -83,7 +89,7 @@ const NavLink: React.FC<Props> = ({
     <Link
       href={url}
       className={`block rounded py-2 pr-4 pl-3 max-md:text-lg ${
-        isActive ? "text-white" : "text-gray-300 hover:text-white"
+        isActive ? "text-white" : "text-white md:text-gray-300 hover:text-white"
       } md:p-0`}
       onClick={onClick}
     >
