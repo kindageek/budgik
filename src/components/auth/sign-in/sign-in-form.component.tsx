@@ -35,7 +35,7 @@ const SignInForm: React.FC = () => {
   };
 
   const handleGoogleAuth = () => {
-    signIn("google", { callbackUrl: "http://localhost:3000/dashboard" });
+    signIn("google", { callbackUrl: "https://budgik.vercel.app//dashboard" });
   };
 
   return (
