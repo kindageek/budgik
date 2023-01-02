@@ -1,10 +1,11 @@
-import { signIn } from "next-auth/react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
+
 import Input from "../../input/input.component";
+import GoogleSignIn from "./google-sign-in.component";
 
 interface FormInputs {
   email: string;
@@ -32,10 +33,6 @@ const SignInForm: React.FC = () => {
     } else {
       setErrorMessage(status?.error ?? null);
     }
-  };
-
-  const handleGoogleAuth = () => {
-    signIn("google", { callbackUrl: "https://budgik.vercel.app/dashboard" });
   };
 
   return (
@@ -101,14 +98,7 @@ const SignInForm: React.FC = () => {
           <p className="my-1 text-center text-sm font-light text-gray-500">
             or
           </p> */}
-          <button
-            type="button"
-            onClick={handleGoogleAuth}
-            className="flex w-full items-center justify-center rounded-lg border bg-gray-50 px-5 py-2.5 text-center text-sm font-medium text-black hover:border-indigo-400 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-indigo-300"
-          >
-            <FcGoogle size={20} className="mr-4" />
-            Sign in with Google
-          </button>
+          <GoogleSignIn />
           {/* <p className="text-sm font-light text-gray-500">
             Don’t have an account yet?{" "}
             <Link
