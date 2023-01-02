@@ -1,8 +1,8 @@
 import { trpc } from "../utils/trpc";
 
 export function getAllExpenses(
-  month?: number,
-  year?: number,
+  month?: number | null,
+  year?: number | null,
   categoryId?: string
 ) {
   return trpc.expense.getUserExpenses.useQuery({

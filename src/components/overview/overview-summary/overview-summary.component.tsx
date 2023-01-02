@@ -17,8 +17,14 @@ const OverviewSummary: React.FC = () => {
   const monthName = new Date().toLocaleString("default", { month: "long" });
   const year = new Date().getFullYear();
 
-  const { data: allIncome, isLoading: incomeLoading } = getAllIncomes();
-  const { data: allExpenses, isLoading: expenseLoading } = getAllExpenses();
+  const { data: allIncome, isLoading: incomeLoading } = getAllIncomes(
+    null,
+    year
+  );
+  const { data: allExpenses, isLoading: expenseLoading } = getAllExpenses(
+    null,
+    year
+  );
 
   const { data: monthIncomes, isLoading: monthIncomeLoading } = getAllIncomes(
     month,

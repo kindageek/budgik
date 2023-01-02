@@ -23,6 +23,11 @@ export const expenseRouter = router({
                   ? new Date(`${year + 1}-1-1`)
                   : new Date(`${year}-${month + 1}-1`),
             }
+          : year
+          ? {
+              gte: new Date(`${year}-1-1`),
+              lt: new Date(`${year + 1}-1-1`),
+            }
           : {};
       const categoryFilter =
         !categoryId || categoryId === "All categories"

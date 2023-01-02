@@ -1,8 +1,8 @@
 import { trpc } from "../utils/trpc";
 
 export function getAllIncomes(
-  month?: number,
-  year?: number,
+  month?: number | null,
+  year?: number | null,
   categoryId?: string
 ) {
   return trpc.income.getUserIncome.useQuery({
