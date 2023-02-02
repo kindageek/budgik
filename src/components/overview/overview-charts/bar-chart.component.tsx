@@ -6,13 +6,28 @@ import {
   Bar,
   YAxis,
   XAxis,
+  Tooltip,
 } from "recharts";
 import type { ChartData } from "../../../types/types";
-import { COLORS } from '../../../utils/constants';
+import { COLORS } from "../../../utils/constants";
 import { numWithCommas } from "../../../utils/shared";
 
 type Props = {
   data: ChartData[];
+};
+
+const TooltipContent = (data: any) => {
+  const { active, payload } = data;
+  if (active && payload && payload.length) {
+    return (
+      <div className="flex rounded-lg border bg-white p-2.5 text-xs shadow-md">
+        <p className="mr-1">{payload[0].payload.name}:</p>
+        <p className="">${numWithCommas(payload[0].payload.value)}</p>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 const BarChart: React.FC<Props> = ({ data }) => {
@@ -20,14 +35,28 @@ const BarChart: React.FC<Props> = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RechartsBarChart data={data} height={400}>
+      <RechartsBarChart
+        data={data}
+        height={400}
+        margin={{
+          left: 35,
+        }}
+      >
         <XAxis dataKey="name" />
-        <YAxis tickFormatter={(value: number) => `$${numWithCommas(value)}`} />
+        <YAxis
+          tickFormatter={(value: number) => `$${numWithCommas(value)}`}
+          // type="number"
+          // domain={[0, Math.max(...data.map((r: ChartData) => r.value))]}
+        />
         <Bar dataKey="value" fill="#8884d8">
           {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Bar>
+        <Tooltip
+          content={<TooltipContent />}
+          cursor={{ fill: "transparent" }}
+        />
       </RechartsBarChart>
     </ResponsiveContainer>
   );

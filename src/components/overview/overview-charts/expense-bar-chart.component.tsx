@@ -21,11 +21,11 @@ const ExpenseBarChart: React.FC = () => {
   );
   const { data: expenses2, isLoading: loading2 } = getAllExpenses(
     prevMonth,
-    prevMonth <= 12 ? year - 1 : year
+    prevMonth === 12 ? year - 1 : year
   );
   const { data: expenses3, isLoading: loading3 } = getAllExpenses(
     prevPrevMonth,
-    prevPrevMonth <= 12 ? year - 1 : year
+    prevPrevMonth === 12 ? year - 1 : year
   );
 
   const data: ChartData[] = [
@@ -45,7 +45,7 @@ const ExpenseBarChart: React.FC = () => {
 
   return (
     <Card>
-      <div className="flex h-full w-full flex-col">
+      <div className="flex h-full w-full flex-col items-center">
         <OverviewChartTitle title="Expenses in the last 3 months" />
         {loading1 || loading2 || loading3 ? (
           <Loader />

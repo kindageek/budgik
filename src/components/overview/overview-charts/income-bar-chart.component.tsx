@@ -21,11 +21,11 @@ const IncomeBarChart: React.FC = () => {
   );
   const { data: expenses2, isLoading: loading2 } = getAllIncomes(
     prevMonth,
-    prevMonth <= 12 ? year - 1 : year
+    prevMonth === 12 ? year - 1 : year
   );
   const { data: expenses3, isLoading: loading3 } = getAllIncomes(
     prevPrevMonth,
-    prevPrevMonth <= 12 ? year - 1 : year
+    prevPrevMonth === 12 ? year - 1 : year
   );
 
   const data: ChartData[] = [
