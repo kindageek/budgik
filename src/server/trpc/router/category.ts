@@ -62,7 +62,7 @@ export const categoryRouter = router({
       const { name, type } = input;
       const userId = ctx.session.user.id;
       const existingCount = await ctx.prisma.category.count({
-        where: { name, type },
+        where: { name, type, userId },
       });
 
       if (existingCount !== 0) {
