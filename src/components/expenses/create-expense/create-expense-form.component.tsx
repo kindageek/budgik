@@ -25,7 +25,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
     setError,
   } = useForm<IExpense>({
     defaultValues: {
-      name: "",
+      expenseName: "",
       date: new Date().toISOString().split("T")[0],
       categoryId: "",
       value: undefined,
@@ -47,7 +47,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
   });
 
   const onSubmit: SubmitHandler<IExpense> = async (data: IExpense) => {
-    create({ ...data, value: Number(data.value) });
+    create({ ...data, value: Number(data.value), name: data.expenseName });
   };
 
   useEffect(() => reset(), [open]);
@@ -91,7 +91,7 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
             }}
           />
           <Controller
-            name="name"
+            name="expenseName"
             control={control}
             rules={{ required: "Required" }}
             render={({ field }) => {
@@ -99,11 +99,11 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
                 <Input
                   label="Name"
                   type="text"
-                  id="name"
+                  id="expenseName"
                   placeholder="Name"
                   required
-                  error={!!errors.name}
-                  errorMessage={errors?.name?.message?.toString()}
+                  error={!!errors.expenseName}
+                  errorMessage={errors?.expenseName?.message?.toString()}
                   {...field}
                 />
               );

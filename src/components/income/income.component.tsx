@@ -72,7 +72,12 @@ const Income: React.FC = () => {
 
   const handleEditSubmit = (data: NewIncome) => {
     if (!editData?.id) return;
-    editIncome({ ...data, date: new Date(data.date), id: editData.id });
+    editIncome({
+      ...data,
+      date: new Date(data.date),
+      id: editData.id,
+      name: data.incomeName,
+    });
   };
 
   const handleDelete = (id: string) => {

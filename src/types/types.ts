@@ -17,7 +17,7 @@ export interface Row {
 
 export interface IExpense {
   date: string;
-  name: string;
+  expenseName: string;
   categoryId: string;
   value: number;
 }
@@ -64,7 +64,7 @@ export interface NewCategory {
 
 export interface NewIncome {
   date: string;
-  name: string;
+  incomeName: string;
   categoryId: string;
   value: number;
 }

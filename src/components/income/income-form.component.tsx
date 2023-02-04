@@ -40,13 +40,13 @@ const IncomeForm: React.FC<Props> = ({
   } = useForm<NewIncome>({
     defaultValues: data
       ? {
-          name: data.name,
+        incomeName: data.name,
           categoryId: data.categoryId,
           value: data.value,
           date: formatDate(data.date),
         }
       : {
-          name: "",
+        incomeName: "",
           date: new Date().toISOString().split("T")[0],
           categoryId: "",
           value: undefined,
@@ -60,7 +60,7 @@ const IncomeForm: React.FC<Props> = ({
   useEffect(() => reset(), [open]);
 
   useEffect(() => {
-    setValue("name", data?.name || "");
+    setValue("incomeName", data?.name || "");
     setValue("date", data?.date.toISOString().split("T")[0] || "");
     setValue("categoryId", data?.categoryId || "");
     setValue("value", data?.value || 0);
@@ -106,7 +106,7 @@ const IncomeForm: React.FC<Props> = ({
             }}
           />
           <Controller
-            name="name"
+            name="incomeName"
             control={control}
             rules={{ required: "Required" }}
             render={({ field }) => {
@@ -114,11 +114,11 @@ const IncomeForm: React.FC<Props> = ({
                 <Input
                   label="Name"
                   type="text"
-                  id="name"
+                  id="incomeName"
                   placeholder="Name"
                   required
-                  error={!!errors.name}
-                  errorMessage={errors?.name?.message?.toString()}
+                  error={!!errors.incomeName}
+                  errorMessage={errors?.incomeName?.message?.toString()}
                   {...field}
                 />
               );
