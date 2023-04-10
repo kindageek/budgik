@@ -7,6 +7,7 @@ import type { IExpense } from "../../../types/types";
 import Input from "../../input/input.component";
 import Select from "../../select/select.component";
 import Dialog, { DialogActions, DialogBody, DialogTitle } from "../../dialog";
+import useDebounce from '../../../hooks/useDebounce';
 
 type Props = {
   open: boolean;
@@ -23,6 +24,8 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
     formState: { errors, isDirty },
     reset,
     setError,
+    getValues,
+    setValue,
   } = useForm<IExpense>({
     defaultValues: {
       expenseName: "",
@@ -59,6 +62,18 @@ const CreateExpenseForm: React.FC<Props> = ({ open, onClose, onComplete }) => {
         "You do not have any categories yet. Please add a category first!",
     });
   }, [categories, isCategoriesLoading]);
+
+  const debouncedExpense: string = useDebounce<string>(getValues().expenseName, 300);
+
+  useEffect(
+    () => {
+      if (!debouncedExpense) return
+      const category = categories?.find((category) => category.name === debouncedExpense)
+      if (!category) return;
+      setValue("categoryId", category.id)
+    },
+    [debouncedExpense, categories]
+  );
 
   if (!open) return null;
 

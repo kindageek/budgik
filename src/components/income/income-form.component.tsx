@@ -9,6 +9,7 @@ import type { NewIncome } from "../../types/types";
 import Input from "../input/input.component";
 import Select from "../select/select.component";
 import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
+import useDebounce from '../../hooks/useDebounce';
 
 type Props = {
   open: boolean;
@@ -37,6 +38,7 @@ const IncomeForm: React.FC<Props> = ({
     reset,
     setValue,
     setError,
+    getValues,
   } = useForm<NewIncome>({
     defaultValues: data
       ? {
@@ -73,6 +75,19 @@ const IncomeForm: React.FC<Props> = ({
         "You do not have any categories yet. Please add a category first!",
     });
   }, [categories, isCategoriesLoading, open]);
+
+  const debouncedIncome: string = useDebounce<string>(getValues().incomeName, 300);
+
+  useEffect(
+    () => {
+      if (!debouncedIncome) return
+      const category = categories?.find((category) => category.name === debouncedIncome)
+      if (!category) return;
+      setValue("categoryId", category.id)
+    },
+    [debouncedIncome, categories]
+  );
+
 
   return (
     <Dialog open={open} onClose={onClose}>
