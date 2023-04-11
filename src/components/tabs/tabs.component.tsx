@@ -1,5 +1,5 @@
 import React from "react";
-import type { Tab as ITab } from "../../types/types";
+import type { Tab as ITab } from "types";
 import Tab from "./tab.component";
 
 type Props = {

@@ -6,7 +6,7 @@ import { FaMoneyBillAlt, FaAngleDoubleRight } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { BiCategoryAlt } from "react-icons/bi";
 
-import useBoolean from "../../hooks/useBoolean";
+import useBoolean from "hooks/useBoolean";
 import type { NestedLink } from '../../types/types';
 
 export const DASHBOARD_NAV_LINKS: NestedLink[] = [

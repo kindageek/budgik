@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from "react";
 import type { Category, Income } from "@prisma/client";
-import type { Column } from "../../types/types";
+import type { Column } from "types";
 
 import ConfirmationModal from "../confirmation-modal/confirmation-modal.component";
 import TableContainer from "../table/table-container.component";
 import TableHead from "../table/table-head.component";
 import IncomeTableRow from "./income-table-row.component";
 import EmptyTableRow from "../table/empty-table-row.component";
-import { formatDate, removeDuplicates } from "../../utils/shared";
+import { formatDate, removeDuplicates } from "utils";
 
 const COLUMNS: Column[] = [
   {

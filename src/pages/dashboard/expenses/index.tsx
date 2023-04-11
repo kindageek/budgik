@@ -1,7 +1,7 @@
 import type { NextPageContext, NextPage } from "next";
 import { getSession } from "next-auth/react";
-import Expenses from "../../../components/expenses/expenses.component";
-import Layout from "../../../components/layout/layout.component";
+import Expenses from "components/expenses/expenses.component";
+import Layout from "components/layout/layout.component";
 
 const DashboardExpenses: NextPage = () => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { Column, Row } from "../../types/types";
+import type { Column, Row } from "types";
 
 import TableHead from "./table-head.component";
 import TableRow from "./table-row.component";

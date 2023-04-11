@@ -1,6 +1,6 @@
 import React from "react";
 import type { Category, Expense } from "@prisma/client";
-import { numWithCommas } from "../../../utils/shared";
+import { numWithCommas } from "utils";
 import ExpensesTableRowActions from "./expenses-table-row-actions.component";
 
 type Props = {

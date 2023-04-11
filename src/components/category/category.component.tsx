@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { Category as ICategory, CategoryType } from "@prisma/client";
 
-import { trpc } from "../../utils/trpc";
+import { trpc } from "utils";
 
 import Alert from "../alert/alert.component";
 import Loader from "../loader/loader.component";
 import AddCategory from "./add-category/add-category.component";
 import CategoryTable from "./category-table/category-table.component";
 import CategoryForm from "./category-form/category-form.component";
-import SnackbarContext from "../../context/snackbar.context";
+import SnackbarContext from "context/snackbar.context";
 import CategoryTabs from "./category-tabs/category-tabs.component";
 import PageContainer from "../page-container/page-container.component";
 import PageHeader from "../page-header/page-header.component";

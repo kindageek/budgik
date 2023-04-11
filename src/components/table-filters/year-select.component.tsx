@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "utils";
 import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {

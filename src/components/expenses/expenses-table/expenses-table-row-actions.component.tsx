@@ -2,9 +2,9 @@ import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-import EditIconButton from "../../buttons/edit-icon-button.component";
-import DeleteIconButton from "../../buttons/delete-icon-button.component";
-import DuplicateIconButton from "../../buttons/duplicate-icon-button.component";
+import EditIconButton from "components/buttons/edit-icon-button.component";
+import DeleteIconButton from "components/buttons/delete-icon-button.component";
+import DuplicateIconButton from "components/buttons/duplicate-icon-button.component";
 
 type Props = {
   onEditRow: () => void;

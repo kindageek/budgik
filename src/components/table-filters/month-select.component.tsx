@@ -1,6 +1,6 @@
 import React from "react";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import { MONTHS } from "../../utils/constants";
+import useMediaQuery from "hooks/useMediaQuery";
+import { MONTHS } from "utils";
 import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {

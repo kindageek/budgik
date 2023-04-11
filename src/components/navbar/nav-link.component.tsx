@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FiChevronRight } from "react-icons/fi";
 
-import type { NestedLink } from "../../types/types";
-import useModalState from "../../hooks/useModalState";
+import type { NestedLink } from "types";
+import useModalState from "hooks/useModalState";
 
 type Props = {
   text: string;

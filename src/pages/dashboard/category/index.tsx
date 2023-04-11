@@ -1,7 +1,7 @@
 import type { NextPageContext, NextPage } from "next";
 import { getSession } from "next-auth/react";
-import Layout from "../../../components/layout/layout.component";
-import Category from "../../../components/category/category.component";
+import Layout from "components/layout/layout.component";
+import Category from "components/category/category.component";
 
 const DashboardCategory: NextPage = () => {
   return (

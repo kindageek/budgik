@@ -1,7 +1,7 @@
 import type { NextPageContext, NextPage } from "next";
 import { getSession } from "next-auth/react";
-import Income from "../../../components/income/income.component";
-import Layout from "../../../components/layout/layout.component";
+import Income from "components/income/income.component";
+import Layout from "components/layout/layout.component";
 
 const DashboardIncome: NextPage = () => {
   return (

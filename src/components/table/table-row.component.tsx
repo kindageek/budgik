@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { Row } from "../../types/types";
+import type { Row } from "types";
 
 type Props = {
   row: Row;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
 
-import useModalState from "../../hooks/useModalState";
+import useModalState from "hooks/useModalState";
 
 import DropdownButton from "./dropdown-button.component";
 import DropdownAddBtn from "./dropdown-add-btn.component";

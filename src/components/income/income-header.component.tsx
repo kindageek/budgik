@@ -1,7 +1,7 @@
 import React from "react";
 
-import { trpc } from "../../utils/trpc";
-import type { TableFilters } from "../../types/types";
+import { trpc } from "utils";
+import type { TableFilters } from "types";
 
 import AddIncome from "./add-income.component";
 import Loader from "../loader/loader.component";

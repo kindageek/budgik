@@ -1,10 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { Income } from "@prisma/client";
 
-import { trpc } from "../../utils/trpc";
-import type { NewIncome, TableFilters } from "../../types/types";
-import { numWithCommas } from "../../utils/shared";
-import SnackbarContext from "../../context/snackbar.context";
+import { trpc, numWithCommas } from "utils";
+import type { NewIncome, TableFilters } from "types";
+import SnackbarContext from "context/snackbar.context";
 
 import Alert from "../alert/alert.component";
 import IncomeForm from "./income-form.component";

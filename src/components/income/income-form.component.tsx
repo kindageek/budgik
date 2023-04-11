@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import type { Income } from "@prisma/client";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import { trpc } from "../../utils/trpc";
-import { formatDate } from "../../utils/shared";
-import type { NewIncome } from "../../types/types";
+import { trpc, formatDate } from "utils";
+import type { NewIncome } from "types";
 
 import Input from "../input/input.component";
 import Select from "../select/select.component";

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import { trpc } from "../../utils/trpc";
-import type { IExpense, UpdateExpense } from "../../types/types";
+import { trpc } from "utils";
+import type { IExpense, UpdateExpense } from "types";
 
 import Input from "../input/input.component";
 import Select from "../select/select.component";
 import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
-import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "hooks/useDebounce";
 
 type Props = {
   open: boolean;

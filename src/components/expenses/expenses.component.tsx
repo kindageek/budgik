@@ -1,9 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
 
-import { trpc } from "../../utils/trpc";
-import { numWithCommas } from "../../utils/shared";
-import type { IExpense, TableFilters, UpdateExpense } from "../../types/types";
-import SnackbarContext from "../../context/snackbar.context";
+import { trpc, numWithCommas } from "utils";
+import type { IExpense, TableFilters, UpdateExpense } from "types";
+import SnackbarContext from "context/snackbar.context";
 
 import Alert from "../alert/alert.component";
 import ExpensesHeader from "./expenses-header.component";

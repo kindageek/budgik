@@ -1,6 +1,6 @@
 import React from "react";
 
-import useBoolean from "../../hooks/useBoolean";
+import useBoolean from "hooks/useBoolean";
 
 import NavLinks from "./nav-links.component";
 import NavbarLogo from "./navbar-logo.component";

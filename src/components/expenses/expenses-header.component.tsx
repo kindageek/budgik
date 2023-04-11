@@ -1,7 +1,7 @@
 import React from "react";
 
-import { trpc } from "../../utils/trpc";
-import type { TableFilters } from "../../types/types";
+import { trpc, MONTHS } from "utils";
+import type { TableFilters } from "types";
 
 import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
@@ -10,7 +10,6 @@ import CreateExpense from "./create-expense.component";
 import CategorySelect from "../table-filters/category-select.component";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import DownloadIconButton from "../buttons/download-icon-button.component";
-import { MONTHS } from "../../utils/constants";
 
 type Props = {
   tableRef: React.MutableRefObject<null>;

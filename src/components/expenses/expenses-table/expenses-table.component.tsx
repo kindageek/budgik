@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from "react";
 import type { Category, Expense } from "@prisma/client";
 
-import { formatDate, removeDuplicates } from "../../../utils/shared";
-import type { Column } from "../../../types/types";
+import { formatDate, removeDuplicates } from "utils";
+import type { Column } from "types";
 
-import TableHead from "../../table/table-head.component";
+import TableHead from "components/table/table-head.component";
 import ExpensesTableRow from "./expenses-table-row.component";
-import EmptyTableRow from "../../table/empty-table-row.component";
-import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
-import TableContainer from "../../table/table-container.component";
+import EmptyTableRow from "components/table/empty-table-row.component";
+import ConfirmationModal from "components/confirmation-modal/confirmation-modal.component";
+import TableContainer from "components/table/table-container.component";
 
 const COLUMNS: Column[] = [
   {

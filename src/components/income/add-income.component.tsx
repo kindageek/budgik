@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { trpc } from "../../utils/trpc";
-import type { NewIncome } from "../../types/types";
-import useModalState from "../../hooks/useModalState";
+import { trpc } from "utils";
+import type { NewIncome } from "types";
+import useModalState from "hooks/useModalState";
 
 import IncomeForm from "./income-form.component";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Category, Income } from "@prisma/client";
 
-import { numWithCommas } from "../../utils/shared";
+import { numWithCommas } from "utils";
 
 import EditIconButton from "../buttons/edit-icon-button.component";
 import DeleteIconButton from "../buttons/delete-icon-button.component";

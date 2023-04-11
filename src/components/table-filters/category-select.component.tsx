@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import SnackbarContext from "../../context/snackbar.context";
-import { trpc } from "../../utils/trpc";
+import SnackbarContext from "context/snackbar.context";
+import { trpc } from "utils";
 import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {

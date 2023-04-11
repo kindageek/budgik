@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import type { Tab as ITab } from "../../types/types";
+import type { Tab as ITab } from "types";
 
 type Props = {
   tab: ITab;

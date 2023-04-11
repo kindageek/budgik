@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import useModalState from "../../hooks/useModalState";
+import useModalState from "hooks/useModalState";
 import { AiOutlinePlus } from "react-icons/ai";
 import ExpenseForm from './expense-form.component';
-import { trpc } from '../../utils/trpc';
-import type { IExpense } from '../../types/types';
+import { trpc } from 'utils/trpc';
+import type { IExpense } from 'types/types';
 
 type Props = {
   onComplete: (msg: string) => void;

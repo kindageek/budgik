@@ -3,8 +3,8 @@ import { signOut, useSession } from "next-auth/react";
 import { FaRegUserCircle } from "react-icons/fa";
 import * as Popover from "@radix-ui/react-popover";
 
-import useModalState from "../../hooks/useModalState";
-import useMediaQuery from "../../hooks/useMediaQuery";
+import useModalState from "hooks/useModalState";
+import useMediaQuery from "hooks/useMediaQuery";
 import NavLink from "./nav-link.component";
 
 const UserNavProfile: React.FC = () => {
