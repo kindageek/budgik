@@ -15,7 +15,7 @@ const AddIncome: React.FC<Props> = ({ onComplete }) => {
   const { isOpen, onOpen, onClose } = useModalState({ initialOpen: false });
 
   const {
-    mutateAsync: addCategory,
+    mutateAsync: addIncome,
     isLoading,
     error,
     reset,
@@ -27,7 +27,7 @@ const AddIncome: React.FC<Props> = ({ onComplete }) => {
   });
 
   const handleFormComplete = (data: NewIncome) => {
-    addCategory({...data, name: data.incomeName }).catch((e) => {
+    addIncome({...data, name: data.incomeName }).catch((e) => {
       return;
     });
   };

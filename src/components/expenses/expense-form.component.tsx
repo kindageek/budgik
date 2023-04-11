@@ -1,74 +1,89 @@
 import React, { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import { trpc } from "../../../utils/trpc";
-import type { UpdateExpense } from "../../../types/types";
+import { trpc } from "../../utils/trpc";
+import type { IExpense, UpdateExpense } from "../../types/types";
 
-import Input from "../../input/input.component";
-import Select from "../../select/select.component";
-import Dialog, { DialogActions, DialogBody, DialogTitle } from "../../dialog";
+import Input from "../input/input.component";
+import Select from "../select/select.component";
+import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
+import useDebounce from "../../hooks/useDebounce";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  onComplete: (msg: string) => void;
-  data: UpdateExpense | null;
+  onSubmit: (data: IExpense) => void;
+  data?: UpdateExpense | null;
+  errorMessage?: string;
+  isLoading?: boolean;
 };
 
-interface IUpdateExpense {
-  id: string;
-  date: string;
-  name: string;
-  categoryId: string;
-  value: number;
-}
-
-const EditExpenseForm: React.FC<Props> = ({
+const ExpenseForm: React.FC<Props> = ({
   open,
-  data,
   onClose,
-  onComplete,
+  onSubmit,
+  data = null,
+  errorMessage = null,
+  isLoading = false,
 }) => {
-  const { data: categories } = trpc.category.getExpenseCategories.useQuery();
+  const { data: categories, isLoading: isCategoriesLoading } =
+    trpc.category.getExpenseCategories.useQuery();
+
   const {
     handleSubmit,
     control,
     formState: { errors, isDirty },
     reset,
     setValue,
-  } = useForm<IUpdateExpense>({
-    defaultValues: { ...data, date: data?.date.toISOString().split("T")[0] },
+    setError,
+    getValues,
+  } = useForm<IExpense>({
+    defaultValues: data
+      ? { ...data, date: data?.date.toISOString().split("T")[0] }
+      : {
+          expenseName: "",
+          date: new Date().toISOString().split("T")[0],
+          categoryId: "",
+          value: undefined,
+        },
   });
 
-  const {
-    mutateAsync: edit,
-    isLoading,
-    error,
-  } = trpc.expense.edit.useMutation({
-    onSuccess: (data) => {
-      reset();
-      onComplete(data.message);
-    },
-    onError: () => {
-      reset();
-    },
-  });
-
-  const onSubmit: SubmitHandler<IUpdateExpense> = async (
-    data: IUpdateExpense
+  const submitHandler: SubmitHandler<IExpense> = async (
+    data: IExpense
   ) => {
-    edit({ ...data, date: new Date(data.date), value: Number(data.value) });
+    onSubmit({ ...data, value: Number(data.value) });
   };
 
   useEffect(() => reset(), [open]);
 
   useEffect(() => {
-    setValue("id", data?.id || "");
-    setValue("name", data?.name || "");
+    setValue("expenseName", data?.name || "");
     setValue("date", data?.date.toISOString().split("T")[0] || "");
     setValue("categoryId", data?.categoryId || "");
     setValue("value", data?.value || 0);
   }, [data]);
+
+  useEffect(() => {
+    if (isCategoriesLoading || (categories && categories?.length > 0)) return;
+    setError("categoryId", {
+      message:
+        "You do not have any categories yet. Please add a category first!",
+    });
+  }, [categories, isCategoriesLoading, open]);
+
+  const debouncedExpense: string = useDebounce<string>(
+    getValues().expenseName,
+    300
+  );
+
+  useEffect(() => {
+    if (!debouncedExpense) return;
+    const category = categories?.find(
+      (category) => category.name === debouncedExpense
+    );
+    if (!category) return;
+    setValue("categoryId", category.id);
+  }, [debouncedExpense, categories]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -77,7 +92,7 @@ const EditExpenseForm: React.FC<Props> = ({
         <form
           id="create-expense-form"
           className="space-y-4 md:space-y-6"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(submitHandler)}
         >
           <Controller
             name="date"
@@ -99,7 +114,7 @@ const EditExpenseForm: React.FC<Props> = ({
             }}
           />
           <Controller
-            name="name"
+            name="expenseName"
             control={control}
             rules={{ required: "Required" }}
             render={({ field }) => {
@@ -110,8 +125,8 @@ const EditExpenseForm: React.FC<Props> = ({
                   id="name"
                   placeholder="Name"
                   required
-                  error={!!errors.name}
-                  errorMessage={errors?.name?.message?.toString()}
+                  error={!!errors.expenseName}
+                  errorMessage={errors?.expenseName?.message?.toString()}
                   {...field}
                 />
               );
@@ -163,9 +178,9 @@ const EditExpenseForm: React.FC<Props> = ({
             }}
           />
         </form>
-        {error && error?.message?.length > 0 ? (
+        {errorMessage && errorMessage?.length > 0 ? (
           <h3 className="text-md mt-4 rounded-md border border-red-500 bg-rose-100 py-1 text-center font-bold text-red-500">
-            {error?.message}
+            {errorMessage}
           </h3>
         ) : null}
       </DialogBody>
@@ -182,7 +197,11 @@ const EditExpenseForm: React.FC<Props> = ({
           className="rounded-lg bg-secondary-default px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light disabled:bg-gray-300 disabled:hover:bg-gray-300"
           type="submit"
           form="create-expense-form"
-          disabled={isLoading || !isDirty}
+          disabled={
+            isLoading ||
+            !isDirty ||
+            (!isCategoriesLoading && (!categories || categories.length === 0))
+          }
         >
           Save
         </button>
@@ -191,4 +210,4 @@ const EditExpenseForm: React.FC<Props> = ({
   );
 };
 
-export default EditExpenseForm;
+export default ExpenseForm;

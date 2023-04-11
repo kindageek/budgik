@@ -6,7 +6,7 @@ import type { TableFilters } from "../../types/types";
 import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
 import MonthSelect from "../table-filters/month-select.component";
-import CreateExpense from "./create-expense/create-expense.component";
+import CreateExpense from "./create-expense.component";
 import CategorySelect from "../table-filters/category-select.component";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import DownloadIconButton from "../buttons/download-icon-button.component";

@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 
 import { trpc } from "../../utils/trpc";
 import { numWithCommas } from "../../utils/shared";
-import type { TableFilters, UpdateExpense } from "../../types/types";
+import type { IExpense, TableFilters, UpdateExpense } from "../../types/types";
 import SnackbarContext from "../../context/snackbar.context";
 
 import Alert from "../alert/alert.component";
@@ -10,7 +10,7 @@ import ExpensesHeader from "./expenses-header.component";
 import PageHeader from "../page-header/page-header.component";
 import ExpensesTable from "./expenses-table/expenses-table.component";
 import PageContainer from "../page-container/page-container.component";
-import EditExpenseForm from "./edit-expense/edit-expense-form.component";
+import ExpenseForm from "./expense-form.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
@@ -40,6 +40,18 @@ const Expenses: React.FC = () => {
       },
     });
 
+  const {
+    mutateAsync: editExpense,
+    isLoading: isEditLoading,
+    error: editError,
+  } = trpc.expense.edit.useMutation({
+    onSuccess: (data) => {
+      openSnackbar({ msg: data.message, type: "success" });
+      setEditExpenseData(null);
+      refetch();
+    },
+  });
+
   const [editExpenseData, setEditExpenseData] = useState<UpdateExpense | null>(
     null
   );
@@ -53,10 +65,14 @@ const Expenses: React.FC = () => {
     await deleteExpense({ id });
   };
 
-  const handleEditComplete = (msg: string) => {
-    openSnackbar({ msg, type: "success" });
-    setEditExpenseData(null);
-    refetch();
+  const handleEditSubmit = (data: IExpense) => {
+    if (!editExpenseData?.id) return;
+    editExpense({
+      ...data,
+      date: new Date(data.date),
+      id: editExpenseData.id,
+      name: data.expenseName,
+    });
   };
 
   const onEditItem = (id: string) => {
@@ -112,11 +128,13 @@ const Expenses: React.FC = () => {
         onDeleteItem={onDeleteItem}
         onDuplicateRow={onDuplicateRow}
       />
-      <EditExpenseForm
+      <ExpenseForm
         open={editExpenseData !== null}
         data={editExpenseData}
         onClose={() => setEditExpenseData(null)}
-        onComplete={handleEditComplete}
+        onSubmit={handleEditSubmit}
+        errorMessage={editError?.message}
+        isLoading={isEditLoading}
       />
     </PageContainer>
   );

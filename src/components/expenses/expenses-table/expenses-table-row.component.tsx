@@ -1,11 +1,6 @@
 import React from "react";
 import type { Category, Expense } from "@prisma/client";
-
 import { numWithCommas } from "../../../utils/shared";
-
-import EditIconButton from "../../buttons/edit-icon-button.component";
-import DeleteIconButton from "../../buttons/delete-icon-button.component";
-import DuplicateIconButton from "../../buttons/duplicate-icon-button.component";
 import ExpensesTableRowActions from "./expenses-table-row-actions.component";
 
 type Props = {
