@@ -2,6 +2,7 @@ import React from "react";
 import useMediaQuery from "hooks/useMediaQuery";
 import { MONTHS } from "utils";
 import Dropdown from "../dropdown/dropdown.component";
+import type { MonthName } from 'types';
 
 type Props = {
   month: number;
@@ -14,7 +15,7 @@ const MonthSelect: React.FC<Props> = ({ month, onSelect }) => {
   const trimValue = (val: string) => (isMediumScreen ? val.slice(0, 3) : val);
   
   const handleMonthChange = (month: string) => {
-    onSelect(MONTHS.indexOf(month) + 1);
+    onSelect(MONTHS.indexOf(month as MonthName) + 1);
   };
 
   return (

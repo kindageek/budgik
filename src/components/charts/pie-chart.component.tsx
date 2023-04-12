@@ -5,6 +5,7 @@ import {
   PieChart as RechartsPieChart,
   ResponsiveContainer,
   Tooltip,
+  type TooltipProps,
 } from "recharts";
 import type { ChartData } from "types";
 import { COLORS, numWithCommas } from "utils";
@@ -13,13 +14,13 @@ type Props = {
   data: ChartData[];
 };
 
-const TooltipContent = (data: any) => {
+const TooltipContent = (data: TooltipProps<number, string>) => {
   const { active, payload } = data;
   if (active && payload && payload.length) {
     return (
       <div className="flex rounded-lg border bg-white p-2.5 text-xs shadow-md">
-        <p className="mr-1">{payload[0].name}:</p>
-        <p className="">${numWithCommas(payload[0].value)}</p>
+        <p className="mr-1">{payload[0]?.name}:</p>
+        <p className="">${numWithCommas(payload[0]?.value || 0)}</p>
       </div>
     );
   }

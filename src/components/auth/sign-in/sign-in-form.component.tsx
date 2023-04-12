@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import Link from "next/link";
+import React from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { Controller, type SubmitHandler, useForm } from "react-hook-form";
-
-import Input from "../../input/input.component";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import GoogleSignIn from "./google-sign-in.component";
 
 interface FormInputs {
@@ -16,11 +13,9 @@ const SignInForm: React.FC = () => {
   const router = useRouter();
   const {
     handleSubmit,
-    control,
-    formState: { errors },
   } = useForm<FormInputs>();
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     const status = await signIn("credentials", {
@@ -30,9 +25,10 @@ const SignInForm: React.FC = () => {
     });
     if (status?.ok) {
       router.push("/dashboard");
-    } else {
-      setErrorMessage(status?.error ?? null);
-    }
+    } 
+    // else {
+    //   setErrorMessage(status?.error ?? null);
+    // }
   };
 
   return (

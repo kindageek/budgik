@@ -19,7 +19,7 @@ type Props = {
   active?: boolean;
   onAdd?: (value: string) => void;
   onRemove?: (value: string) => void;
-  showActive: boolean;
+  showActive?: boolean;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -33,7 +33,7 @@ const Dropdown: React.FC<Props> = ({
   onAdd = null,
   onRemove = null,
   formatter = null,
-  showActive,
+  showActive = true,
 }) => {
   const { isOpen, onToggle, onClose } = useModalState({ initialOpen: false });
   const {

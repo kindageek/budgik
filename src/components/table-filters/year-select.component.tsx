@@ -40,9 +40,9 @@ const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
     addYears({ years: [year] });
   };
 
-  const handleRemoveYear = (value: string) => {
-    const year = parseInt(value);
-  };
+  // const handleRemoveYear = (value: string) => {
+  //   const year = parseInt(value);
+  // };
 
   useEffect(() => {
     if (!isFetched) return;

@@ -1,4 +1,4 @@
-import { MonthName } from 'types/types';
+import type { MonthName } from 'types/types';
 
 export function numWithCommas(num: number): string {
   return num

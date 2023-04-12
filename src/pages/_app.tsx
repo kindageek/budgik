@@ -8,7 +8,7 @@ import "../styles/globals.css";
 import SnackbarContext from "context/snackbar.context";
 import { useState } from "react";
 import Snackbar from "../components/snackbar/snackbar.component";
-import { SnackbarState } from "types";
+import type { SnackbarState } from "types";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

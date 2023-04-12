@@ -26,6 +26,7 @@ const CreateExpense: React.FC<Props> = ({ onComplete }) => {
 
   const handleFormComplete = (data: IExpense) => {
     addExpense({...data, name: data.expenseName }).catch((e) => {
+      console.log(e)
       return;
     });
   };

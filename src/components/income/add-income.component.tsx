@@ -28,6 +28,7 @@ const AddIncome: React.FC<Props> = ({ onComplete }) => {
 
   const handleFormComplete = (data: NewIncome) => {
     addIncome({...data, name: data.incomeName }).catch((e) => {
+      console.log(e)
       return;
     });
   };
