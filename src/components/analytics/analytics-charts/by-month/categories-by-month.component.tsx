@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Category, Expense, Income } from "@prisma/client";
 
 import type { ChartData, MonthName } from "types";
@@ -31,6 +31,11 @@ const CategoriesByMonth: React.FC<Props> = ({ data, year, variant }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     data && data?.length > 0 && data[0]?.name ? data[0]?.name : ""
   );
+
+  useEffect(() => {
+    if (!data || !data?.length) return;
+    setSelectedCategory(data[0]?.name ?? "");
+  }, [data]);
 
   const categoriesList = useMemo(() => {
     return Array.from(new Set(data?.map((item) => item.name))).filter(
