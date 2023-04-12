@@ -5,6 +5,7 @@ import { AiFillHome } from "react-icons/ai";
 import { FaMoneyBillAlt, FaAngleDoubleRight } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { BiCategoryAlt } from "react-icons/bi";
+import { TbDeviceAnalytics } from "react-icons/tb";
 
 import useBoolean from "hooks/useBoolean";
 import type { NestedLink } from '../../types/types';
@@ -29,6 +30,11 @@ export const DASHBOARD_NAV_LINKS: NestedLink[] = [
     title: "Categories",
     url: "/dashboard/category?tab=EXPENSE",
     icon: <BiCategoryAlt />,
+  },
+  {
+    title: "Analytics",
+    url: "/dashboard/analytics",
+    icon: <TbDeviceAnalytics />,
   },
 ];
 

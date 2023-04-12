@@ -4,7 +4,7 @@ import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {
   year: number;
-  onSelect: (monthNum: number) => void;
+  onSelect: (_year: number) => void;
 };
 
 const YearSelect: React.FC<Props> = ({ year, onSelect }) => {

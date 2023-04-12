@@ -5,9 +5,9 @@ import type { ChartData } from "../../../types/types";
 import { getAllExpenses } from "../../../services/expenses";
 
 import Card from "../../card/card.component";
-import BarChart from "./bar-chart.component";
+import BarChart from "../../charts/bar-chart.component";
 import Loader from "../../loader/loader.component";
-import OverviewChartTitle from './overview-chart-title.component';
+import ChartTitle from 'components/charts/chart-title.component';
 
 const ExpenseBarChart: React.FC = () => {
   const year = new Date().getFullYear();
@@ -46,7 +46,7 @@ const ExpenseBarChart: React.FC = () => {
   return (
     <Card>
       <div className="flex h-full w-full flex-col items-center">
-        <OverviewChartTitle title="Expenses in the last 3 months" />
+        <ChartTitle title="Expenses in the last 3 months" />
         {loading1 || loading2 || loading3 ? (
           <Loader />
         ) : (

@@ -8,9 +8,8 @@ import {
   XAxis,
   Tooltip,
 } from "recharts";
-import type { ChartData } from "../../../types/types";
-import { COLORS } from "../../../utils/constants";
-import { numWithCommas } from "../../../utils/shared";
+import type { ChartData } from "types";
+import { COLORS, numWithCommas } from "utils";
 
 type Props = {
   data: ChartData[];

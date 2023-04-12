@@ -3,9 +3,9 @@ import { trpc } from "../../../utils/trpc";
 import type { ChartData } from "../../../types/types";
 
 import Card from "../../card/card.component";
-import PieChart from "./pie-chart.component";
+import PieChart from "../../charts/pie-chart.component";
 import Loader from "../../loader/loader.component";
-import OverviewChartTitle from "./overview-chart-title.component";
+import ChartTitle from 'components/charts/chart-title.component';
 
 const getMonthAndYear = (date: Date) => {
   const month = date.getMonth() + 1;
@@ -40,7 +40,7 @@ const ExpensePieChart: React.FC = () => {
   return (
     <Card>
       <div className="flex h-full w-full flex-col">
-        <OverviewChartTitle title={`Expenses by categories (${monthName})`} />
+        <ChartTitle title={`Expenses by categories (${monthName})`} />
         {isLoading ? <Loader /> : <PieChart data={data} />}
       </div>
     </Card>

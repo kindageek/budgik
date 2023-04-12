@@ -19,6 +19,7 @@ type Props = {
   active?: boolean;
   onAdd?: (value: string) => void;
   onRemove?: (value: string) => void;
+  showActive: boolean;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const Dropdown: React.FC<Props> = ({
   onAdd = null,
   onRemove = null,
   formatter = null,
+  showActive,
 }) => {
   const { isOpen, onToggle, onClose } = useModalState({ initialOpen: false });
   const {
@@ -79,7 +81,7 @@ const Dropdown: React.FC<Props> = ({
   return (
     <div className={`relative ${fullWidth ? "w-full" : ""}`} ref={ref}>
       <DropdownButton
-        active={active}
+        active={active && showActive}
         text={formatter ? formatter(value) : value}
         onClick={handleToggle}
         error={error}
@@ -99,7 +101,7 @@ const Dropdown: React.FC<Props> = ({
                   handleToggle();
                 }}
                 className={`block cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${
-                  text === value ? "bg-gray-100 font-bold" : ""
+                  text === value && showActive ? "bg-gray-100 font-bold" : ""
                 }`}
               >
                 <div className="flex w-full items-center justify-between">
@@ -110,7 +112,7 @@ const Dropdown: React.FC<Props> = ({
                 </div>
               </li>
             ))}
-            {onAdd !== null ? (
+            {!!onAdd ? (
               isFormOpen ? (
                 <DropdownAddForm
                   value={inputValue}

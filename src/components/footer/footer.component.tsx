@@ -1,11 +1,16 @@
 import { useRouter } from 'next/router';
-import React from "react";
+import React, { useMemo } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import { MdOutlineEmail } from "react-icons/md";
 
 const Footer: React.FC = () => {
   const router = useRouter();
   const isHomePage = router.pathname === "/";
+
+  const year = useMemo(() => {
+    return new Date().getFullYear()
+  }, []);
+  
   return (
     <footer className={`container mx-auto flex w-full items-center justify-between gap-2 px-4 py-2 sm:px-4 sm:py-3 ${isHomePage ? 'text-white' : 'text-black'}`}>
       <ul className="flex items-center gap-4">
@@ -26,7 +31,7 @@ const Footer: React.FC = () => {
         </li>
       </ul>
       <div className="flex items-center gap-2">
-        <p className="text-xs">Copyright © 2022 Budgik.</p>
+        <p className="text-xs">Copyright © { year } Budgik.</p>
         <p className="text-xs">All rights reserved</p>
       </div>
     </footer>

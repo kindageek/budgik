@@ -4,6 +4,7 @@ import OverviewHeader from "./overview-header.component";
 import PageContainer from "../page-container/page-container.component";
 import OverviewSummary from "./overview-summary/overview-summary.component";
 import OverviewCharts from "./overview-charts/overview-charts.component";
+import Link from "next/link";
 
 const Overview: React.FC = () => {
   return (
@@ -12,6 +13,11 @@ const Overview: React.FC = () => {
         <OverviewHeader />
         <OverviewSummary />
         <OverviewCharts />
+        <div className="flex w-full justify-center">
+          <Link href="/dashboard/analytics" className="hover:underline">
+            See More
+          </Link>
+        </div>
       </div>
     </PageContainer>
   );

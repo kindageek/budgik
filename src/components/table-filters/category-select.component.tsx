@@ -4,11 +4,13 @@ import { trpc } from "utils";
 import Dropdown from "../dropdown/dropdown.component";
 
 type Props = {
-  type: 'EXPENSE' | 'INCOME',
+  type: "EXPENSE" | "INCOME";
   category: string;
   categories: string[];
   onSelect: (categoryId: string) => void;
-  onAddComplete: () => void;
+  onAddComplete?: () => void;
+  disableAdd?: boolean;
+  showActive?: boolean;
 };
 
 const CategorySelect: React.FC<Props> = ({
@@ -16,21 +18,24 @@ const CategorySelect: React.FC<Props> = ({
   category,
   categories,
   onSelect,
-  onAddComplete,
+  onAddComplete = null,
+  disableAdd = false,
+  showActive = true,
 }) => {
   const { openSnackbar } = useContext(SnackbarContext);
   const active = category !== "All categories";
 
-  const {
-    mutateAsync: addCategory,
-  } = trpc.category.add.useMutation({
+  const { mutateAsync: addCategory } = trpc.category.add.useMutation({
     onSuccess: (data) => {
       openSnackbar({ msg: data.message, type: "success" });
-      onAddComplete();
+      if (!!onAddComplete && !disableAdd) {
+        onAddComplete();
+      }
     },
   });
 
   const handleAddCategory = (name: string) => {
+    if (disableAdd) return;
     addCategory({ name, type });
   };
 
@@ -41,8 +46,9 @@ const CategorySelect: React.FC<Props> = ({
         value={category}
         values={categories}
         onChange={onSelect}
+        showActive={showActive}
         fullWidth
-        onAdd={handleAddCategory}
+        onAdd={disableAdd ? undefined : handleAddCategory}
       />
     </div>
   );

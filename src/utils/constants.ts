@@ -1,4 +1,6 @@
-export const MONTHS = [
+import type { MonthName } from 'types';
+
+export const MONTHS: MonthName[] = [
   "January",
   "February",
   "March",

@@ -6,9 +6,8 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import type { ChartData } from "../../../types/types";
-import { COLORS } from "../../../utils/constants";
-import { numWithCommas } from "../../../utils/shared";
+import type { ChartData } from "types";
+import { COLORS, numWithCommas } from "utils";
 
 type Props = {
   data: ChartData[];
@@ -29,7 +28,7 @@ const TooltipContent = (data: any) => {
 };
 
 const PieChart: React.FC<Props> = ({ data }) => {
-  const renderLabel = (values: any) => {
+  const renderLabel = (values: ChartData) => {
     const { name, value } = values;
     return `${name} ($${numWithCommas(value)})`;
   };

@@ -10,7 +10,7 @@ type Props = {
 
 const MonthSelect: React.FC<Props> = ({ month, onSelect }) => {
   const isMediumScreen = useMediaQuery("(max-width: 768px)");
-  console.log('isMediumScreen:', isMediumScreen)
+
   const trimValue = (val: string) => (isMediumScreen ? val.slice(0, 3) : val);
   
   const handleMonthChange = (month: string) => {

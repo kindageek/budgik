@@ -1,3 +1,5 @@
+import { MonthName } from 'types/types';
+
 export function numWithCommas(num: number): string {
   return num
     .toFixed(2)
@@ -27,4 +29,10 @@ export function sum(arr?: number[]) {
 
 export function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function getMonthFromDate(date: string | Date) {
+  return new Date(date).toLocaleString("default", {
+    month: "long",
+  }) as MonthName;
 }
