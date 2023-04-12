@@ -48,9 +48,7 @@ const ExpenseForm: React.FC<Props> = ({
         },
   });
 
-  const submitHandler: SubmitHandler<IExpense> = async (
-    data: IExpense
-  ) => {
+  const submitHandler: SubmitHandler<IExpense> = async (data: IExpense) => {
     onSubmit({ ...data, value: Number(data.value) });
   };
 
@@ -87,7 +85,10 @@ const ExpenseForm: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle title="Edit Expense" onClose={onClose} />
+      <DialogTitle
+        title={`${data === null ? "Add" : "Edit"} Expense`}
+        onClose={onClose}
+      />
       <DialogBody>
         <form
           id="create-expense-form"
