@@ -37,7 +37,7 @@ const IncomeForm: React.FC<Props> = ({
     reset,
     setValue,
     setError,
-    getValues,
+    watch,
   } = useForm<NewIncome>({
     defaultValues: data
       ? {
@@ -75,7 +75,9 @@ const IncomeForm: React.FC<Props> = ({
     });
   }, [categories, isCategoriesLoading, open]);
 
-  const debouncedIncome: string = useDebounce<string>(getValues().incomeName, 300);
+  const watchIncomeName = watch("incomeName");
+
+  const debouncedIncome: string = useDebounce<string>(watchIncomeName, 300);
 
   useEffect(
     () => {

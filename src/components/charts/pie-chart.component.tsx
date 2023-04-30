@@ -54,7 +54,7 @@ const PieChart: React.FC<Props> = ({ data }) => {
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
-        <Tooltip content={<TooltipContent />} />
+        <Tooltip content={<TooltipContent />} wrapperStyle={{ outline: "none" }} />
       </RechartsPieChart>
     </ResponsiveContainer>
   );

@@ -53,9 +53,6 @@ const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
 
   return (
     <div className="flex max-w-[10rem] items-center w-full">
-      {isLoading ? (
-        <p>...</p>
-      ) : (
         <Dropdown
           value={year.toString()}
           values={years ? years?.map((y) => y.toString()) : []}
@@ -66,7 +63,6 @@ const YearSelect: React.FC<Props> = ({ year, onSelect }) => {
           error={errorMsg?.length > 0}
           errorMessage={errorMsg}
         />
-      )}
     </div>
   );
 };

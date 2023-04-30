@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 import { trpc } from "utils";
@@ -36,7 +36,7 @@ const ExpenseForm: React.FC<Props> = ({
     reset,
     setValue,
     setError,
-    getValues,
+    watch
   } = useForm<IExpense>({
     defaultValues: data
       ? { ...data, date: data?.date.toISOString().split("T")[0] }
@@ -52,7 +52,7 @@ const ExpenseForm: React.FC<Props> = ({
     onSubmit({ ...data, value: Number(data.value) });
   };
 
-  useEffect(() => reset(), [open]);
+  const watchExpenseName = watch("expenseName");
 
   useEffect(() => {
     setValue("expenseName", data?.name || "");
@@ -70,7 +70,7 @@ const ExpenseForm: React.FC<Props> = ({
   }, [categories, isCategoriesLoading, open]);
 
   const debouncedExpense: string = useDebounce<string>(
-    getValues().expenseName,
+    watchExpenseName,
     300
   );
 

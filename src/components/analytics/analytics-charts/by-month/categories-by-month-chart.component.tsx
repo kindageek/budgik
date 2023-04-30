@@ -56,6 +56,7 @@ const CategoriesByMonthChart: React.FC<Props> = ({ data }) => {
         />
         <Line type="monotone" dataKey="value" stroke="#8884d8" />
         <Tooltip
+          wrapperStyle={{ outline: "none" }}
           content={<TooltipContent />}
           cursor={{ fill: "transparent" }}
         />

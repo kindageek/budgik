@@ -27,7 +27,10 @@ const ExpensesTableRow: React.FC<Props> = ({
   onDuplicateRow,
 }) => {
   return (
-    <tr key={row.id} className="bg-whiteborder-b">
+    <tr
+      key={row.id}
+      className="border-b bg-white hover:bg-gray-100"
+    >
       {isFirstRow && (
         <td
           align="left"

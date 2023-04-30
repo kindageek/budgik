@@ -29,7 +29,7 @@ const IncomeTableRow: React.FC<Props> = ({
   onDuplicateRow,
 }) => {
   return (
-    <tr key={row.id} className="bg-whiteborder-b">
+    <tr key={row.id} className="bg-white border-b hover:bg-gray-100">
       {isFirstRow && (
         <td
           align="left"

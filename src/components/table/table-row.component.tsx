@@ -12,7 +12,7 @@ const TableRow: React.FC<Props> = ({ row }) => {
   const length = row.values.length;
   
   return (
-    <tr key={row.id} className="bg-whiteborder-b">
+    <tr key={row.id} className="bg-white border-b hover:bg-gray-100">
       {row.values.map(({ value, align, width }, index) => (
         <td
           key={index}

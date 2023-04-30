@@ -30,16 +30,16 @@ const ExpenseBarChart: React.FC = () => {
 
   const data: ChartData[] = [
     {
-      name: MONTHS[currMonth - 1] || currMonth.toString(),
-      value: expenses1 ? expenses1?.reduce((sum, e) => sum + e.value, 0) : 0,
+      name: MONTHS[prevPrevMonth - 1] || prevPrevMonth.toString(),
+      value: expenses3 ? expenses3?.reduce((sum, e) => sum + e.value, 0) : 0,
     },
     {
       name: MONTHS[prevMonth - 1] || prevMonth.toString(),
       value: expenses2 ? expenses2?.reduce((sum, e) => sum + e.value, 0) : 0,
     },
     {
-      name: MONTHS[prevPrevMonth - 1] || prevPrevMonth.toString(),
-      value: expenses3 ? expenses3?.reduce((sum, e) => sum + e.value, 0) : 0,
+      name: MONTHS[currMonth - 1] || currMonth.toString(),
+      value: expenses1 ? expenses1?.reduce((sum, e) => sum + e.value, 0) : 0,
     },
   ];
 

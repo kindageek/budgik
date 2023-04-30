@@ -54,6 +54,7 @@ const BarChart: React.FC<Props> = ({ data }) => {
           ))}
         </Bar>
         <Tooltip
+          wrapperStyle={{ outline: "none" }}
           content={<TooltipContent />}
           cursor={{ fill: "transparent" }}
         />
