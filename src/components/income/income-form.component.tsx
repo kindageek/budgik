@@ -41,14 +41,14 @@ const IncomeForm: React.FC<Props> = ({
   } = useForm<NewIncome>({
     defaultValues: data
       ? {
-        incomeName: data.name,
+          incomeName: data.name,
           categoryId: data.categoryId,
           value: data.value,
           date: formatDate(data.date),
         }
       : {
         incomeName: "",
-          date: new Date().toISOString().split("T")[0],
+          date: formatDate(),
           categoryId: "",
           value: undefined,
         },
@@ -62,7 +62,7 @@ const IncomeForm: React.FC<Props> = ({
 
   useEffect(() => {
     setValue("incomeName", data?.name || "");
-    setValue("date", data?.date.toISOString().split("T")[0] || "");
+    setValue("date", formatDate(data?.date));
     setValue("categoryId", data?.categoryId || "");
     setValue("value", data?.value || 0);
   }, [data]);
@@ -76,7 +76,6 @@ const IncomeForm: React.FC<Props> = ({
   }, [categories, isCategoriesLoading, open]);
 
   const watchIncomeName = watch("incomeName");
-
   const debouncedIncome: string = useDebounce<string>(watchIncomeName, 300);
 
   useEffect(

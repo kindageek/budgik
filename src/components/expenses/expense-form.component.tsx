@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
-import { trpc } from "utils";
+import { formatDate, trpc } from "utils";
 import type { IExpense, UpdateExpense } from "types";
 
 import Input from "../input/input.component";
@@ -39,10 +39,15 @@ const ExpenseForm: React.FC<Props> = ({
     watch
   } = useForm<IExpense>({
     defaultValues: data
-      ? { ...data, date: data?.date.toISOString().split("T")[0] }
+      ? { 
+          expenseName: data.name,
+          categoryId: data.categoryId,
+          value: data.value,
+          date: formatDate(data.date),
+       }
       : {
           expenseName: "",
-          date: new Date().toISOString().split("T")[0],
+          date: formatDate(),
           categoryId: "",
           value: undefined,
         },
@@ -52,11 +57,11 @@ const ExpenseForm: React.FC<Props> = ({
     onSubmit({ ...data, value: Number(data.value) });
   };
 
-  const watchExpenseName = watch("expenseName");
+  useEffect(() => reset(), [open]);
 
   useEffect(() => {
     setValue("expenseName", data?.name || "");
-    setValue("date", data?.date.toISOString().split("T")[0] || "");
+    setValue("date", formatDate(data?.date));
     setValue("categoryId", data?.categoryId || "");
     setValue("value", data?.value || 0);
   }, [data]);
@@ -69,6 +74,7 @@ const ExpenseForm: React.FC<Props> = ({
     });
   }, [categories, isCategoriesLoading, open]);
 
+  const watchExpenseName = watch("expenseName");
   const debouncedExpense: string = useDebounce<string>(
     watchExpenseName,
     300

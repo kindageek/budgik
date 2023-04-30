@@ -11,7 +11,10 @@ export function toTitleCase(text: string): string {
   return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date?: Date): string {
+  if (!date) {
+    return new Date().toISOString().split("T")[0] ?? new Date().toLocaleDateString();
+  }
   return date.toISOString().split("T")[0] ?? date.toLocaleDateString();
 }
 
