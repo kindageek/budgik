@@ -1,16 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
 
@@ -20,19 +13,18 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-// Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -54,12 +46,12 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  years         Int[]
   accounts      Account[]
-  sessions      Session[]
+  categories    Category[]
   expenses      Expense[]
   incomes       Income[]
-  categories    Category[]
-  years         Int[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -76,9 +68,9 @@ model Expense {
   name       String
   value      Float
   userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Income {
@@ -87,19 +79,19 @@ model Income {
   name       String
   value      Float
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   userId     String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
   id       String       @id @default(cuid())
-  name     String       
-  incomes  Income[]
-  expenses Expense[]
+  name     String
   type     CategoryType @default(EXPENSE)
   userId   String
   user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses Expense[]
+  incomes  Income[]
 }
 
 enum CategoryType {
