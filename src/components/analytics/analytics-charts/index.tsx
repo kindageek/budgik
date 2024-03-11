@@ -1,15 +1,14 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import type { ChartData } from "types";
 import { trpc } from "utils";
 import AnalyticsPieChart from "./analytics-pie-chart.component";
 import CategoriesByMonth from "./by-month/categories-by-month.component";
 
 type Props = {
-  monthIdx: number;
-  year: number;
+  filters: { month: number; year: number };
 };
 
-const AnalyticsCharts: React.FC<Props> = ({ monthIdx, year }) => {
+const AnalyticsCharts: React.FC<Props> = ({ filters }) => {
   const { data: expenseCategories, isLoading: isExpenseCategoriesLoading } =
     trpc.category.getExpenseCategories.useQuery({
       includeExpenseData: true,
@@ -21,20 +20,19 @@ const AnalyticsCharts: React.FC<Props> = ({ monthIdx, year }) => {
     });
 
   const monthName = useMemo(() => {
-    return new Date(new Date().setMonth(monthIdx - 1)).toLocaleString(
+    return new Date(new Date().setMonth(filters.month - 1)).toLocaleString(
       "default",
-      { month: "long" }
+      {
+        month: "long",
+      }
     );
-  }, [monthIdx]);
+  }, [filters]);
 
-  const isCorrectDate = useCallback(
-    (date: Date) => {
-      const _month = date.getMonth() + 1;
-      const _year = date.getFullYear();
-      return _month === monthIdx && _year === year;
-    },
-    [monthIdx, year]
-  );
+  const isCorrectDate = (date: Date) => {
+    const _month = date.getMonth() + 1;
+    const _year = date.getFullYear();
+    return _month === filters.month && _year === filters.year;
+  };
 
   const expensesCategoriesData: ChartData[] = useMemo(() => {
     if (!expenseCategories || !expenseCategories?.length) return [];
@@ -50,7 +48,7 @@ const AnalyticsCharts: React.FC<Props> = ({ monthIdx, year }) => {
         ...item,
         value: Number(item.value.toFixed(2)),
       }));
-  }, [expenseCategories, isCorrectDate]);
+  }, [expenseCategories, filters]);
 
   const incomeCategoriesData: ChartData[] = useMemo(() => {
     if (!incomeCategories || !incomeCategories?.length) return [];
@@ -66,7 +64,7 @@ const AnalyticsCharts: React.FC<Props> = ({ monthIdx, year }) => {
         ...item,
         value: Number(item.value.toFixed(2)),
       }));
-  }, [incomeCategories, isCorrectDate]);
+  }, [incomeCategories, filters]);
 
   return (
     <div className="grid w-full grid-cols-1 grid-rows-[repeat(2,400px)] gap-5 sm:gap-10 md:grid-cols-2">
@@ -82,8 +80,16 @@ const AnalyticsCharts: React.FC<Props> = ({ monthIdx, year }) => {
         isLoading={isIncomeCategoriesLoading}
         title="Income"
       />
-      <CategoriesByMonth data={expenseCategories} year={year} variant="EXPENSE" />
-      <CategoriesByMonth data={incomeCategories} year={year} variant="INCOME"/>
+      <CategoriesByMonth
+        data={expenseCategories}
+        year={filters.year}
+        variant="EXPENSE"
+      />
+      <CategoriesByMonth
+        data={incomeCategories}
+        year={filters.year}
+        variant="INCOME"
+      />
     </div>
   );
 };

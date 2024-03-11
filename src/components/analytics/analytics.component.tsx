@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import React, { useState } from "react";
 
 import PageContainer from "../page-container/page-container.component";
 import PageHeader from "../page-header/page-header.component";
@@ -7,55 +6,89 @@ import AnalyticsSummary from "./analytics-summary";
 import YearSelect from "components/table-filters/year-select.component";
 import MonthSelect from "components/table-filters/month-select.component";
 import AnalyticsCharts from "./analytics-charts";
+import { trpc } from "utils";
+import IconBtn from "components/form/icon-btn";
 
 const Analytics: React.FC = () => {
-  const [monthIdx, setMonthIdx] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+  const { data: years } = trpc.user.getYears.useQuery();
 
-  const handleNextMonth = useCallback(() => {
-    const prevMonth = monthIdx;
-    if (prevMonth === 12) {
-      setMonthIdx(1);
-      setYear((v) => v + 1);
+  const [filters, setFilters] = useState<{ month: number; year: number }>({
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+  });
+
+  const handleNextMonth = () => {
+    if (filters.month === 12) {
+      if (!(years || []).includes(filters.year + 1)) {
+        return;
+      }
+      setFilters({
+        month: 1,
+        year: filters.year + 1,
+      });
       return;
     }
-    setMonthIdx((v) => v + 1);
-  }, [monthIdx]);
+    setFilters({
+      ...filters,
+      month: filters.month + 1,
+    });
+  };
 
-  const handlePrevMonth = useCallback(() => {
-    const prevMonth = monthIdx;
-    if (prevMonth === 1) {
-      setMonthIdx(12);
-      setYear((v) => v - 1);
+  const handlePrevMonth = () => {
+    if (filters.month === 1) {
+      if (!(years || []).includes(filters.year - 1)) {
+        return;
+      }
+      setFilters({
+        month: 12,
+        year: filters.year - 1,
+      });
       return;
     }
-    setMonthIdx((v) => v - 1);
-  }, [monthIdx]);
+    setFilters({
+      ...filters,
+      month: filters.month - 1,
+    });
+  };
+
+  const setYear = (year: number) => {
+    setFilters({
+      ...filters,
+      year,
+    });
+  };
+
+  const setMonth = (month: number) => {
+    setFilters({
+      ...filters,
+      month,
+    });
+  };
 
   return (
     <PageContainer>
-      <div className="grid grid-cols-1 h-full w-full gap-5 sm:gap-10">
-        <PageHeader title="Analytics" noMargin/>
-        <div className="flex w-full items-center justify-start gap-4">
-          <button
-            className="block h-full cursor-pointer rounded border bg-gray-50 py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            type="button"
+      <div className="grid h-full w-full grid-cols-1 gap-5 sm:gap-10">
+        <PageHeader title="Analytics" noMargin />
+        <div className="flex w-full items-center justify-start gap-2">
+          <IconBtn
+            icon="prev"
             onClick={() => handlePrevMonth()}
-          >
-            <AiOutlineLeft />
-          </button>
-          <YearSelect year={year} onSelect={setYear} />
-          <MonthSelect month={monthIdx} onSelect={setMonthIdx} />
-          <button
-            className="block h-full cursor-pointer rounded border bg-gray-50 py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            type="button"
+            disabled={
+              filters.month === 1 && !(years || []).includes(filters.year - 1)
+            }
+          />
+          <YearSelect year={filters.year} onSelect={setYear} />
+          <MonthSelect month={filters.month} onSelect={setMonth} />
+          <IconBtn
+            icon="next"
             onClick={() => handleNextMonth()}
-          >
-            <AiOutlineRight />
-          </button>
+            disabled={
+              filters.month === 12 && !(years || []).includes(filters.year + 1)
+            }
+          />
         </div>
-        <AnalyticsSummary monthIdx={monthIdx} year={year} />
-        <AnalyticsCharts monthIdx={monthIdx} year={year} />
+        <AnalyticsSummary filters={filters} />
+        <AnalyticsCharts filters={filters} />
       </div>
     </PageContainer>
   );

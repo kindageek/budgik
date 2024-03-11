@@ -7,9 +7,10 @@ import AddIncome from "./add-income.component";
 import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
 import CategorySelect from "../table-filters/category-select.component";
-import { DownloadTableExcel } from 'react-export-table-to-excel';
-import DownloadIconButton from '../buttons/download-icon-button.component';
-import { MONTHS } from '../../utils/constants';
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import DownloadIconButton from "../buttons/download-icon-button.component";
+import { MONTHS } from "../../utils/constants";
+import IconBtn from "components/form/icon-btn";
 
 type Props = {
   tableRef: React.MutableRefObject<null>;
@@ -30,6 +31,7 @@ const IncomeHeader: React.FC<Props> = ({
   loading,
   onAddComplete,
 }) => {
+  const { data: years } = trpc.user.getYears.useQuery();
   const { data: categories, refetch: refetchCategories } =
     trpc.category.getIncomeCategories.useQuery();
 
@@ -43,10 +45,42 @@ const IncomeHeader: React.FC<Props> = ({
     setFilters({ ...filters, categoryId });
   };
 
+  const handleNextYear = () => {
+    if (!(years || []).includes(filters.year + 1)) {
+      return;
+    }
+    setFilters({
+      ...filters,
+      year: filters.year + 1,
+    });
+  };
+
+  const handlePrevYear = () => {
+    if (!(years || []).includes(filters.year - 1)) {
+      return;
+    }
+    setFilters({
+      ...filters,
+      year: filters.year - 1,
+    });
+  };
+
   return (
     <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center gap-4">
-        <YearSelect year={filters.year} onSelect={handleYearSelect} />
+      <div className="flex h-full items-center gap-4">
+        <div className="flex h-full items-center gap-2">
+          <IconBtn
+            icon="prev"
+            onClick={() => handlePrevYear()}
+            disabled={!(years || []).includes(filters.year - 1)}
+          />
+          <YearSelect year={filters.year} onSelect={handleYearSelect} />
+          <IconBtn
+            icon="next"
+            onClick={() => handleNextYear()}
+            disabled={!(years || []).includes(filters.year + 1)}
+          />
+        </div>
         <CategorySelect
           type="INCOME"
           category={

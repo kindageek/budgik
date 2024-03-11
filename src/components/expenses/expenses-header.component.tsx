@@ -11,6 +11,8 @@ import CategorySelect from "../table-filters/category-select.component";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import DownloadIconButton from "../buttons/download-icon-button.component";
 
+import IconBtn from "components/form/icon-btn";
+
 type Props = {
   tableRef: React.MutableRefObject<null>;
   loading: boolean;
@@ -30,6 +32,7 @@ const ExpensesHeader: React.FC<Props> = ({
   loading,
   onAddComplete,
 }) => {
+  const { data: years } = trpc.user.getYears.useQuery();
   const { data: categories, refetch: refetchCategories } =
     trpc.category.getExpenseCategories.useQuery();
 
@@ -47,14 +50,66 @@ const ExpensesHeader: React.FC<Props> = ({
     setFilters({ ...filters, categoryId });
   };
 
+  const handleNextMonth = () => {
+    if (filters.month === 12) {
+      if (!(years || []).includes(filters.year + 1)) {
+        return;
+      }
+      setFilters({
+        ...filters,
+        month: 1,
+        year: filters.year + 1,
+      });
+      return;
+    }
+    setFilters({
+      ...filters,
+      month: (filters.month || 0) + 1,
+    });
+  };
+
+  const handlePrevMonth = () => {
+    if (filters.month === 1) {
+      if (!(years || []).includes(filters.year - 1)) {
+        return;
+      }
+      setFilters({
+        ...filters,
+        month: 12,
+        year: filters.year - 1,
+      });
+      return;
+    }
+    setFilters({
+      ...filters,
+      month: (filters.month || 0) - 1,
+    });
+  };
+
   return (
     <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center justify-between gap-4">
-        <YearSelect year={filters.year} onSelect={handleYearSelect} />
-        <MonthSelect
-          month={filters.month || new Date().getMonth() + 1}
-          onSelect={handleMonthSelect}
-        />
+      <div className="flex h-full items-center justify-between gap-4">
+        <div className="flex h-full items-center justify-between gap-2">
+          <IconBtn
+            icon="prev"
+            onClick={() => handlePrevMonth()}
+            disabled={
+              filters.month === 1 && !(years || []).includes(filters.year - 1)
+            }
+          />
+          <YearSelect year={filters.year} onSelect={handleYearSelect} />
+          <MonthSelect
+            month={filters.month || new Date().getMonth() + 1}
+            onSelect={handleMonthSelect}
+          />
+          <IconBtn
+            icon="next"
+            onClick={() => handleNextMonth()}
+            disabled={
+              filters.month === 12 && !(years || []).includes(filters.year + 1)
+            }
+          />
+        </div>
         <CategorySelect
           type="EXPENSE"
           category={

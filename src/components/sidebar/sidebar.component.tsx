@@ -8,7 +8,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { TbDeviceAnalytics } from "react-icons/tb";
 
 import useBoolean from "hooks/useBoolean";
-import type { NestedLink } from '../../types/types';
+import type { NestedLink } from "../../types/types";
 
 export const DASHBOARD_NAV_LINKS: NestedLink[] = [
   {
@@ -86,27 +86,27 @@ const Sidebar: React.FC = () => {
           >
             <FaAngleDoubleRight
               size={20}
-              className={` transition-all duration-300 ${
+              className={`transition-all duration-300 ${
                 isExpanded && "rotate-180"
               }`}
             />
           </div>
         </div>
-        <ul className="h-full space-y-2">
+        <ul className="h-full w-full space-y-2">
           {DASHBOARD_NAV_LINKS.map(({ title, url, icon }, index) => (
-            <li key={index} title={title}>
+            <li key={index} title={title} className="w-full">
               <Link
                 href={url}
-                className={`justify-left flex items-center rounded-lg py-3 px-2 text-lg font-normal text-gray-900 hover:bg-gray-200 ${
+                className={`justify-left flex items-center gap-3 rounded-lg p-2 text-lg font-normal text-gray-900 transition-all duration-300 hover:bg-gray-200 ${
                   router.pathname === url.split("?")[0]
                     ? "bg-gray-200"
                     : "bg-transparent"
-                }`}
+                } ${isExpanded ? "w-full" : "w-max"}`}
               >
                 <span className="flex items-center justify-center p-2">
                   {icon}
                 </span>
-                {isExpanded && <span className="ml-3">{title}</span>}
+                {isExpanded && <span>{title}</span>}
               </Link>
             </li>
           ))}

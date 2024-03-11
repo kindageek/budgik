@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 import { formatDate, trpc } from "utils";
@@ -8,6 +8,8 @@ import Input from "../input/input.component";
 import Select from "../select/select.component";
 import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
 import useDebounce from "hooks/useDebounce";
+import CancelBtn from "components/form/cancel-btn";
+import SubmitBtn from "components/form/submit-btn";
 
 type Props = {
   open: boolean;
@@ -36,15 +38,15 @@ const ExpenseForm: React.FC<Props> = ({
     reset,
     setValue,
     setError,
-    watch
+    watch,
   } = useForm<IExpense>({
     defaultValues: data
-      ? { 
+      ? {
           expenseName: data.name,
           categoryId: data.categoryId,
           value: data.value,
           date: formatDate(data.date),
-       }
+        }
       : {
           expenseName: "",
           date: formatDate(),
@@ -75,10 +77,7 @@ const ExpenseForm: React.FC<Props> = ({
   }, [categories, isCategoriesLoading, open]);
 
   const watchExpenseName = watch("expenseName");
-  const debouncedExpense: string = useDebounce<string>(
-    watchExpenseName,
-    300
-  );
+  const debouncedExpense: string = useDebounce<string>(watchExpenseName, 300);
 
   useEffect(() => {
     if (!debouncedExpense) return;
@@ -192,26 +191,15 @@ const ExpenseForm: React.FC<Props> = ({
         ) : null}
       </DialogBody>
       <DialogActions>
-        <button
-          className="background-transparent mr-2 rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-secondary-dark outline-none transition-all duration-150 ease-linear hover:bg-secondary-100 focus:outline-none"
-          type="button"
-          onClick={onClose}
-          disabled={isLoading}
-        >
-          Cancel
-        </button>
-        <button
-          className="rounded-lg bg-secondary-default px-6 py-2.5 text-sm font-medium uppercase text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light disabled:bg-gray-300 disabled:hover:bg-gray-300"
-          type="submit"
+        <CancelBtn onClick={onClose} disabled={isLoading} />
+        <SubmitBtn
           form="create-expense-form"
           disabled={
             isLoading ||
             !isDirty ||
             (!isCategoriesLoading && (!categories || categories.length === 0))
           }
-        >
-          Save
-        </button>
+        />
       </DialogActions>
     </Dialog>
   );
