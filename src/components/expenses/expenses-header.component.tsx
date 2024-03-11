@@ -14,7 +14,7 @@ import DownloadIconButton from "../buttons/download-icon-button.component";
 import IconBtn from "components/form/icon-btn";
 
 type Props = {
-  tableRef: React.MutableRefObject<null>;
+  tableRef: React.MutableRefObject<HTMLTableElement | null>;
   loading: boolean;
   totalExpenses: string;
   filters: TableFilters;

@@ -52,7 +52,7 @@ interface GroupedExpenses {
 }
 
 type Props = {
-  tableRef: React.MutableRefObject<null>;
+  tableRef: React.MutableRefObject<HTMLTableElement | null>;
   data: ExpenseType[] | null | undefined;
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;

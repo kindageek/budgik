@@ -46,7 +46,7 @@ interface GroupedIncomes {
 }
 
 type Props = {
-  tableRef: React.MutableRefObject<null>;
+  tableRef: React.MutableRefObject<HTMLTableElement | null>;
   loading: boolean;
   data: IncomeType[] | null | undefined;
   onEditRow: (rowId: string) => void;

@@ -13,7 +13,7 @@ import { MONTHS } from "../../utils/constants";
 import IconBtn from "components/form/icon-btn";
 
 type Props = {
-  tableRef: React.MutableRefObject<null>;
+  tableRef: React.MutableRefObject<HTMLTableElement | null>;
   loading: boolean;
   totalIncome: string;
   filters: TableFilters;

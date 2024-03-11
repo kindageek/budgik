@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import { Income } from "@prisma/client";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import type { Income as IIncome } from "@prisma/client";
 
 import { trpc, numWithCommas } from "utils";
 import type { NewIncome, TableFilters } from "types";
@@ -14,8 +14,8 @@ import IncomeHeader from "./income-header.component";
 
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
-  const [editData, setEditData] = useState<Income | null>(null);
-  const tableRef = useRef(null);
+  const [editData, setEditData] = useState<IIncome | null>(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
 
   const [filters, setFilters] = useState<TableFilters>({
     month: null,
@@ -99,6 +99,14 @@ const Income: React.FC = () => {
       date: row.date.toString(),
     });
   };
+
+  useEffect(() => {
+    if (!tableRef?.current) return;
+    const lastTableRow = tableRef.current.lastElementChild?.lastElementChild;
+    if (lastTableRow) {
+      lastTableRow.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [data, tableRef]);
 
   return (
     <PageContainer>

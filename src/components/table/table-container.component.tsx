@@ -1,7 +1,7 @@
 import React from "react";
 
 type Props = {
-  tableRef?: React.MutableRefObject<null>;
+  tableRef?: React.MutableRefObject<HTMLTableElement | null>;
   children: React.ReactNode;
 };
 

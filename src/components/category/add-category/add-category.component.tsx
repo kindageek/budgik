@@ -30,7 +30,7 @@ const AddCategory: React.FC<Props> = ({ tab, onComplete }) => {
 
   const handleFormComplete = (data: NewCategory) => {
     addCategory(data).catch((e) => {
-      console.log(e);
+      console.error(e);
       return;
     });
   };

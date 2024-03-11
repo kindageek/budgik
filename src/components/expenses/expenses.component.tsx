@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { trpc, numWithCommas } from "utils";
 import type { IExpense, TableFilters, UpdateExpense } from "types";
@@ -13,7 +13,7 @@ import ExpenseForm from "./expense-form.component";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
-  const tableRef = useRef(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
   const [filters, setFilters] = useState<TableFilters>({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
@@ -106,6 +106,14 @@ const Expenses: React.FC = () => {
       )
     );
   };
+
+  useEffect(() => {
+    if (!tableRef?.current) return;
+    const lastTableRow = tableRef.current.lastElementChild?.lastElementChild;
+    if (lastTableRow) {
+      lastTableRow.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [data, tableRef]);
 
   return (
     <PageContainer>
