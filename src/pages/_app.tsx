@@ -1,6 +1,7 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { Analytics } from "@vercel/analytics/react";
 
 import { trpc } from "utils";
 
@@ -20,6 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <SnackbarContext.Provider value={{ openSnackbar }}>
         <Component {...pageProps} />
         <Snackbar onClose={closeSnackbar} state={snackbarState} />
+        <Analytics />
       </SnackbarContext.Provider>
     </SessionProvider>
   );
