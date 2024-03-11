@@ -1,39 +1,33 @@
 import React, { useEffect } from "react";
 import { BiErrorCircle, BiCheckCircle } from "react-icons/bi";
+import type { SnackbarState } from "types/types";
 
 type Props = {
-  open: boolean;
   onClose: () => void;
-  message: string | undefined;
-  type?: "success" | "error";
+  state: SnackbarState | null;
 };
 
-const Snackbar: React.FC<Props> = ({
-  open,
-  onClose,
-  message,
-  type = "success",
-}) => {
+const Snackbar: React.FC<Props> = ({ state, onClose }) => {
   useEffect(() => {
-    if (!open) return;
+    if (state === null) return;
     setTimeout(() => onClose(), 3000);
-  }, [open, onClose]);
+  }, [state, onClose]);
 
   return (
     <div
       className={`fixed top-16 my-4 flex items-center rounded border px-4 py-2 ${
-        type === "error"
+        state?.type === "error"
           ? "border-red-400 bg-red-100 text-red-700"
           : "border-green-400 bg-green-100 text-green-700"
-      } ${open ? "right-4" : "right-[-100%]"} transition-all`}
+      } ${!!state ? "right-4" : "right-[-100%]"} transition-all`}
       role="alert"
     >
-      {type === "error" ? (
+      {state?.type === "error" ? (
         <BiErrorCircle size={20} />
       ) : (
         <BiCheckCircle size={20} />
       )}
-      <span className="ml-2 block">{message}</span>
+      <span className="ml-2 block">{state?.msg}</span>
     </div>
   );
 };

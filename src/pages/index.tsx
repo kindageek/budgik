@@ -12,14 +12,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Budget planner | Money tracker" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main
-        className="home-page flex h-screen w-screen flex-col items-center"
-        // style={{
-        //   backgroundColor: "#38bdf8",
-        //   backgroundImage:
-        //     "linear-gradient(19deg, #38bdf8 0%, #0ea5e9 20%, #0284c7 40%, #5869C5 60%, #3F51B5 80%, #313E8B 100%)",
-        // }}
-      >
+      <main className="home-page flex h-screen w-screen flex-col items-center">
         <Navbar />
         <HomeHero />
         <Footer />
