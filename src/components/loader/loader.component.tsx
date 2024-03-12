@@ -1,11 +1,21 @@
 import React from "react";
 
-const Loader: React.FC = () => {
+interface Props {
+  size?: "sm" | "md" | "lg";
+}
+
+const SIZE_MAP = {
+  sm: "h-5 w-5",
+  md: "h-6 w-6",
+  lg: "h-8 w-8",
+};
+
+const Loader: React.FC<Props> = ({ size = "md" }) => {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="mr-2 h-6 w-6 animate-spin fill-primary-default text-gray-200 dark:text-gray-600"
+        className={`${SIZE_MAP[size]} animate-spin fill-primary-default text-gray-200 dark:text-gray-600`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

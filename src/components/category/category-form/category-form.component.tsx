@@ -116,7 +116,11 @@ const CategoryForm: React.FC<Props> = ({
       </DialogBody>
       <DialogActions>
         <CancelBtn onClick={onClose} disabled={isLoading} />
-        <SubmitBtn form="category-form" disabled={isLoading || !isDirty} />
+        <SubmitBtn
+          form="category-form"
+          disabled={isLoading || !isDirty}
+          loading={isLoading}
+        />
       </DialogActions>
     </Dialog>
   );

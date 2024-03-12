@@ -82,8 +82,8 @@ const IncomeForm: React.FC<Props> = ({
 
   useEffect(() => {
     if (!debouncedIncome) return;
-    const category = categories?.find(
-      (category) => category.name === debouncedIncome
+    const category = categories?.find((category) =>
+      category.name.toLowerCase().includes(debouncedIncome.toLowerCase())
     );
     if (!category) return;
     setValue("categoryId", category.id);
@@ -195,6 +195,7 @@ const IncomeForm: React.FC<Props> = ({
         <CancelBtn onClick={onClose} disabled={isLoading} />
         <SubmitBtn
           form="income-form"
+          loading={isLoading}
           disabled={
             isLoading ||
             !isDirty ||

@@ -81,8 +81,8 @@ const ExpenseForm: React.FC<Props> = ({
 
   useEffect(() => {
     if (!debouncedExpense) return;
-    const category = categories?.find(
-      (category) => category.name === debouncedExpense
+    const category = categories?.find((category) =>
+      category.name.toLowerCase().includes(debouncedExpense.toLowerCase())
     );
     if (!category) return;
     setValue("categoryId", category.id);
@@ -194,6 +194,7 @@ const ExpenseForm: React.FC<Props> = ({
         <CancelBtn onClick={onClose} disabled={isLoading} />
         <SubmitBtn
           form="create-expense-form"
+          loading={isLoading}
           disabled={
             isLoading ||
             !isDirty ||
