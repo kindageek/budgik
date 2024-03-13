@@ -11,17 +11,14 @@ import IncomeTable from "./income-table.component";
 import PageContainer from "../page-container/page-container.component";
 import PageHeader from "../page-header/page-header.component";
 import IncomeHeader from "./income-header.component";
+import { DEFAULT_FILTERS } from "./constants";
 
 const Income: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const [editData, setEditData] = useState<IIncome | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  const [filters, setFilters] = useState<TableFilters>({
-    month: null,
-    year: new Date().getFullYear(),
-    categoryId: "All categories",
-  });
+  const [filters, setFilters] = useState<TableFilters>(DEFAULT_FILTERS);
 
   const { data, isLoading, error, refetch } =
     trpc.income.getUserIncome.useQuery(filters);

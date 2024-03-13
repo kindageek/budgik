@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
+import type { Prisma } from "@prisma/client";
 
 export const expenseRouter = router({
   getUserExpenses: protectedProcedure
@@ -8,12 +9,13 @@ export const expenseRouter = router({
         month: z.number().nullish(),
         year: z.number().nullish(),
         categoryId: z.string().nullish(),
+        name: z.string().nullish(),
       })
     )
     .query(async ({ input, ctx }) => {
       const userId = ctx.session?.user?.id;
       if (!userId) return null;
-      const { year, month, categoryId } = input;
+      const { year, month, categoryId, name } = input;
       const dateFilter =
         year && month
           ? {
@@ -35,6 +37,12 @@ export const expenseRouter = router({
           : {
               equals: categoryId,
             };
+      const nameFilter = !!name?.length
+        ? {
+            contains: name,
+            mode: "insensitive" as Prisma.QueryMode,
+          }
+        : {};
       const user = await ctx.prisma.user.findUnique({
         where: {
           id: userId,
@@ -47,6 +55,7 @@ export const expenseRouter = router({
             where: {
               date: dateFilter,
               categoryId: categoryFilter,
+              name: nameFilter,
             },
           },
         },

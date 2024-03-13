@@ -47,6 +47,7 @@ export interface TableFilters {
   month: number | null;
   year: number;
   categoryId: string;
+  name: string;
 }
 
 enum CategoryType {

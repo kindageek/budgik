@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { trpc } from "utils";
 import type { TableFilters } from "types";
 
 import AddIncome from "./add-income.component";
-import Loader from "../loader/loader.component";
 import YearSelect from "../table-filters/year-select.component";
 import CategorySelect from "../table-filters/category-select.component";
-import { DownloadTableExcel } from "react-export-table-to-excel";
-import DownloadIconButton from "../buttons/download-icon-button.component";
 import { MONTHS } from "../../utils/constants";
 import IconBtn from "components/form/icon-btn";
+import HeaderActions from "components/header-actions";
+import { DEFAULT_FILTERS } from "./constants";
 
 type Props = {
   tableRef: React.MutableRefObject<HTMLTableElement | null>;
@@ -65,6 +64,15 @@ const IncomeHeader: React.FC<Props> = ({
     });
   };
 
+  const handleSearch = (query: string) => {
+    setFilters({ ...filters, name: query });
+  };
+
+  const isDirty = useMemo(
+    () => JSON.stringify(filters) !== JSON.stringify(DEFAULT_FILTERS),
+    [filters]
+  );
+
   return (
     <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex h-full items-center gap-4">
@@ -95,29 +103,21 @@ const IncomeHeader: React.FC<Props> = ({
           onSelect={handleCategorySelect}
         />
       </div>
-      <div className="flex w-full items-center justify-between gap-4">
-        <div className="flex items-center">
-          <h5 className="mr-2 text-lg font-semibold text-gray-800 sm:text-xl">
-            Total:
-          </h5>
-          <p className="text-xl font-medium text-black sm:text-2xl">
-            {totalIncome}
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          {loading ? <Loader /> : null}
-          {tableRef ? (
-            <DownloadTableExcel
-              filename="Income"
-              sheet={`${MONTHS[(filters.month || 1) - 1]}, ${filters.year}`}
-              currentTableRef={tableRef?.current}
-            >
-              <DownloadIconButton />
-            </DownloadTableExcel>
-          ) : null}
-          <AddIncome onComplete={onAddComplete} />
-        </div>
-      </div>
+      <HeaderActions
+        loading={loading}
+        total={totalIncome}
+        defaultSearchValue={filters.name}
+        onSearch={handleSearch}
+        table={{
+          ref: tableRef,
+          filename: "Income",
+          sheetName: `${MONTHS[(filters.month || 1) - 1]}, ${filters.year}`,
+        }}
+        isDirty={isDirty}
+        onReset={() => setFilters(DEFAULT_FILTERS)}
+      >
+        <AddIncome onComplete={onAddComplete} />
+      </HeaderActions>
     </div>
   );
 };

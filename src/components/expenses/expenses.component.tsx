@@ -10,15 +10,12 @@ import PageHeader from "../page-header/page-header.component";
 import ExpensesTable from "./expenses-table/expenses-table.component";
 import PageContainer from "../page-container/page-container.component";
 import ExpenseForm from "./expense-form.component";
+import { DEFAULT_FILTERS } from "./constants";
 
 const Expenses: React.FC = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const tableRef = useRef<HTMLTableElement | null>(null);
-  const [filters, setFilters] = useState<TableFilters>({
-    month: new Date().getMonth() + 1,
-    year: new Date().getFullYear(),
-    categoryId: "All categories",
-  });
+  const [filters, setFilters] = useState<TableFilters>(DEFAULT_FILTERS);
 
   const { data, isLoading, error, refetch } =
     trpc.expense.getUserExpenses.useQuery(filters);
