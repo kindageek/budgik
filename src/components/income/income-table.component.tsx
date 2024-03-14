@@ -8,6 +8,7 @@ import TableHead from "../table/table-head.component";
 import IncomeTableRow from "./income-table-row.component";
 import EmptyTableRow from "../table/empty-table-row.component";
 import { formatDate, removeDuplicates } from "utils";
+import IncomeCard from "./income-card";
 
 const COLUMNS: Column[] = [
   {
@@ -115,6 +116,29 @@ const IncomeTable: React.FC<Props> = ({
           )}
         </tbody>
       </TableContainer>
+      <div className="flex h-full flex-col gap-3 overflow-auto md:hidden">
+        {loading
+          ? Array.from({ length: 10 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex h-12 w-full animate-pulse rounded-lg bg-gray-200 shadow"
+              />
+            ))
+          : dates.map((date) => {
+              const incomes = rows[date] || [];
+              if (incomes.length === 0) return null;
+              return (
+                <IncomeCard
+                  key={date}
+                  data={incomes}
+                  date={date}
+                  onEditRow={onEditRow}
+                  onDeleteRow={setSelectedRowid}
+                  onDuplicateRow={onDuplicateRow}
+                />
+              );
+            })}
+      </div>
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}

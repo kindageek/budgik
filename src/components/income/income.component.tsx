@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { Income as IIncome } from "@prisma/client";
 
 import { trpc, numWithCommas } from "utils";
@@ -51,16 +51,6 @@ const Income: React.FC = () => {
       },
     });
 
-  const getTotal = () => {
-    return (
-      "$" +
-      numWithCommas(
-        data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) ||
-          0
-      )
-    );
-  };
-
   const handleFormSubmit = (msg: string) => {
     openSnackbar({ msg, type: "success" });
     refetch();
@@ -105,14 +95,24 @@ const Income: React.FC = () => {
     }
   }, [data, tableRef]);
 
+  const totalIncome = useMemo(() => {
+    return (
+      "$" +
+      numWithCommas(
+        data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) ||
+          0
+      )
+    );
+  }, [data]);
+
   return (
     <PageContainer>
-      <PageHeader title="Income" />
+      <PageHeader title="Income" total={totalIncome} />
       <IncomeHeader
         tableRef={tableRef}
         filters={filters}
         setFilters={setFilters}
-        totalIncome={getTotal()}
+        totalIncome={totalIncome}
         onAddComplete={handleFormSubmit}
         loading={isLoading || isCreateLoading || isDeleteLoading}
       />

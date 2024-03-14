@@ -40,10 +40,10 @@ const AddIncome: React.FC<Props> = ({ onComplete }) => {
       <button
         type="button"
         onClick={onOpen}
-        className="flex items-center rounded-lg bg-secondary-default px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light"
+        className="flex items-center gap-2 rounded-lg border border-secondary-default bg-secondary-default p-2 text-center text-sm font-medium leading-4 text-white hover:border-secondary-dark hover:bg-secondary-dark focus:outline-none focus:ring-4 focus:ring-secondary-light md:p-2.5 lg:px-5"
       >
-        <AiOutlinePlus color="white" size={16} className="mr-2" />
-        Add
+        <AiOutlinePlus color="white" size={16} />
+        <span className="hidden lg:block">Add</span>
       </button>
       <IncomeForm
         open={isOpen}

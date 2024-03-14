@@ -2,10 +2,7 @@ import React from "react";
 import type { Category, Income } from "@prisma/client";
 
 import { numWithCommas } from "utils";
-
-import EditIconButton from "../buttons/edit-icon-button.component";
-import DeleteIconButton from "../buttons/delete-icon-button.component";
-import DuplicateIconButton from "../buttons/duplicate-icon-button.component";
+import ExpensesTableRowActions from "components/expenses/expenses-table/expenses-table-row-actions.component";
 
 type Props = {
   row: Income & {
@@ -29,7 +26,7 @@ const IncomeTableRow: React.FC<Props> = ({
   onDuplicateRow,
 }) => {
   return (
-    <tr key={row.id} className="bg-white border-b hover:bg-gray-100">
+    <tr key={row.id} className="border-b bg-white hover:bg-gray-100">
       {isFirstRow && (
         <td
           align="left"
@@ -52,17 +49,11 @@ const IncomeTableRow: React.FC<Props> = ({
         {`$${numWithCommas(row.value)}`}
       </td>
       <td align="center" className="border border-r-0">
-        <div className="flex items-center justify-center">
-          <div className="mr-4 flex items-center justify-center">
-            <EditIconButton onClick={() => onEditRow(row.id)} />
-          </div>
-          <div className="mr-4 flex items-center justify-center">
-            <DeleteIconButton onClick={() => onDeleteRow(row.id)} />
-          </div>
-          <div className="mr-4 flex items-center justify-center">
-            <DuplicateIconButton onClick={() => onDuplicateRow(row.id)} />
-          </div>
-        </div>
+        <ExpensesTableRowActions
+          onEditRow={() => onEditRow(row.id)}
+          onDeleteRow={() => onDeleteRow(row.id)}
+          onDuplicateRow={() => onDuplicateRow(row.id)}
+        />
       </td>
     </tr>
   );
