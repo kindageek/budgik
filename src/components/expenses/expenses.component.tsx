@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { trpc, numWithCommas } from "utils";
 import type { IExpense, TableFilters, UpdateExpense } from "types";
@@ -94,16 +94,6 @@ const Expenses: React.FC = () => {
     });
   };
 
-  const getTotalExpenses = () => {
-    return (
-      "$" +
-      numWithCommas(
-        data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) ||
-          0
-      )
-    );
-  };
-
   useEffect(() => {
     if (!tableRef?.current) return;
     const lastTableRow = tableRef.current.lastElementChild?.lastElementChild;
@@ -112,14 +102,24 @@ const Expenses: React.FC = () => {
     }
   }, [data, tableRef]);
 
+  const totalExpenses = useMemo(() => {
+    return (
+      "$" +
+      numWithCommas(
+        data?.map((row) => row.value).reduce((sum, value) => sum + value, 0) ||
+          0
+      )
+    );
+  }, [data]);
+
   return (
     <PageContainer>
-      <PageHeader title="Expenses" />
+      <PageHeader title="Expenses" total={totalExpenses} />
       <ExpensesHeader
         tableRef={tableRef}
         filters={filters}
         setFilters={setFilters}
-        totalExpenses={getTotalExpenses()}
+        totalExpenses={totalExpenses}
         onAddComplete={handleAddComplete}
         loading={isLoading || isCreateLoading || isDeleteLoading}
       />

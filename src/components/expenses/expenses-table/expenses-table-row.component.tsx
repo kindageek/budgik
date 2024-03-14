@@ -26,18 +26,21 @@ const ExpensesTableRow: React.FC<Props> = ({
   onDeleteRow,
   onDuplicateRow,
 }) => {
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    const month = d.toLocaleString("default", { month: "short" });
+    const day = d.getDate();
+    return `${month} ${day}`;
+  };
   return (
-    <tr
-      key={row.id}
-      className="border-b bg-white hover:bg-gray-100"
-    >
+    <tr key={row.id} className="border-b bg-white hover:bg-gray-100">
       {isFirstRow && (
         <td
           align="left"
           className="border border-l-0 py-2 px-6 text-base font-bold text-black sm:text-lg"
           rowSpan={size}
         >
-          {date}
+          {formatDate(date)}
         </td>
       )}
       <td align="left" className="border py-2 px-6">

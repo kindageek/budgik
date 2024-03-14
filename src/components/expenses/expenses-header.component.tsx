@@ -95,8 +95,8 @@ const ExpensesHeader: React.FC<Props> = ({
   );
 
   return (
-    <div className="mb-4 flex w-full flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="flex h-full items-center justify-between gap-4">
+    <div className="mb-4 flex w-full flex-col-reverse gap-2 md:gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex h-full flex-col gap-2 sm:flex-row sm:items-center md:gap-4">
         <div className="flex h-full items-center justify-between gap-2">
           <IconBtn
             icon="prev"

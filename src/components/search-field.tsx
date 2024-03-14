@@ -29,7 +29,7 @@ const SearchField: FC<Props> = ({ onSubmit, defaultValue }) => {
   return (
     <form className="group relative w-full" onSubmit={handleSubmit}>
       <input
-        className="h-10 w-full rounded-lg border border-gray-300 bg-white px-2 pr-8 text-sm text-gray-600 focus:border-secondary-dark focus:outline-none group-hover:border-secondary-dark"
+        className="h-[34px] w-full rounded-lg border border-gray-300 bg-white py-2 pl-2 pr-8 text-sm leading-4 text-gray-600 focus:border-secondary-dark focus:outline-none group-hover:border-secondary-dark md:h-[38px] md:py-2.5"
         type="search"
         name="search"
         placeholder="Search by name"

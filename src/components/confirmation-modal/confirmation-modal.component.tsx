@@ -8,6 +8,7 @@ type Props = {
   title: string;
   subtitle?: string;
   type?: "success" | "error";
+  className?: string;
 };
 
 const ConfirmationModal: React.FC<Props> = ({
@@ -17,12 +18,15 @@ const ConfirmationModal: React.FC<Props> = ({
   title,
   subtitle = null,
   type = "error",
+  className = "",
 }) => {
   if (!open) return null;
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none ${className}`}
+      >
         <div className="relative my-6 mx-auto w-full max-w-xl px-4">
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
             <div className="flex items-center justify-end rounded-t px-5 py-2.5 sm:p-5">

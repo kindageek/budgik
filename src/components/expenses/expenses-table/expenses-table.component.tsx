@@ -9,6 +9,7 @@ import ExpensesTableRow from "./expenses-table-row.component";
 import EmptyTableRow from "components/table/empty-table-row.component";
 import ConfirmationModal from "components/confirmation-modal/confirmation-modal.component";
 import TableContainer from "components/table/table-container.component";
+import ExpenseCard from "../expense-card";
 
 const COLUMNS: Column[] = [
   {
@@ -126,11 +127,36 @@ const ExpensesTable: React.FC<Props> = ({
           )}
         </tbody>
       </TableContainer>
+      <div className="flex h-full flex-col gap-3 overflow-auto md:hidden">
+        {loading
+          ? Array.from({ length: 10 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex h-12 w-full animate-pulse rounded-lg bg-gray-200 shadow"
+              />
+            ))
+          : dates.map((date) => {
+              const expenses = rows[date] || [];
+              if (expenses.length === 0) return null;
+              return (
+                <ExpenseCard
+                  key={date}
+                  data={expenses}
+                  date={date}
+                  sum={getTotalDayAmount(expenses)}
+                  onEditRow={onEditItem}
+                  onDeleteRow={setSelectedRowid}
+                  onDuplicateRow={onDuplicateRow}
+                />
+              );
+            })}
+      </div>
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}
         onSubmit={handleDeleteRow}
         title="Are you sure you want to delete this row?"
+        className="hidden md:flex"
       />
     </>
   );

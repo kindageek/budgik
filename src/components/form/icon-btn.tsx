@@ -4,8 +4,8 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 type IconName = "next" | "prev";
 
 const IconMap: Record<string, ReactNode> = {
-  next: <AiOutlineRight />,
-  prev: <AiOutlineLeft />,
+  next: <AiOutlineRight size={16} />,
+  prev: <AiOutlineLeft size={16} />,
 };
 
 interface Props extends ComponentProps<"button"> {
@@ -15,7 +15,7 @@ interface Props extends ComponentProps<"button"> {
 const IconBtn: FC<Props> = ({ icon, ...btnProps }) => {
   return (
     <button
-      className="block h-full cursor-pointer rounded-lg border bg-gray-50 py-2 px-4 text-sm hover:bg-gray-100 disabled:cursor-default disabled:text-gray-300 disabled:hover:bg-gray-50 dark:hover:bg-gray-600 dark:hover:text-white"
+      className="block cursor-pointer rounded-lg border bg-gray-50 p-2 hover:bg-gray-100 disabled:cursor-default disabled:text-gray-300 disabled:hover:bg-gray-50 dark:hover:bg-gray-600 dark:hover:text-white md:p-2.5"
       type="button"
       {...btnProps}
     >

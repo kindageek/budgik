@@ -19,12 +19,12 @@ const ExpensesTableRowActions: React.FC<Props> = ({
 }) => {
   return (
     <div className="flex items-center justify-center">
-      <div className="hidden items-center justify-center gap-4 sm:flex">
+      <div className="hidden items-center justify-center gap-4 md:flex">
         <EditIconButton onClick={onEditRow} />
         <DeleteIconButton onClick={onDeleteRow} />
         <DuplicateIconButton onClick={onDuplicateRow} />
       </div>
-      <div className="flex items-center justify-center sm:hidden">
+      <div className="flex items-center justify-center md:hidden">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <button
