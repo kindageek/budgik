@@ -8,6 +8,7 @@ import EditIconButton from "../../buttons/edit-icon-button.component";
 import DeleteIconButton from "../../buttons/delete-icon-button.component";
 import ConfirmationModal from "../../confirmation-modal/confirmation-modal.component";
 import { toTitleCase } from "../../../utils/shared";
+import ExpensesTableRowActions from "components/expenses/expenses-table/expenses-table-row-actions.component";
 
 const COLUMNS: Column[] = [
   {
@@ -65,14 +66,10 @@ const CategoryTable: React.FC<Props> = ({
             },
             {
               value: (
-                <div className="flex items-center justify-center">
-                  <div className="mr-4 flex items-center justify-center">
-                    <EditIconButton onClick={() => onEditRow(id)} />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <DeleteIconButton onClick={() => setSelectedRowid(id)} />
-                  </div>
-                </div>
+                <ExpensesTableRowActions
+                  onEditRow={() => onEditRow(id)}
+                  onDeleteRow={() => setSelectedRowid(id)}
+                />
               ),
               align: "center",
             },
@@ -82,7 +79,12 @@ const CategoryTable: React.FC<Props> = ({
 
   return (
     <>
-      <Table columns={COLUMNS} rows={rows} loading={loading} />
+      <Table
+        columns={COLUMNS}
+        rows={rows}
+        loading={loading}
+        desktopOnly={false}
+      />
       <ConfirmationModal
         open={selectedRowId !== null}
         onClose={() => setSelectedRowid(null)}

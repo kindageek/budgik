@@ -7,9 +7,9 @@ import DeleteIconButton from "components/buttons/delete-icon-button.component";
 import DuplicateIconButton from "components/buttons/duplicate-icon-button.component";
 
 type Props = {
-  onEditRow: () => void;
-  onDeleteRow: () => void;
-  onDuplicateRow: () => void;
+  onEditRow?: () => void;
+  onDeleteRow?: () => void;
+  onDuplicateRow?: () => void;
 };
 
 const ExpensesTableRowActions: React.FC<Props> = ({
@@ -20,9 +20,9 @@ const ExpensesTableRowActions: React.FC<Props> = ({
   return (
     <div className="flex items-center justify-center">
       <div className="hidden items-center justify-center gap-4 md:flex">
-        <EditIconButton onClick={onEditRow} />
-        <DeleteIconButton onClick={onDeleteRow} />
-        <DuplicateIconButton onClick={onDuplicateRow} />
+        {onEditRow && <EditIconButton onClick={onEditRow} />}
+        {onDeleteRow && <DeleteIconButton onClick={onDeleteRow} />}
+        {onDuplicateRow && <DuplicateIconButton onClick={onDuplicateRow} />}
       </div>
       <div className="flex items-center justify-center md:hidden">
         <DropdownMenu.Root>
@@ -36,15 +36,21 @@ const ExpensesTableRowActions: React.FC<Props> = ({
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal>
             <DropdownMenu.Content className="flex flex-col gap-4 rounded-lg border bg-white py-2 px-4 shadow-md">
-              <DropdownMenu.Item>
-                <EditIconButton onClick={onEditRow} />
-              </DropdownMenu.Item>
-              <DropdownMenu.Item>
-                <DeleteIconButton onClick={onDeleteRow} />
-              </DropdownMenu.Item>
-              <DropdownMenu.Item>
-                <DuplicateIconButton onClick={onDuplicateRow} />
-              </DropdownMenu.Item>
+              {onEditRow && (
+                <DropdownMenu.Item>
+                  <EditIconButton onClick={onEditRow} />
+                </DropdownMenu.Item>
+              )}
+              {onDeleteRow && (
+                <DropdownMenu.Item>
+                  <DeleteIconButton onClick={onDeleteRow} />
+                </DropdownMenu.Item>
+              )}
+              {onDuplicateRow && (
+                <DropdownMenu.Item>
+                  <DuplicateIconButton onClick={onDuplicateRow} />
+                </DropdownMenu.Item>
+              )}
               <DropdownMenu.Arrow />
             </DropdownMenu.Content>
           </DropdownMenu.Portal>

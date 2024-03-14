@@ -11,11 +11,17 @@ type Props = {
   columns: Column[];
   rows: Row[];
   loading?: boolean;
+  desktopOnly?: boolean;
 };
 
-const Table: React.FC<Props> = ({ columns, rows, loading = false }) => {
+const Table: React.FC<Props> = ({
+  columns,
+  rows,
+  loading = false,
+  desktopOnly = true,
+}) => {
   return (
-    <TableContainer>
+    <TableContainer desktopOnly={desktopOnly}>
       <TableHead columns={columns} />
       <tbody>
         {rows && rows?.length > 0 ? (

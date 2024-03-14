@@ -74,9 +74,9 @@ const Category: React.FC = () => {
   return (
     <PageContainer>
       <PageHeader title="Categories" />
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between gap-2 md:gap-4">
         <CategoryTabs tab={tab} />
-        <div className="ml-10 flex items-center">
+        <div className="flex items-center">
           {isLoading ? <Loader /> : null}
           <AddCategory
             tab={tab as CategoryType}
