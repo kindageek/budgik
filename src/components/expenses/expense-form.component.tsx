@@ -39,6 +39,7 @@ const ExpenseForm: React.FC<Props> = ({
     setValue,
     setError,
     watch,
+    getValues,
   } = useForm<IExpense>({
     defaultValues: data
       ? {
@@ -88,6 +89,18 @@ const ExpenseForm: React.FC<Props> = ({
     setValue("categoryId", category.id);
   }, [debouncedExpense, categories]);
 
+  const handleDateArrowClick = (dir: "next" | "prev") => {
+    const value = getValues("date");
+    const currentValueDate = new Date(value);
+    const newDate = new Date(
+      dir === "next"
+        ? currentValueDate.setDate(currentValueDate.getDate() + 1)
+        : currentValueDate.setDate(currentValueDate.getDate() - 1)
+    );
+    const newDateString = newDate.toISOString().split("T")[0] || `${value}`;
+    setValue("date", newDateString);
+  };
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle
@@ -107,6 +120,8 @@ const ExpenseForm: React.FC<Props> = ({
             render={({ field }) => {
               return (
                 <Input
+                  arrowIcons
+                  onArrowClick={handleDateArrowClick}
                   label="Date"
                   type="date"
                   id="date"

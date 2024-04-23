@@ -1,3 +1,4 @@
+import IconBtn from "components/form/icon-btn";
 import React from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -5,6 +6,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   errorMessage?: string;
   icon?: React.ReactNode;
+  arrowIcons?: boolean;
+  onArrowClick?: (dir: "next" | "prev") => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -13,10 +16,12 @@ const Input: React.FC<InputProps> = ({
   errorMessage = null,
   required = false,
   name,
+  arrowIcons = false,
+  onArrowClick,
   ...props
 }) => {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {label && (
         <label
           htmlFor={name}
@@ -26,7 +31,7 @@ const Input: React.FC<InputProps> = ({
           {required ? <span className="text-red-500">*</span> : ""}
         </label>
       )}
-      <div className="flex">
+      <div className="item-center flex w-full justify-between gap-2">
         <input
           required={required}
           name={name}
@@ -35,6 +40,12 @@ const Input: React.FC<InputProps> = ({
           }`}
           {...props}
         />
+        {props.type === "date" && arrowIcons && (
+          <IconBtn icon="prev" onClick={() => onArrowClick?.("prev")} />
+        )}
+        {props.type === "date" && arrowIcons && (
+          <IconBtn icon="next" onClick={() => onArrowClick?.("next")} />
+        )}
       </div>
       {errorMessage && errorMessage?.length > 0 ? (
         <span className="absolute left-0 -bottom-4 text-xs text-red-500">
