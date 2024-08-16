@@ -11,6 +11,7 @@ import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
 import useDebounce from "../../hooks/useDebounce";
 import CancelBtn from "components/form/cancel-btn";
 import SubmitBtn from "components/form/submit-btn";
+import { DEFAULT_FILTERS } from "./constants";
 
 type Props = {
   open: boolean;
@@ -31,6 +32,8 @@ const IncomeForm: React.FC<Props> = ({
 }) => {
   const { data: categories, isLoading: isCategoriesLoading } =
     trpc.category.getIncomeCategories.useQuery();
+  const { data: allIncomes } =
+    trpc.income.getUserIncome.useQuery(DEFAULT_FILTERS);
 
   const {
     handleSubmit,
@@ -82,13 +85,17 @@ const IncomeForm: React.FC<Props> = ({
   const debouncedIncome: string = useDebounce<string>(watchIncomeName, 300);
 
   useEffect(() => {
-    if (!debouncedIncome) return;
-    const category = categories?.find((category) =>
-      category.name.toLowerCase().includes(debouncedIncome.toLowerCase())
-    );
-    if (!category) return;
-    setValue("categoryId", category.id);
-  }, [debouncedIncome, categories]);
+    if (!debouncedIncome) {
+      setValue("categoryId", "");
+      return;
+    }
+    if (!allIncomes) return;
+    const categoryId = allIncomes.find(
+      (income) => income.name.toLowerCase() === debouncedIncome.toLowerCase()
+    )?.categoryId;
+    if (!categoryId) return;
+    setValue("categoryId", categoryId);
+  }, [debouncedIncome, categories, allIncomes]);
 
   const handleDateArrowClick = (dir: "next" | "prev") => {
     const value = getValues("date");

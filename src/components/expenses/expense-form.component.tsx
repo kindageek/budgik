@@ -10,6 +10,7 @@ import Dialog, { DialogActions, DialogBody, DialogTitle } from "../dialog";
 import useDebounce from "hooks/useDebounce";
 import CancelBtn from "components/form/cancel-btn";
 import SubmitBtn from "components/form/submit-btn";
+import { DEFAULT_FILTERS } from "./constants";
 
 type Props = {
   open: boolean;
@@ -30,6 +31,10 @@ const ExpenseForm: React.FC<Props> = ({
 }) => {
   const { data: categories, isLoading: isCategoriesLoading } =
     trpc.category.getExpenseCategories.useQuery();
+  const { data: allExpenses } = trpc.expense.getUserExpenses.useQuery({
+    ...DEFAULT_FILTERS,
+    month: new Date().getMonth(),
+  });
 
   const {
     handleSubmit,
@@ -81,13 +86,17 @@ const ExpenseForm: React.FC<Props> = ({
   const debouncedExpense: string = useDebounce<string>(watchExpenseName, 300);
 
   useEffect(() => {
-    if (!debouncedExpense) return;
-    const category = categories?.find((category) =>
-      category.name.toLowerCase().includes(debouncedExpense.toLowerCase())
-    );
-    if (!category) return;
-    setValue("categoryId", category.id);
-  }, [debouncedExpense, categories]);
+    if (!debouncedExpense) {
+      setValue("categoryId", "");
+      return;
+    }
+    if (!allExpenses) return;
+    const categoryId = allExpenses.find(
+      (expense) => expense.name.toLowerCase() === debouncedExpense.toLowerCase()
+    )?.categoryId;
+    if (!categoryId) return;
+    setValue("categoryId", categoryId);
+  }, [debouncedExpense, categories, allExpenses]);
 
   const handleDateArrowClick = (dir: "next" | "prev") => {
     const value = getValues("date");
