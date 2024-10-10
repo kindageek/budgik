@@ -12,7 +12,8 @@ const Home: NextPage = () => {
         <meta name="description" content="Budget planner | Money tracker" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="home-page flex h-screen w-screen flex-col items-center">
+      <main className="flex h-screen w-screen flex-col items-center">
+        <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_0%,#000_20%,#313E8B_100%)]"></div>
         <Navbar />
         <HomeHero />
         <Footer />

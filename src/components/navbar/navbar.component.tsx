@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`sticky left-0 top-0 z-50 w-full border-gray-200 px-4 py-2.5 sm:px-4 ${
-        isHomePage ? "bg-transparent" : "bg-primary-default"
+        isHomePage ? "bg-transparent" : "bg-primary-dark"
       }`}
     >
       <div className="container mx-auto flex flex-wrap items-center justify-between">
