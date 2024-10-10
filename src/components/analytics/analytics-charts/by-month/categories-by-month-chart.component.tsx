@@ -34,9 +34,9 @@ const CategoriesByMonthChart: React.FC<Props> = ({ data }) => {
   const domain = useMemo(() => {
     const max =
       Math.ceil(
-        (data.slice().sort((a, b) => b.value - a.value)[0]?.value || 0) / 100
-      ) * 100;
-    return [0, max];
+        (data.slice().sort((a, b) => b.value - a.value)[0]?.value || 0) / 10000
+      ) * 10000;
+    return [0, max * 1, 1];
   }, [data]);
 
   return (

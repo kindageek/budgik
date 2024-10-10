@@ -111,11 +111,13 @@ const CategoriesByMonth: React.FC<Props> = ({ data, year, variant }) => {
       <div className="flex h-full w-full flex-col">
         <div className="mb-2 flex items-center gap-4 sm:mb-4 md:mb-4">
           <ChartTitle
-            title={`Expense categories by month in ${year}`}
+            title={`${
+              variant.charAt(0).toUpperCase() + variant.slice(1).toLowerCase()
+            } categories by month in ${year}`}
             noMargin
           />
           <CategorySelect
-            type="EXPENSE"
+            type={variant}
             category={selectedCategory}
             onSelect={setSelectedCategory}
             categories={categoriesList}
