@@ -91,9 +91,13 @@ const ExpenseForm: React.FC<Props> = ({
       return;
     }
     if (!allExpenses) return;
-    const categoryId = allExpenses.find(
+    const categoryId1 = allExpenses.find(
       (expense) => expense.name.toLowerCase() === debouncedExpense.toLowerCase()
     )?.categoryId;
+    const categoryId2 = categories?.find(
+      (category) => category.name.toLowerCase() === debouncedExpense.toLowerCase()
+    )?.id;
+    const categoryId = categoryId1 ?? categoryId2;
     if (!categoryId) return;
     setValue("categoryId", categoryId);
   }, [debouncedExpense, categories, allExpenses]);

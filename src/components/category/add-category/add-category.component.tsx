@@ -37,6 +37,17 @@ const AddCategory: React.FC<Props> = ({ tab, onComplete }) => {
 
   useEffect(() => reset(), []);
 
+  useEffect(() => {
+    // key event listener: CTRL/CMD + k
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        onOpen();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <>
       <button

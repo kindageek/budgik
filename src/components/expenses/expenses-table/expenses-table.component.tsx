@@ -57,7 +57,7 @@ type Props = {
   data: ExpenseType[] | null | undefined;
   onEditItem: (rowId: string) => void;
   onDeleteItem: (rowId: string) => void;
-  onDuplicateRow: (rowId: string) => void;
+  onDuplicateRow: (rowId: string, date: string) => void;
   loading?: boolean;
 };
 

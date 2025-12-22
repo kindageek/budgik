@@ -53,7 +53,7 @@ const CategoryTable: React.FC<Props> = ({
 
   const rows: Row[] =
     data && data.length > 0
-      ? data?.map(({ name, type, id }) => ({
+      ? data?.map(({ name, type, id, }) => ({
           id,
           values: [
             {

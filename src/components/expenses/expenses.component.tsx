@@ -83,14 +83,14 @@ const Expenses: React.FC = () => {
     });
   };
 
-  const onDuplicateRow = (id: string) => {
+  const onDuplicateRow = (id: string, date: string) => {
     const row = data?.find((r) => r.id === id);
     if (!row) return;
     createExpense({
       value: row.value,
       name: row.name,
       categoryId: row.category.id,
-      date: row.date.toString(),
+      date: date,
     });
   };
 

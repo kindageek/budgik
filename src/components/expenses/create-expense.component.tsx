@@ -33,6 +33,21 @@ const CreateExpense: React.FC<Props> = ({ onComplete }) => {
 
   useEffect(() => reset(), []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // key event listener: CTRL/CMD + k
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        onOpen();
+      }
+      // close on escape
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <>
       <button

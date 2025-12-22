@@ -76,6 +76,7 @@ const IncomeCard: React.FC<Props> = ({
                     <p className="text-right">${numWithCommas(income.value)}</p>
                   </div>
                   <ExpensesTableRowActions
+                    rowDate={date}
                     onEditRow={() => onEditRow(income.id)}
                     onDeleteRow={() => onDeleteRow(income.id)}
                     onDuplicateRow={() => onDuplicateRow(income.id)}

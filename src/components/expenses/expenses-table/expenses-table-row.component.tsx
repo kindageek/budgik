@@ -13,7 +13,7 @@ type Props = {
   sum: number;
   onEditRow: (rowId: string) => void;
   onDeleteRow: (rowId: string) => void;
-  onDuplicateRow: (rowId: string) => void;
+  onDuplicateRow: (rowId: string, date: string) => void;
 };
 
 const ExpensesTableRow: React.FC<Props> = ({
@@ -66,9 +66,10 @@ const ExpensesTableRow: React.FC<Props> = ({
       )}
       <td align="center" className="border border-r-0">
         <ExpensesTableRowActions
+          rowDate={date}
           onEditRow={() => onEditRow(row.id)}
           onDeleteRow={() => onDeleteRow(row.id)}
-          onDuplicateRow={() => onDuplicateRow(row.id)}
+          onDuplicateRow={(date) => onDuplicateRow(row.id, date)}
         />
       </td>
     </tr>

@@ -7,12 +7,14 @@ import DeleteIconButton from "components/buttons/delete-icon-button.component";
 import DuplicateIconButton from "components/buttons/duplicate-icon-button.component";
 
 type Props = {
+  rowDate?: string;
   onEditRow?: () => void;
   onDeleteRow?: () => void;
-  onDuplicateRow?: () => void;
+  onDuplicateRow?: (date: string) => void;
 };
 
 const ExpensesTableRowActions: React.FC<Props> = ({
+  rowDate = "",
   onEditRow,
   onDeleteRow,
   onDuplicateRow,
@@ -22,7 +24,7 @@ const ExpensesTableRowActions: React.FC<Props> = ({
       <div className="hidden items-center justify-center gap-4 md:flex">
         {onEditRow && <EditIconButton onClick={onEditRow} />}
         {onDeleteRow && <DeleteIconButton onClick={onDeleteRow} />}
-        {onDuplicateRow && <DuplicateIconButton onClick={onDuplicateRow} />}
+        {onDuplicateRow && <DuplicateIconButton rowDate={rowDate} onClick={(date) => onDuplicateRow(date)} />}
       </div>
       <div className="flex items-center justify-center md:hidden">
         <DropdownMenu.Root>
@@ -48,7 +50,7 @@ const ExpensesTableRowActions: React.FC<Props> = ({
               )}
               {onDuplicateRow && (
                 <DropdownMenu.Item>
-                  <DuplicateIconButton onClick={onDuplicateRow} />
+                  <DuplicateIconButton rowDate={rowDate} onClick={onDuplicateRow} />
                 </DropdownMenu.Item>
               )}
               <DropdownMenu.Arrow />

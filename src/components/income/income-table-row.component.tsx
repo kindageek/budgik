@@ -50,6 +50,7 @@ const IncomeTableRow: React.FC<Props> = ({
       </td>
       <td align="center" className="border border-r-0">
         <ExpensesTableRowActions
+          rowDate={date}
           onEditRow={() => onEditRow(row.id)}
           onDeleteRow={() => onDeleteRow(row.id)}
           onDuplicateRow={() => onDuplicateRow(row.id)}
