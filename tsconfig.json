@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -12,23 +16,51 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "components/*": ["src/components/*"],
-      "assets/*": ["public/assets/*"],
-      "hooks/*": ["src/hooks/*"],
-      "utils/*": ["src/utils/*"],
-      "utils": ["src/utils"],
-      "server/*": ["src/server/*"],
-      "types/*": ["src/types/*"],
-      "types": ["src/types"],
-      "services/*": ["src/services/*"],
-      "context/*": ["src/context/*"]
+      "components/*": [
+        "src/components/*"
+      ],
+      "assets/*": [
+        "public/assets/*"
+      ],
+      "hooks/*": [
+        "src/hooks/*"
+      ],
+      "utils/*": [
+        "src/utils/*"
+      ],
+      "utils": [
+        "src/utils"
+      ],
+      "server/*": [
+        "src/server/*"
+      ],
+      "types/*": [
+        "src/types/*"
+      ],
+      "types": [
+        "src/types"
+      ],
+      "services/*": [
+        "src/services/*"
+      ],
+      "context/*": [
+        "src/context/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
