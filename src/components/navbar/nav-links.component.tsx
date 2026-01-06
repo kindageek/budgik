@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import NavLink from "./nav-link.component";
 import UserNavProfile from "./user-nav-profile.component";
@@ -15,6 +15,10 @@ const NavLinks: React.FC = () => {
   const isDahboardPages =
     router.pathname.split("/").length > 1 &&
     router.pathname.split("/")[1] === "dashboard";
+
+  const handleGoogleAuth = () => {
+    signIn("google", { callbackUrl: `${window.location.origin}/dashboard` });
+  };
 
   return (
     <ul
@@ -49,7 +53,12 @@ const NavLinks: React.FC = () => {
             <NavLink text="Home" url="/" isActive={isHomePage} />
           </li>
           <li>
-            <NavLink text="Sign in" url="/api/auth/signin" />
+            <button
+              className={`block rounded py-2 pl-3 pr-4 max-md:text-lg ${"text-white hover:text-white md:text-gray-300"} md:p-0`}
+              onClick={handleGoogleAuth}
+            >
+              Sign in
+            </button>
           </li>
         </>
       )}
